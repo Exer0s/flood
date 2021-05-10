@@ -7,6 +7,10 @@
 [Library( "flood", Title = "Flood" )]
 partial class DeathmatchGame : Game
 {
+
+	[Net] public BaseRound Round { get; private set; }
+	private BaseRound _lastRound;
+
 	public DeathmatchGame()
 	{
 		//
@@ -26,6 +30,7 @@ partial class DeathmatchGame : Game
 	/// </summary>
 	public override Player CreatePlayer() => new DeathmatchPlayer();
 
+
 	public override void PostLevelLoaded()
 	{
 		base.PostLevelLoaded();
@@ -33,7 +38,14 @@ partial class DeathmatchGame : Game
 		ItemRespawn.Init();
 	}
 
+	public void ChangeRound( BaseRound round )
+	{
+		Assert.NotNull( round );
 
+		Round?.Finish();
+		Round = round;
+		Round?.Start();
+	}
 
 	/// <summary>
 	/// Called when a player has died, or been killed

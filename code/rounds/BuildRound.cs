@@ -41,7 +41,7 @@ namespace flood.rounds
 
 		protected override void OnStart()
 		{
-			Log.Info( "Started Hunt Round" );
+			Log.Info( "Started Build Round" );
 
 			if ( Host.IsServer )
 			{
@@ -51,7 +51,7 @@ namespace flood.rounds
 
 		protected override void OnFinish()
 		{
-			Log.Info( "Finished Hunt Round" );
+			Log.Info( "Finished Build Round" );
 
 			if ( Host.IsServer )
 			{
@@ -63,9 +63,9 @@ namespace flood.rounds
 		{
 			if ( _isGameOver ) return;
 
-			Log.Info( "Hunt Time Up!" );
+			Log.Info( "Build Time Up!" );
 
-			_ = LoadStatsRound( "I.R.I.S. Survived Long Enough" );
+			_ = LoadStatsRound( "Build Time is over!" );
 
 			base.OnTimeUp();
 		}
@@ -73,34 +73,14 @@ namespace flood.rounds
 		private void SupplyLoadouts( Player player )
 		{
 			// Give everyone who is alive their starting loadouts.
-			if ( player.Team != null && player.LifeState == LifeState.Alive )
+			if ( player.LifeState == LifeState.Alive )
 			{
 				player.ClearAmmo();
 				player.Inventory.DeleteContents();
-				player.Inventory.Add( new Pistol(), true );
+				player.Inventory.Add( new PhysGun(), true );
+				player.Inventory.Add( new Tool(), true );
 				AddPlayer( player );
 			}
-		}
-
-		private async Task LoadStatsRound( string winner, int delay = 3 )
-		{
-			_isGameOver = true;
-
-			await Task.Delay( delay * 1000 );
-
-			if ( Game.Instance.Round != this )
-				return;
-
-			var hidden = Game.Instance.GetTeamPlayers<HiddenTeam>().FirstOrDefault();
-
-			Game.Instance.ChangeRound( new StatsRound
-			{
-				HiddenName = hidden != null ? hidden.Name : "",
-				HiddenKills = _hiddenKills,
-				FirstDeath = _firstDeath,
-				HiddenHunter = _hiddenHunter,
-				Winner = winner
-			} );
 		}
 	}
 }
