@@ -1,5 +1,5 @@
 ﻿using Sandbox;
-
+//Part of the sandbox gamemode, used in tools
 public partial class Carriable : BaseCarriable, IUse
 {
 	public override void CreateViewModel()

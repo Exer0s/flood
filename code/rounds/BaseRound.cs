@@ -47,7 +47,7 @@ using System.Threading.Tasks;
 			OnFinish();
 		}
 
-		public void AddPlayer( DeathmatchPlayer player )
+		public void AddPlayer( FloodPlayer player )
 		{
 			Host.AssertServer();
 
@@ -57,11 +57,11 @@ using System.Threading.Tasks;
 			}
 		}
 
-		public virtual void OnPlayerSpawn( DeathmatchPlayer player ) { }
+		public virtual void OnPlayerSpawn( FloodPlayer player ) { }
 
-		public virtual void OnPlayerKilled( DeathmatchPlayer player ) { }
+		public virtual void OnPlayerKilled( FloodPlayer player ) { }
 
-		public virtual void OnPlayerLeave( DeathmatchPlayer player )
+		public virtual void OnPlayerLeave( FloodPlayer player )
 		{
 			Players.Remove( player );
 		}

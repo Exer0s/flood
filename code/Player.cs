@@ -4,15 +4,15 @@ using System.Linq;
 using System.Numerics;
 using System.Threading;
 
-public partial class DeathmatchPlayer : BasePlayer
+public partial class FloodPlayer : BasePlayer
 {
 	TimeSince timeSinceDropped;
 
 	public bool SupressPickupNotices { get; private set; }
 
-	public DeathmatchPlayer()
+	public FloodPlayer()
 	{
-		Inventory = new DmInventory( this );
+		Inventory = new FloodInventory( this );
 	}
 
 	public override void Respawn()
@@ -130,7 +130,7 @@ public partial class DeathmatchPlayer : BasePlayer
 		// If the current weapon is out of ammo and we last fired it over half a second ago
 		// lets try to switch to a better wepaon
 		//
-		if ( ActiveChild is BaseDmWeapon weapon && !weapon.IsUsable() && weapon.TimeSincePrimaryAttack > 0.5f && weapon.TimeSinceSecondaryAttack > 0.5f )
+		if ( ActiveChild is BaseFloodWeapon weapon && !weapon.IsUsable() && weapon.TimeSincePrimaryAttack > 0.5f && weapon.TimeSinceSecondaryAttack > 0.5f )
 		{
 			SwitchToBestWeapon();
 		}
@@ -138,7 +138,7 @@ public partial class DeathmatchPlayer : BasePlayer
 
 	public void SwitchToBestWeapon()
 	{
-		var best = Children.Select( x => x as BaseDmWeapon )
+		var best = Children.Select( x => x as BaseFloodWeapon )
 			.Where( x => x.IsValid() && x.IsUsable() )
 			.OrderByDescending( x => x.BucketWeight )
 			.FirstOrDefault();
@@ -251,7 +251,7 @@ public partial class DeathmatchPlayer : BasePlayer
 
 		base.TakeDamage( info );
 
-		if ( info.Attacker is DeathmatchPlayer attacker && attacker != this )
+		if ( info.Attacker is FloodPlayer attacker && attacker != this )
 		{
 			// Note - sending this only to the attacker!
 			attacker.DidDamage( attacker, info.Position, info.Damage, ((float)Health).LerpInverse( 100, 0 ) );

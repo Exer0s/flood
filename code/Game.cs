@@ -4,13 +4,24 @@
 /// for creating the player and stuff.
 /// </summary>
 [Library( "flood", Title = "Flood" )]
-partial class DeathmatchGame : Game
+partial class FloodGame : Game
 {
+	
+	[ServerVar( "flood_min_players", Help = "The minimum players required to start." )]
+	public static int MinPlayers { get; set; } = 2;
+	
+	[ServerVar( "flood_build_time", Help = "The duration of the build round." )]
+	public static int BuildTime { get; set; } = 2;
 
 	[Net] public BaseRound Round { get; private set; }
 	private BaseRound _lastRound;
 
-	public DeathmatchGame()
+	public static FloodGame Instance
+	{
+		get => Current as FloodGame;
+	}
+	
+	public FloodGame()
 	{
 		//
 		// Create the HUD entity. This is always broadcast to all clients
@@ -19,7 +30,7 @@ partial class DeathmatchGame : Game
 		//
 		if ( IsServer )
 		{
-			new DeathmatchHud();
+			new FloodHud();
 		}
 	}
 
@@ -27,7 +38,7 @@ partial class DeathmatchGame : Game
 	/// Called when a player joins and wants a player entity. We create
 	/// our own class so we can control what happens.
 	/// </summary>
-	public override Player CreatePlayer() => new DeathmatchPlayer();
+	public override Player CreatePlayer() => new FloodPlayer();
 
 
 	public override void PostLevelLoaded()
@@ -36,7 +47,7 @@ partial class DeathmatchGame : Game
 
 		ItemRespawn.Init();
 	}
-
+	// Changes the round, to the one you pass in
 	public void ChangeRound( BaseRound round )
 	{
 		Assert.NotNull( round );

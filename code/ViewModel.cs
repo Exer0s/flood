@@ -2,7 +2,7 @@
 using System;
 using System.Linq;
 
-partial class DmViewModel : BaseViewModel
+partial class FloodViewModel : BaseViewModel
 {
 	float walkBob = 0;
 

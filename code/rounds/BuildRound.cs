@@ -11,16 +11,16 @@ using System.Threading.Tasks;
 		public override int RoundDuration => 300;
 		public override bool CanPlayerSuicide => true;
 
-		public List<DeathmatchPlayer> Spectators = new ();
+		public List<Player> Spectators = new ();
 
 		private bool _isGameOver;
 
-		public override void OnPlayerKilled( DeathmatchPlayer player )
+		public override void OnPlayerKilled( FloodPlayer player )
 		{
 			player.Respawn();
 		}
 
-		public override void OnPlayerLeave( DeathmatchPlayer player )
+		public override void OnPlayerLeave( FloodPlayer player )
 		{
 			base.OnPlayerLeave( player );
 
@@ -28,7 +28,7 @@ using System.Threading.Tasks;
 
 		}
 
-		public override void OnPlayerSpawn( DeathmatchPlayer player )
+		public override void OnPlayerSpawn( FloodPlayer player )
 		{
 			player.MakeSpectator();
 
@@ -44,7 +44,7 @@ using System.Threading.Tasks;
 
 			if ( Host.IsServer )
 			{
-				Sandbox.Player.All.ForEach( ( player ) => SupplyLoadouts( player as DeathmatchPlayer ) );
+				Sandbox.Player.All.ForEach( ( player ) => SupplyLoadouts( player as FloodPlayer ) );
 			}
 		}
 
@@ -68,7 +68,7 @@ using System.Threading.Tasks;
 			base.OnTimeUp();
 		}
 
-		private void SupplyLoadouts( DeathmatchPlayer player )
+		private void SupplyLoadouts( FloodPlayer player )
 		{
 			// Give everyone who is alive their starting loadouts.
 			//if ( player.LifeState == LifeState.Alive )

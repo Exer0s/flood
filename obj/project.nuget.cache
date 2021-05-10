@@ -1,0 +1,36 @@
+{
+  "version": 2,
+  "dgSpecHash": "RE/rQSiyuO1KC/ho9gr7OcemaZbndiul+ijCV4eEGBXc9wSEvN0xIQjNRP81UwFwEmkaHsEF5dphWH4xIQDmXw==",
+  "success": false,
+  "projectFilePath": "C:\\Users\\crazy\\Documents\\GitHub\\flood\\dm98.csproj",
+  "expectedPackageFiles": [],
+  "logs": [
+    {
+      "code": "NU1104",
+      "level": "Error",
+      "message": "Unable to find project 'C:\\git\\sbox\\game\\addons\\base\\base.csproj'. Check that the project reference is valid and that the project file exists.",
+      "libraryId": "C:\\git\\sbox\\game\\addons\\base\\base.csproj",
+      "targetGraphs": [
+        ".NETCoreApp,Version=v5.0"
+      ]
+    },
+    {
+      "code": "NU1104",
+      "level": "Error",
+      "message": "Unable to find project 'C:\\git\\sbox\\game\\addons\\citizen\\citizen.csproj'. Check that the project reference is valid and that the project file exists.",
+      "libraryId": "C:\\git\\sbox\\game\\addons\\citizen\\citizen.csproj",
+      "targetGraphs": [
+        ".NETCoreApp,Version=v5.0"
+      ]
+    },
+    {
+      "code": "NU1104",
+      "level": "Error",
+      "message": "Unable to find project 'C:\\git\\sbox\\game\\addons\\rust\\rust.csproj'. Check that the project reference is valid and that the project file exists.",
+      "libraryId": "C:\\git\\sbox\\game\\addons\\rust\\rust.csproj",
+      "targetGraphs": [
+        ".NETCoreApp,Version=v5.0"
+      ]
+    }
+  ]
+}

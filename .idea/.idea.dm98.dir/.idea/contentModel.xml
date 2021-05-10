@@ -8,6 +8,9 @@
       <e p=".addon" t="Include" />
       <e p="code" t="Include">
         <e p="accesslist.txt" t="Include" />
+        <e p="camera" t="Include">
+          <e p="SpectateCamera.cs" t="Include" />
+        </e>
         <e p="Carriable.cs" t="Include" />
         <e p="Game.cs" t="Include" />
         <e p="Inventory.cs" t="Include" />

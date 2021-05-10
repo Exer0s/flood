@@ -6,9 +6,9 @@ using System;
 using System.Threading.Tasks;
 
 [Library]
-public partial class DeathmatchHud : Hud
+public partial class FloodHud : Hud
 {
-	public DeathmatchHud()
+	public FloodHud()
 	{
 		if ( !IsClient )
 			return;

@@ -2,19 +2,19 @@
 using System;
 using System.Linq;
 
-partial class DmInventory : BaseInventory
+partial class FloodInventory : BaseInventory
 {
 
 
-	public DmInventory( Player player ) : base ( player )
+	public FloodInventory( Player player ) : base ( player )
 	{
 
 	}
 
 	public override bool Add( Entity ent, bool makeActive = false )
 	{
-		var player = Owner as DeathmatchPlayer;
-		var weapon = ent as BaseDmWeapon;
+		var player = Owner as FloodPlayer;
+		var weapon = ent as BaseFloodWeapon;
 		var notices = !player.SupressPickupNotices;
 		//
 		// We don't want to pick up the same weapon twice

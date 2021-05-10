@@ -21,7 +21,7 @@
 
 		public override void Update()
 		{
-			if ( Sandbox.Player.Local is not DeathmatchPlayer player )
+			if ( Sandbox.Player.Local is not FloodPlayer player )
 				return;
 
 			/*if ( TargetPlayer == null || !TargetPlayer.IsValid() || player.Input.Pressed(InputButton.Attack1) )
@@ -48,7 +48,7 @@
 
 		private Vector3 GetSpectatePoint()
 		{
-			if ( Sandbox.Player.Local is not DeathmatchPlayer )
+			if ( Sandbox.Player.Local is not FloodPlayer )
 				return DeathPosition;
 
 			if ( TargetPlayer == null || !TargetPlayer.IsValid() || TimeSinceDied < 3 )
@@ -59,7 +59,7 @@
 
 		private Vector3 GetViewOffset()
 		{
-			if ( Sandbox.Player.Local is not DeathmatchPlayer player )
+			if ( Sandbox.Player.Local is not FloodPlayer player )
 				return Vector3.Zero;
 
 			return player.EyeRot.Forward * -150 + Vector3.Up * 10;

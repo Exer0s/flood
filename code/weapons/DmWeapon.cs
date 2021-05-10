@@ -7,7 +7,7 @@ using System.Linq;
 using System.Numerics;
 using System.Threading.Tasks;
 
-partial class BaseDmWeapon : BaseWeapon, IRespawnableEntity
+partial class BaseFloodWeapon : BaseWeapon, IRespawnableEntity
 {
 	public virtual AmmoType AmmoType => AmmoType.Pistol;
 	public virtual int ClipSize => 16;
@@ -33,7 +33,7 @@ partial class BaseDmWeapon : BaseWeapon, IRespawnableEntity
 
 	public int AvailableAmmo()
 	{
-		var owner = Owner as DeathmatchPlayer;
+		var owner = Owner as FloodPlayer;
 		if ( owner == null ) return 0;
 		return owner.AmmoCount( AmmoType );
 	}
@@ -68,7 +68,7 @@ partial class BaseDmWeapon : BaseWeapon, IRespawnableEntity
 
 		TimeSinceReload = 0;
 
-		if ( Owner is DeathmatchPlayer player )
+		if ( Owner is FloodPlayer player )
 		{
 			if ( player.AmmoCount( AmmoType ) <= 0 )
 				return;
@@ -81,7 +81,7 @@ partial class BaseDmWeapon : BaseWeapon, IRespawnableEntity
 		StartReloadEffects();
 	}
 
-	public override void OnPlayerControlTick( Player owner ) 
+	public override void OnPlayerControlTick( FloodPlayer owner ) 
 	{
 		if ( TimeSinceDeployed < 0.6f )
 			return;
@@ -101,7 +101,7 @@ partial class BaseDmWeapon : BaseWeapon, IRespawnableEntity
 	{
 		IsReloading = false;
 
-		if ( Owner is DeathmatchPlayer player )
+		if ( Owner is FloodPlayer player )
 		{
 			var ammo = player.TakeAmmo( AmmoType, ClipSize - AmmoClip );
 			if ( ammo == 0 )
@@ -228,7 +228,7 @@ partial class BaseDmWeapon : BaseWeapon, IRespawnableEntity
 		if ( string.IsNullOrEmpty( ViewModelPath ) )
 			return;
 
-		ViewModelEntity = new DmViewModel();
+		ViewModelEntity = new FloodViewModel();
 		ViewModelEntity.WorldPos = WorldPos;
 		ViewModelEntity.Owner = Owner;
 		ViewModelEntity.EnableViewmodelRendering = true;
