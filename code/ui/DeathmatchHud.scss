@@ -39,6 +39,26 @@ vitals
 	}
 }
 
+roundtimer {
+	position: absolute;
+	bottom: 70%;
+	left: 50%;
+	font-size: 64px;
+	color: #e6e6e6;
+	mix-blend-mode: lighten;
+	font-family: Roboto;
+
+	label
+	{
+		text-shadow: 0px 0px 20px #f70a;
+
+		&.danger
+		{
+			color: #f00;
+			text-shadow: 0px 0px 10px #f005;
+		}
+	}
+}
 
 ammo
 {

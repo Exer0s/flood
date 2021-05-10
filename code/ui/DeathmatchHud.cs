@@ -16,6 +16,7 @@ public partial class DeathmatchHud : Hud
 		RootPanel.StyleSheet.Load( "/ui/DeathmatchHud.scss" );
 
 		RootPanel.AddChild<Vitals>();
+		RootPanel.AddChild<RoundTimer>();
 		RootPanel.AddChild<Ammo>();
 
 		RootPanel.AddChild<NameTags>();
