@@ -1,0 +1,66 @@
+{
+  "version": 3,
+  "targets": {
+    ".NETFramework,Version=v5.0": {
+      "base/1.0.0": {
+        "type": "project",
+        "framework": ".NETFramework,Version=v5.0",
+        "compile": {
+          "bin/placeholder/base.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/base.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "base/1.0.0": {
+      "type": "project",
+      "path": "../../base/code/base.csproj",
+      "msbuildProject": "../../base/code/base.csproj"
+    }
+  },
+  "projectFileDependencyGroups": {
+    ".NETFramework,Version=v5.0": [
+      "base >= 1.0.0"
+    ]
+  },
+  "packageFolders": {
+    "C:\\Users\\mikae\\.nuget\\packages\\": {}
+  },
+  "project": {
+    "version": "1.0.0",
+    "restore": {
+      "projectUniqueName": "D:\\Mikaels Steam\\steamapps\\common\\sbox\\addons\\flood\\code\\flood.csproj",
+      "projectName": "flood",
+      "projectPath": "D:\\Mikaels Steam\\steamapps\\common\\sbox\\addons\\flood\\code\\flood.csproj",
+      "packagesPath": "C:\\Users\\mikae\\.nuget\\packages\\",
+      "outputPath": "D:\\Mikaels Steam\\steamapps\\common\\sbox\\addons\\flood\\code\\obj\\",
+      "projectStyle": "PackageReference",
+      "configFilePaths": [
+        "C:\\Users\\mikae\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+      ],
+      "originalTargetFrameworks": [
+        "net50"
+      ],
+      "sources": {
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+        "https://api.nuget.org/v3/index.json": {}
+      },
+      "frameworks": {
+        "net50": {
+          "projectReferences": {
+            "D:\\Mikaels Steam\\steamapps\\common\\sbox\\addons\\base\\code\\base.csproj": {
+              "projectPath": "D:\\Mikaels Steam\\steamapps\\common\\sbox\\addons\\base\\code\\base.csproj"
+            }
+          }
+        }
+      }
+    },
+    "frameworks": {
+      "net50": {}
+    }
+  }
+}
