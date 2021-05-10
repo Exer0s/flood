@@ -2,7 +2,7 @@
 
 
 [Library( "dm_shotgun", Title = "Shotgun" )]
-partial class Shotgun : BaseDmWeapon
+partial class Shotgun : BaseFloodWeapon
 { 
 	public override string ViewModelPath => "weapons/rust_pumpshotgun/v_rust_pumpshotgun.vmdl";
 	public override float PrimaryRate => 1;
@@ -121,7 +121,7 @@ partial class Shotgun : BaseDmWeapon
 		if ( AmmoClip >= ClipSize )
 			return;
 
-		if ( Owner is DeathmatchPlayer player )
+		if ( Owner is FloodPlayer player )
 		{
 			var ammo = player.TakeAmmo( AmmoType, 1 );
 			if ( ammo == 0 )

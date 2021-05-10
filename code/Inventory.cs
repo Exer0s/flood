@@ -14,7 +14,17 @@ partial class FloodInventory : BaseInventory
 	public override bool Add( Entity ent, bool makeActive = false )
 	{
 		var player = Owner as FloodPlayer;
-		var weapon = ent as BaseFloodWeapon;
+		var weapon;
+		if (ent is BaseFloodWeapon)
+		{
+			weapon as BaseFloodWeapon;
+		}
+
+		if (ent is Carriable)
+		{
+			weapon as Carriable;
+		}
+
 		var notices = !player.SupressPickupNotices;
 		//
 		// We don't want to pick up the same weapon twice

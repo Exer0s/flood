@@ -76,6 +76,8 @@ Sandbox.Game/Sandbox.Entity.SetParent( Sandbox.Entity, System.Int32, System.Null
 Sandbox.Game/Sandbox.Entity.Spawn()
 Sandbox.Game/Sandbox.Entity.TakeDamage( Sandbox.DamageInfo )
 Sandbox.Game/Sandbox.EventAttribute
+Sandbox.Game/Sandbox.GameBase
+Sandbox.Game/Sandbox.GameBase.get_Current()
 Sandbox.Game/Sandbox.GameTask.Delay( System.Int32 )
 Sandbox.Game/Sandbox.GlowStates
 Sandbox.Game/Sandbox.Host.AssertClient()
@@ -218,6 +220,8 @@ Sandbox.Game/Sandbox.SoundEvent.set_Volume( System.Single )
 Sandbox.Game/Sandbox.Surface
 Sandbox.Game/Sandbox.TaskSource
 Sandbox.Game/Sandbox.TaskSource.Delay( System.Int32 )
+Sandbox.Game/Sandbox.TaskSource.DelaySeconds( System.Single )
+Sandbox.Game/Sandbox.TaskSource.NextPhysicsFrame()
 Sandbox.Game/Sandbox.Time.get_Delta()
 Sandbox.Game/Sandbox.Time.get_Now()
 Sandbox.Game/Sandbox.TimeSince
@@ -316,6 +320,7 @@ Sandbox.System/Sandbox.RealTimeSince.op_Implicit( System.Single )
 Sandbox.System/Sandbox.UI.Length
 Sandbox.System/Sandbox.UI.Length.Fraction( System.Single )
 Sandbox.System/Sandbox.UI.Length.Percent( System.Single )
+Sandbox.System/ServerVarAttribute
 Sandbox.System/Transform
 Sandbox.System/Transform.PointToLocal( Vector3 )
 Sandbox.System/Transform.PointToWorld( Vector3 )

@@ -22,7 +22,7 @@ public class InventoryColumn : Panel
 		Header = Add.Label( $"{i+1}", "slot-number" );
 	}
 
-	internal void UpdateWeapon( BaseDmWeapon weapon )
+	internal void UpdateWeapon( BaseFloodWeapon weapon )
 	{
 		var icon = ChildrenOfType<InventoryIcon>().FirstOrDefault( x => x.Weapon == weapon );
 		if ( icon == null )
@@ -33,7 +33,7 @@ public class InventoryColumn : Panel
 		}
 	}
 
-	internal void TickSelection( BaseDmWeapon selectedWeapon )
+	internal void TickSelection( BaseFloodWeapon selectedWeapon )
 	{
 		SetClass( "active", selectedWeapon?.Bucket == Column );
 

@@ -2,7 +2,7 @@
 
 
 [Library( "dm_pistol", Title = "Pistol" )]
-partial class Pistol : BaseDmWeapon
+partial class Pistol : BaseFloodWeapon
 { 
 	public override string ViewModelPath => "weapons/rust_pistol/v_rust_pistol.vmdl";
 

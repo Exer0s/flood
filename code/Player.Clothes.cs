@@ -2,7 +2,7 @@
 using System;
 using System.Linq;
 
-partial class DeathmatchPlayer
+partial class FloodPlayer
 {
 	ModelEntity pants;
 	ModelEntity jacket;

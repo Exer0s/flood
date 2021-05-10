@@ -1,7 +1,7 @@
 ﻿using Sandbox;
 
 [Library( "dm_crossbow", Title = "Crossbow" )]
-partial class Crossbow : BaseDmWeapon, IPlayerCamera, IPlayerInput
+partial class Crossbow : BaseFloodWeapon, IPlayerCamera, IPlayerInput
 { 
 	public override string ViewModelPath => "weapons/rust_crossbow/v_rust_crossbow.vmdl";
 

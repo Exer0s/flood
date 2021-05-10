@@ -2,7 +2,7 @@
 using System;
 
 [Library( "dm_smg", Title = "SMG" )]
-partial class SMG : BaseDmWeapon
+partial class SMG : BaseFloodWeapon
 { 
 	public override string ViewModelPath => "weapons/rust_smg/v_rust_smg.vmdl";
 

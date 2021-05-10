@@ -9,7 +9,7 @@ public partial class Carriable : BaseCarriable, IUse
 		if ( string.IsNullOrEmpty( ViewModelPath ) )
 			return;
 
-		ViewModelEntity = new DmViewModel
+		ViewModelEntity = new FloodViewModel
 		{
 			WorldPos = WorldPos,
 			Owner = Owner,

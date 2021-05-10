@@ -6,17 +6,17 @@ using System;
 
 class InventoryIcon : Panel
 {
-	public BaseDmWeapon Weapon;
+	public BaseFloodWeapon Weapon;
 	public Panel Icon;
 
-	public InventoryIcon( BaseDmWeapon weapon )
+	public InventoryIcon( BaseFloodWeapon weapon )
 	{
 		Weapon = weapon;
 		Icon = Add.Panel( "icon" );
 		AddClass( weapon.ClassInfo.Name );
 	}
 
-	internal void TickSelection( BaseDmWeapon selectedWeapon )
+	internal void TickSelection( BaseFloodWeapon selectedWeapon )
 	{
 		SetClass( "active", selectedWeapon == Weapon );
 		SetClass( "empty", !Weapon?.IsUsable() ?? true );

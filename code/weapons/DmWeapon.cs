@@ -81,7 +81,7 @@ partial class BaseFloodWeapon : BaseWeapon, IRespawnableEntity
 		StartReloadEffects();
 	}
 
-	public override void OnPlayerControlTick( FloodPlayer owner ) 
+	public override void OnPlayerControlTick( Player owner ) 
 	{
 		if ( TimeSinceDeployed < 0.6f )
 			return;
