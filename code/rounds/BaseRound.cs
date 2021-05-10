@@ -5,8 +5,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace flood.rounds
-{
 	public abstract partial class BaseRound : NetworkClass
 	{
 		public virtual int RoundDuration => 0;
@@ -49,7 +47,7 @@ namespace flood.rounds
 			OnFinish();
 		}
 
-		public void AddPlayer( Player player )
+		public void AddPlayer( DeathmatchPlayer player )
 		{
 			Host.AssertServer();
 
@@ -59,11 +57,11 @@ namespace flood.rounds
 			}
 		}
 
-		public virtual void OnPlayerSpawn( Player player ) { }
+		public virtual void OnPlayerSpawn( DeathmatchPlayer player ) { }
 
-		public virtual void OnPlayerKilled( Player player ) { }
+		public virtual void OnPlayerKilled( DeathmatchPlayer player ) { }
 
-		public virtual void OnPlayerLeave( Player player )
+		public virtual void OnPlayerLeave( DeathmatchPlayer player )
 		{
 			Players.Remove( player );
 		}
@@ -93,4 +91,3 @@ namespace flood.rounds
 
 		protected virtual void OnTimeUp() { }
 	}
-}

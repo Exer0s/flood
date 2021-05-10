@@ -4,7 +4,7 @@ using System.Linq;
 using System.Numerics;
 using System.Threading;
 
-partial class DeathmatchPlayer : BasePlayer
+public partial class DeathmatchPlayer : BasePlayer
 {
 	TimeSince timeSinceDropped;
 
@@ -47,6 +47,19 @@ partial class DeathmatchPlayer : BasePlayer
 
 		base.Respawn();
 	}
+
+	public void MakeSpectator( Vector3 position = default )
+	{
+		EnableAllCollisions = false;
+		EnableDrawing = false;
+		Controller = null;
+		Camera = new SpectateCamera
+		{
+			DeathPosition = position,
+			TimeSinceDied = 0
+		};
+	}
+
 	public override void OnKilled()
 	{
 		base.OnKilled();

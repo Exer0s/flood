@@ -9,7 +9,7 @@ public partial class Carriable : BaseCarriable, IUse
 		if ( string.IsNullOrEmpty( ViewModelPath ) )
 			return;
 
-		ViewModelEntity = new ViewModel
+		ViewModelEntity = new DmViewModel
 		{
 			WorldPos = WorldPos,
 			Owner = Owner,
