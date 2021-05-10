@@ -17,9 +17,9 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\crazy\\Documents\\GitHub\\flood\\dm98.csproj",
+      "projectUniqueName": "C:\\Users\\crazy\\Documents\\GitHub\\flood\\flood.csproj",
       "projectName": "dm98",
-      "projectPath": "C:\\Users\\crazy\\Documents\\GitHub\\flood\\dm98.csproj",
+      "projectPath": "C:\\Users\\crazy\\Documents\\GitHub\\flood\\flood.csproj",
       "packagesPath": "C:\\Users\\crazy\\.nuget\\packages\\",
       "outputPath": "C:\\Users\\crazy\\Documents\\GitHub\\flood\\obj\\",
       "projectStyle": "PackageReference",

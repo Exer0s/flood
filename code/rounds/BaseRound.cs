@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 		public virtual string RoundName => "";
 		public virtual bool CanPlayerSuicide => false;
 
-		public List<Player> Players = new ();
+		public List<FloodPlayer> Players = new ();
 
 		public float RoundEndTime { get; set; }
 

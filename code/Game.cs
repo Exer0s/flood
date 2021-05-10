@@ -1,4 +1,8 @@
 ﻿using Sandbox;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+
 /// <summary>
 /// This is the heart of the gamemode. It's responsible
 /// for creating the player and stuff.
@@ -9,17 +13,18 @@ partial class FloodGame : Game
 	
 	[ServerVar( "flood_min_players", Help = "The minimum players required to start." )]
 	public static int MinPlayers { get; set; } = 2;
+
 	
-	[ServerVar( "flood_build_time", Help = "The duration of the build round." )]
-	public static int BuildTime { get; set; } = 2;
 
 	[Net] public BaseRound Round { get; private set; }
 	private BaseRound _lastRound;
 
+	#region Singleton
 	public static FloodGame Instance
 	{
 		get => Current as FloodGame;
 	}
+	#endregion
 	
 	public FloodGame()
 	{
@@ -32,6 +37,9 @@ partial class FloodGame : Game
 		{
 			new FloodHud();
 		}
+		
+		_ = StartTickTimer();
+		
 	}
 
 	/// <summary>
@@ -44,9 +52,28 @@ partial class FloodGame : Game
 	public override void PostLevelLoaded()
 	{
 		base.PostLevelLoaded();
-
+		_ = StartSecondTimer();
 		ItemRespawn.Init();
 	}
+	
+	public async Task StartSecondTimer()
+	{
+		while (true)
+		{
+			await Task.DelaySeconds( 1 );
+			OnSecond();
+		}
+	}
+
+	public async Task StartTickTimer()
+	{
+		while (true)
+		{
+			await Task.NextPhysicsFrame();
+			OnTick();
+		}
+	}
+	
 	// Changes the round, to the one you pass in
 	public void ChangeRound( BaseRound round )
 	{
@@ -78,6 +105,40 @@ partial class FloodGame : Game
 		else
 		{
 			KillFeed.AddEntry( (ulong)0, "", player.SteamId, player.Name, "died" );
+		}
+	}
+
+	private void OnSecond()
+	{
+		CheckMinimumPlayers();
+		Round?.OnSecond();
+	}
+
+	private void OnTick()
+	{
+		Round?.OnTick();
+
+		if ( IsClient )
+		{
+			// We have to hack around this for now until we can detect changes in net variables.
+			if ( _lastRound != Round )
+			{
+				_lastRound?.Finish();
+				_lastRound = Round;
+				_lastRound.Start();
+			}
+		}
+	}
+
+	
+	private void CheckMinimumPlayers()
+	{
+		if (Sandbox.Player.All.Count >= MinPlayers)
+		{
+			if (Round == null)
+			{
+				ChangeRound(new BuildRound());
+			}
 		}
 	}
 }

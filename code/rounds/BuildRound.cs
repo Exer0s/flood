@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 		public override int RoundDuration => 300;
 		public override bool CanPlayerSuicide => true;
 
-		public List<Player> Spectators = new ();
+		public List<FloodPlayer> Spectators = new ();
 
 		private bool _isGameOver;
 
@@ -24,17 +24,23 @@ using System.Threading.Tasks;
 		{
 			base.OnPlayerLeave( player );
 
-			Spectators.Remove( player );
-
+			Players.Remove( player );
+			Spectators.Remove(player);
 		}
 
 		public override void OnPlayerSpawn( FloodPlayer player )
 		{
-			player.MakeSpectator();
-
-			Spectators.Add( player );
-			Players.Remove( player );
-
+			player.ClearAmmo();
+			player.Inventory.DeleteContents();
+			player.Inventory.Add( new PhysGun(), true );
+			player.Inventory.Add( new Tool(), true );
+			if (!Players.Contains(player))
+			{
+				AddPlayer(player);
+			}
+			
+				
+				
 			base.OnPlayerSpawn( player );
 		}
 

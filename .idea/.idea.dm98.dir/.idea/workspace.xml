@@ -2,38 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ea2d3035-592a-4e14-bebf-89758430b344" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/.idea.dm98.dir/.idea/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/.idea.dm98.dir/.idea/.idea.dm98.dir.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/.idea.dm98.dir/.idea/.name" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/.idea.dm98.dir/.idea/encodings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/.idea.dm98.dir/.idea/indexLayout.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/.idea.dm98.dir/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/.idea.dm98.dir/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/.idea.dm98.dir/riderModule.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/obj/Debug/net5.0/.NETCoreApp,Version=v5.0.AssemblyAttributes.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/obj/Debug/net5.0/dm98.AssemblyInfo.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/obj/Debug/net5.0/dm98.AssemblyInfoInputs.cache" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/obj/Debug/net5.0/dm98.GeneratedMSBuildEditorConfig.editorconfig" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/obj/Debug/net5.0/dm98.assets.cache" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/obj/Debug/net5.0/dm98.csprojAssemblyReference.cache" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/obj/dm98.csproj.nuget.dgspec.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/obj/dm98.csproj.nuget.g.props" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/obj/dm98.csproj.nuget.g.targets" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/obj/project.assets.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/obj/project.nuget.cache" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/obj/project.packagespec.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.dm98.dir/.idea/contentModel.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.dm98.dir/.idea/contentModel.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.dm98.dir/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.dm98.dir/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/code/Carriable.cs" beforeDir="false" afterPath="$PROJECT_DIR$/code/Carriable.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/code/Game.cs" beforeDir="false" afterPath="$PROJECT_DIR$/code/Game.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/code/Inventory.cs" beforeDir="false" afterPath="$PROJECT_DIR$/code/Inventory.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/code/Player.cs" beforeDir="false" afterPath="$PROJECT_DIR$/code/Player.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/code/ViewModel.cs" beforeDir="false" afterPath="$PROJECT_DIR$/code/ViewModel.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/code/camera/SpectateCamera.cs" beforeDir="false" afterPath="$PROJECT_DIR$/code/camera/SpectateCamera.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/code/rounds/BaseRound.cs" beforeDir="false" afterPath="$PROJECT_DIR$/code/rounds/BaseRound.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/code/rounds/BuildRound.cs" beforeDir="false" afterPath="$PROJECT_DIR$/code/rounds/BuildRound.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/code/ui/DeathmatchHud.cs" beforeDir="false" afterPath="$PROJECT_DIR$/code/ui/DeathmatchHud.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/code/weapons/DmWeapon.cs" beforeDir="false" afterPath="$PROJECT_DIR$/code/weapons/DmWeapon.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -63,12 +33,12 @@
         <option value="$PROJECT_DIR$/code/ui/DeathmatchHud.cs" />
         <option value="$PROJECT_DIR$/code/ViewModel.cs" />
         <option value="$PROJECT_DIR$/code/weapons/DmWeapon.cs" />
-        <option value="$PROJECT_DIR$/code/Game.cs" />
         <option value="$PROJECT_DIR$/code/Inventory.cs" />
         <option value="$PROJECT_DIR$/code/Player.cs" />
         <option value="$PROJECT_DIR$/code/camera/SpectateCamera.cs" />
         <option value="$PROJECT_DIR$/code/rounds/BuildRound.cs" />
         <option value="$PROJECT_DIR$/code/rounds/BaseRound.cs" />
+        <option value="$PROJECT_DIR$/code/Game.cs" />
       </list>
     </option>
   </component>
@@ -82,6 +52,12 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.detected.package.tslint" value="true" />
+    <property name="node.js.path.for.package.eslint" value="project" />
+    <property name="node.js.path.for.package.tslint" value="project" />
+    <property name="node.js.selected.package.eslint" value="(autodetect)" />
+    <property name="node.js.selected.package.tslint" value="(autodetect)" />
   </component>
   <component name="SvnConfiguration">
     <configuration />
@@ -93,7 +69,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1620656406270</updated>
-      <workItem from="1620656416061" duration="1587000" />
+      <workItem from="1620656416061" duration="2796000" />
     </task>
     <servers />
   </component>
