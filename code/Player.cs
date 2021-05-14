@@ -12,7 +12,7 @@ public partial class FloodPlayer : BasePlayer
 
 	public FloodPlayer()
 	{
-		Inventory = new FloodInventory( this );
+		Inventory = new Inventory( this );
 	}
 
 	public override void Respawn()

@@ -24,7 +24,7 @@ using System;
             var player = Sandbox.Player.Local;
             if ( player == null ) return;
 
-            var game = Game.Instance;
+            var game = FloodGame.Instance;
             if ( game == null ) return;
 
             var round = game.Round;
