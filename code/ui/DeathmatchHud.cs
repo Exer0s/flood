@@ -25,7 +25,8 @@ public partial class FloodHud : Hud
 
 		RootPanel.AddChild<InventoryBar>();
 		RootPanel.AddChild<PickupFeed>();
-		
+		RootPanel.AddChild<CurrentTool>();
+		RootPanel.AddChild<SpawnMenu>();
 		RootPanel.AddChild<ChatBox>();
 		RootPanel.AddChild<KillFeed>();
 		RootPanel.AddChild<Scoreboard>();
