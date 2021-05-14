@@ -1,27 +1,17 @@
 ﻿using Sandbox;
 using Sandbox.UI;
 using System.Collections.Generic;
-using System.Linq;
 
-/// <summary>
-/// The main inventory panel, top left of the screen.
-/// </summary>
 public class InventoryBar : Panel, IClientInput
 {
-	List<InventoryColumn> columns = new();
-	List<BaseFloodWeapon> Weapons = new();
-
-	public bool IsOpen;
-	BaseFloodWeapon SelectedWeapon;
+	readonly List<InventoryIcon> slots = new();
 
 	public InventoryBar()
 	{
-		StyleSheet.Load( "/ui/InventoryBar.scss" );
-
-		for ( int i=0; i<6; i++ )
+		for ( int i = 0; i < 9; i++ )
 		{
-			var icon = new InventoryColumn( i, this );
-			columns.Add( icon );
+			var icon = new InventoryIcon( i + 1, this );
+			slots.Add( icon );
 		}
 	}
 
@@ -29,131 +19,81 @@ public class InventoryBar : Panel, IClientInput
 	{
 		base.Tick();
 
-		SetClass( "active", IsOpen );
-
 		var player = Player.Local;
 		if ( player == null ) return;
+		if ( player.Inventory == null ) return;
 
-		Weapons.Clear();
-		Weapons.AddRange( player.Children.Select( x => x as BaseFloodWeapon ).Where( x => x.IsValid() && x.IsUsable() ) );
-
-		foreach ( var weapon in Weapons )
+		for ( int i = 0; i < slots.Count; i++ )
 		{
-			columns[weapon.Bucket].UpdateWeapon( weapon );
+			UpdateIcon( player.Inventory.GetSlot( i ), slots[i], i );
 		}
 	}
 
-	/// <summary>
-	/// IClientInput implementation, calls during the client input build.
-	/// You can both read and write to input, to affect what happens down the line.
-	/// </summary>
+	private static void UpdateIcon( Entity ent, InventoryIcon inventoryIcon, int i )
+	{
+		if ( ent == null )
+		{
+			inventoryIcon.Clear();
+			return;
+		}
+
+		inventoryIcon.TargetEnt = ent;
+		inventoryIcon.Label.Text = ent.ToString();
+		inventoryIcon.SetClass( "active", ent.IsActiveChild() );
+	}
+
 	public void ProcessClientInput( ClientInput input )
 	{
-		bool wantOpen = IsOpen;
+		var player = Player.Local;
+		if ( player == null )
+			return;
 
-		// If we're not open, maybe this input has something that will 
-		// make us want to start being open?
-		wantOpen = wantOpen || input.MouseWheel != 0;
-		wantOpen = wantOpen || input.Pressed( InputButton.Slot1 );
-		wantOpen = wantOpen || input.Pressed( InputButton.Slot2 );
-		wantOpen = wantOpen || input.Pressed( InputButton.Slot3 );
-		wantOpen = wantOpen || input.Pressed( InputButton.Slot4 );
-		wantOpen = wantOpen || input.Pressed( InputButton.Slot5 );
-		wantOpen = wantOpen || input.Pressed( InputButton.Slot6 );
+		var inventory = Player.Local.Inventory;
+		if ( inventory == null )
+			return;
 
-		if ( Weapons.Count == 0 )
+		if ( player.ActiveChild is PhysGun physgun && physgun.BeamActive )
 		{
-			IsOpen = false;
 			return;
 		}
 
-		// We're not open, but we want to be
-		if ( IsOpen != wantOpen )
-		{
-			SelectedWeapon = Player.Local.ActiveChild as BaseFloodWeapon;
-			IsOpen = true;
-		}
+		if ( input.Pressed( InputButton.Slot1 ) ) SetActiveSlot( input, inventory, 0 );
+		if ( input.Pressed( InputButton.Slot2 ) ) SetActiveSlot( input, inventory, 1 );
+		if ( input.Pressed( InputButton.Slot3 ) ) SetActiveSlot( input, inventory, 2 );
+		if ( input.Pressed( InputButton.Slot4 ) ) SetActiveSlot( input, inventory, 3 );
+		if ( input.Pressed( InputButton.Slot5 ) ) SetActiveSlot( input, inventory, 4 );
+		if ( input.Pressed( InputButton.Slot6 ) ) SetActiveSlot( input, inventory, 5 );
 
-		// Not open fuck it off
-		if ( !IsOpen ) return;
+		if ( input.MouseWheel != 0 ) SwitchActiveSlot( input, inventory, input.MouseWheel );
+	}
 
-		//
-		// Fire pressed when we're open - select the weapon and close.
-		//
-		if ( input.Down( InputButton.Attack1 ) )
-		{
-			input.SuppressButton( InputButton.Attack1 );
-			input.ActiveChild = SelectedWeapon;
-			IsOpen = false;
-			Sound.FromScreen( "dm.ui_select" );
+	private static void SetActiveSlot( ClientInput input, IBaseInventory inventory, int i )
+	{
+		var player = Player.Local;
+		if ( player == null )
 			return;
-		}
 
-		// get our current index
-		var oldSelected = SelectedWeapon;
-		int SelectedIndex = Weapons.IndexOf( SelectedWeapon );
-		SelectedIndex = SlotPressInput( input, SelectedIndex );
+		var ent = inventory.GetSlot( i );
+		if ( player.ActiveChild == ent )
+			return;
 
-		// forward if mouse wheel was pressed
-		SelectedIndex += input.MouseWheel;
-		SelectedIndex = SelectedIndex.UnsignedMod( Weapons.Count );
+		if ( ent == null )
+			return;
 
-		SelectedWeapon = Weapons[SelectedIndex];
-
-		for ( int i = 0; i < 6; i++ )
-		{
-			columns[i].TickSelection( SelectedWeapon );
-		}
-
-		input.MouseWheel = 0;
-
-		if ( oldSelected  != SelectedWeapon )
-		{
-			Sound.FromScreen( "dm.ui_tap" );
-		}
+		input.ActiveChild = ent;
 	}
 
-	int SlotPressInput( ClientInput input, int SelectedIndex )
+	private static void SwitchActiveSlot( ClientInput input, IBaseInventory inventory, int idelta )
 	{
-		var columninput = 0;
+		var count = inventory.Count();
+		if ( count == 0 ) return;
 
-		if ( input.Pressed( InputButton.Slot1 ) ) columninput = 0;
-		if ( input.Pressed( InputButton.Slot2 ) ) columninput = 1;
-		if ( input.Pressed( InputButton.Slot3 ) ) columninput = 2;
-		if ( input.Pressed( InputButton.Slot4 ) ) columninput = 3;
-		if ( input.Pressed( InputButton.Slot5 ) ) columninput = 4;
+		var slot = inventory.GetActiveSlot();
+		var nextSlot = slot + idelta;
 
-		if ( columninput == 0 ) return SelectedIndex;
+		while ( nextSlot < 0 ) nextSlot += count;
+		while ( nextSlot >= count ) nextSlot -= count;
 
-		if ( SelectedWeapon.IsValid() && SelectedWeapon.Bucket == columninput )
-		{
-			return NextInBucket();
-		}
-
-		// Are we already selecting a weapon with this column?
-		var firstOfColumn = Weapons.Where( x => x.Bucket == columninput ).OrderBy( x => x.BucketWeight ).FirstOrDefault();
-		if ( firstOfColumn  == null )
-		{
-			// DOOP sound
-			return SelectedIndex;
-		}
-
-		return Weapons.IndexOf( firstOfColumn );
-	}
-
-	int NextInBucket()
-	{
-		Assert.NotNull( SelectedWeapon );
-
-		BaseFloodWeapon first = null;
-		BaseFloodWeapon prev = null;
-		foreach ( var weapon in Weapons.Where( x => x.Bucket == SelectedWeapon.Bucket ).OrderBy( x => x.BucketWeight ) )
-		{
-			if ( first == null ) first = weapon;
-			if ( prev == SelectedWeapon ) return Weapons.IndexOf( weapon );
-			prev = weapon;
-		}
-
-		return Weapons.IndexOf( first );
+		SetActiveSlot( input, inventory, nextSlot );
 	}
 }

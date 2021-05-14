@@ -7,7 +7,7 @@ using System.Linq;
 using System.Numerics;
 using System.Threading.Tasks;
 
-partial class BaseFloodWeapon : BaseWeapon, IRespawnableEntity
+public partial class BaseFloodWeapon : BaseWeapon, IRespawnableEntity
 {
 	public virtual AmmoType AmmoType => AmmoType.Pistol;
 	public virtual int ClipSize => 16;
