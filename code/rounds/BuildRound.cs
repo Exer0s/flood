@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 	public class BuildRound : BaseRound
 	{
-		public override string RoundName => "Build";
+		public override string RoundName => "Build!";
 		public override int RoundDuration => 300;
 		public override bool CanPlayerSuicide => true;
 
@@ -33,7 +33,8 @@ using System.Threading.Tasks;
 			player.ClearAmmo();
 			player.Inventory.DeleteContents();
 			player.Inventory.Add( new PhysGun(), true );
-			player.Inventory.Add( new Tool(), true );
+			player.Inventory.Add( new Tool(), false );
+			Log.Info("Received building tools");
 			if (!Players.Contains(player))
 			{
 				AddPlayer(player);
@@ -82,8 +83,12 @@ using System.Threading.Tasks;
 				player.ClearAmmo();
 				player.Inventory.DeleteContents();
 				player.Inventory.Add( new PhysGun(), true );
-				player.Inventory.Add( new Tool(), true );
-				AddPlayer( player );
-			//}
+				player.Inventory.Add( new Tool(), false );
+				if (!Players.Contains(player))
+				{
+					AddPlayer(player);
+				}
+				Log.Info("Supplied loadout");
+				//}
 		}
 	}

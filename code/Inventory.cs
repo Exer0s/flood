@@ -13,28 +13,16 @@ partial class FloodInventory : BaseInventory
 
 	public override bool Add( Entity ent, bool makeActive = false )
 	{
+		if (!ent is BaseFloodWeapon || !ent is Carriable) return false;
 		var player = Owner as FloodPlayer;
-		var weapon;
-		if (ent is BaseFloodWeapon)
-		{
-			weapon as BaseFloodWeapon;
-		}
-
-		if (ent is Carriable)
-		{
-			weapon as Carriable;
-		}
 
 		var notices = !player.SupressPickupNotices;
-		//
+		
 		// We don't want to pick up the same weapon twice
-		// But we'll take the ammo from it Winky Face
-		//
-		if ( weapon != null && IsCarryingType( ent.GetType() ) )
+		if ( ent != null && IsCarryingType( ent.GetType() ) && ent is BaseFloodWeapon weapon)
 		{
 			var ammo = weapon.AmmoClip;
 			var ammoType = weapon.AmmoType;
-
 			if ( ammo > 0 )
 			{
 				player.GiveAmmo( ammoType, ammo );
@@ -45,22 +33,22 @@ partial class FloodInventory : BaseInventory
 					PickupFeed.OnPickup( player, $"+{ammo} {ammoType}" );
 				}
 			}
-
-			ItemRespawn.Taken( ent );
+			//There wont be items on the ground, so I'm commenting this out for now
+			//ItemRespawn.Taken( ent );
 
 			// Despawn it
 			ent.Delete();
 			return false;
 		}
 
-		if ( weapon != null && notices )
+		if ( ent != null && ent is BaseFloodWeapon && notices )
 		{
 			Sound.FromWorld( "dm.pickup_weapon", ent.WorldPos );
-			PickupFeed.OnPickup( player, $"{ent.ClassInfo.Title}" ); 
+			//PickupFeed.OnPickup( player, $"{ent.ClassInfo.Title}" ); 
 		}
 
-
-		ItemRespawn.Taken( ent );
+		
+			//ItemRespawn.Taken( ent );
 		return base.Add( ent, makeActive );
 	}
 
