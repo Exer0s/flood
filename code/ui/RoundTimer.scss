@@ -1,15 +1,14 @@
-﻿.roundContainer {
-    background-image: url( /ui/round_container.png );
-    background-size: 100%;
-    font-family: Poppins;
+﻿RoundTimer
+{
+    align-items: center;
     display: flex;
-    flex-direction: row;
-    position: absolute;
-    top: 48px;
-    width: 410px;
-    height: 44px;
+    justify-content: center;
+    margin: 0;
+    min-height: 100%;
+    padding: 0;
+    width: 100%;
 
-    label {
+	label {
         align-items: center;
         color: #ECECEC;
         font-size: 20px;
@@ -29,15 +28,5 @@
             width: 50%;
         }
     }
-}
 
-roundTimer
-{
-    align-items: center;
-    display: flex;
-    justify-content: center;
-    margin: 0;
-    min-height: 100%;
-    padding: 0;
-    width: 100%;
 }
