@@ -38,7 +38,7 @@ public partial class SpawnMenu : Panel
 			var tabs = right.Add.Panel( "tabs" );
 			{
 				tabs.Add.Button( "Tools" ).AddClass( "active" );
-				tabs.Add.Button( "Utility" );
+				tabs.Add.Button( "Teams" );
 			}
 			var body = right.Add.Panel( "body" );
 			{
@@ -71,7 +71,11 @@ public partial class SpawnMenu : Panel
 	public override void Tick()
 	{
 		base.Tick();
-
+		var game = FloodGame.Instance;
+		if ( game == null ) return;
+		var round = game.Round;
+		if ( round == null ) return;
+		if ( round.RoundName != "Build!" ) return;
 		Parent.SetClass( "spawnmenuopen", Player.Local?.Input.Down( InputButton.Menu ) ?? false );
 	}
 
