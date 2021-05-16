@@ -5,10 +5,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-	public class BuildRound : BaseRound
+	public class FloodRound : BaseRound
 	{
-		public override string RoundName => "Build!";
-		public override int RoundDuration => 300;
+		public override string RoundName => "Fight!";
+		public override int RoundDuration => 180;
 		public override bool CanPlayerSuicide => true;
 
 		public List<FloodPlayer> Spectators = new ();
@@ -32,9 +32,10 @@ using System.Threading.Tasks;
 		{
 			player.ClearAmmo();
 			player.Inventory.DeleteContents();
-			player.Inventory.Add( new PhysGun(), true );
-			player.Inventory.Add( new Tool(), false );
-			Log.Info("Received building tools");
+			player.Inventory.Add( new Pistol(), true );
+			player.Inventory.Add( new SMG(), false );
+			player.Inventory.Add( new Shotgun(), false );
+			Log.Info("Received weapons");
 			if (!Players.Contains(player))
 			{
 				AddPlayer(player);
@@ -44,16 +45,18 @@ using System.Threading.Tasks;
 				
 			base.OnPlayerSpawn( player );
 		}
-		
+
+	public WaterSea water;
 		protected override void OnStart()
 		{
-			Log.Info( "Started Build Round" );
+			Log.Info( "Started Fight Round" );
 
 			if ( Host.IsServer )
 			{
 				Sandbox.Player.All.ForEach( ( player ) => SupplyLoadouts( player as FloodPlayer ) );
 			}
-			
+
+		water = new WaterSea();
 		
 
 
@@ -61,22 +64,33 @@ using System.Threading.Tasks;
 
 		protected override void OnFinish()
 		{
-			Log.Info( "Finished Build Round" );
+			Log.Info( "Finished Fight Round" );
 
 			if ( Host.IsServer )
 			{
 				Spectators.Clear();
 			}
 		}
-		
-		
+		private float heightChange = 0.5f;
+		private float oldHeight;
 		public override void OnTick()
 		{
-			//base.OnTick();
+		if ( water == null ) return;
+		water.waterHeight += 0.1f;
+		oldHeight += 0.1f;
+		if (oldHeight > heightChange)
+		{
+			water.MakeSeaMesh();
+			water.CreatePhysics();
+			oldHeight = 0;
 		}
+		//base.OnTick();
+	}
 
 	public override void OnSecond()
 	{
+		if ( water == null ) return;
+		
 		//base.OnSecond();
 	}
 
@@ -84,7 +98,7 @@ using System.Threading.Tasks;
 		{
 			if ( _isGameOver ) return;
 
-			Log.Info( "Build Time Up!" );
+			Log.Info( "Fight Time Up!" );
 
 
 			base.OnTimeUp();
@@ -95,14 +109,17 @@ using System.Threading.Tasks;
 			// Give everyone who is alive their starting loadouts.
 			//if ( player.LifeState == LifeState.Alive )
 			//{
-				player.ClearAmmo();
-				player.Inventory.DeleteContents();
-				player.Inventory.Add( new PhysGun(), true );
-				player.Inventory.Add( new Tool(), false );
-				if (!Players.Contains(player))
-				{
-					AddPlayer(player);
-				}
+			player.ClearAmmo();
+			player.Inventory.DeleteContents();
+			player.Inventory.Add( new Pistol(), true );
+			player.Inventory.Add( new SMG(), false );
+			player.Inventory.Add( new Shotgun(), false );
+			Log.Info("Received weapons");
+			if (!Players.Contains(player))
+			{
+				AddPlayer(player);
+			}
+
 				Log.Info("Supplied loadout");
 				//}
 		}
