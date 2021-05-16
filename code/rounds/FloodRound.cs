@@ -71,13 +71,13 @@ using System.Threading.Tasks;
 				Spectators.Clear();
 			}
 		}
-		private float heightChange = 0.5f;
+		private float heightChange = 0.05f;
 		private float oldHeight;
 		public override void OnTick()
 		{
 		if ( water == null ) return;
-		water.waterHeight += 0.1f;
-		oldHeight += 0.1f;
+		water.waterHeight += 0.02f;
+		oldHeight += 0.02f;
 		if (oldHeight > heightChange)
 		{
 			water.MakeSeaMesh();
