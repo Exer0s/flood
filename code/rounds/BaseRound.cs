@@ -26,8 +26,6 @@ using System.Threading.Tasks;
 		// TODO: This can be done better by using a shared timestamp.
 		[Net] public string TimeLeftFormatted { get; set; }
 
-		
-		
 		public void Start()
 		{
 			if ( Host.IsServer && RoundDuration > 0 )

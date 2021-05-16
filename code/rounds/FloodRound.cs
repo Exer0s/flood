@@ -65,15 +65,12 @@ using System.Threading.Tasks;
 		protected override void OnFinish()
 		{
 			Log.Info( "Finished Fight Round" );
-			water.waterHeight = 1f;
-			oldHeight += 0f;
+
 			if ( Host.IsServer )
 			{
 				Spectators.Clear();
 			}
 		}
-		
-		
 		private float heightChange = 0.05f;
 		private float oldHeight;
 		public override void OnTick()
@@ -102,7 +99,7 @@ using System.Threading.Tasks;
 			if ( _isGameOver ) return;
 
 			Log.Info( "Fight Time Up!" );
-			FloodGame.Instance.ChangeRound(new BuildRound());
+
 
 			base.OnTimeUp();
 		}

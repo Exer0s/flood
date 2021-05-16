@@ -47,8 +47,7 @@ partial class FloodGame : Game
 	/// our own class so we can control what happens.
 	/// </summary>
 	public override Player CreatePlayer() => new FloodPlayer();
-	
-	#region Spawn_Commands
+
 	[ServerCmd( "spawn" )]
 	public static void Spawn( string modelname )
 	{
@@ -79,7 +78,7 @@ partial class FloodGame : Game
 		}
 
 	}
-	
+
 	[ServerCmd( "spawn_entity" )]
 	public static void SpawnEntity( string entName )
 	{
@@ -111,34 +110,7 @@ partial class FloodGame : Game
 
 		//Log.Info( $"ent: {ent}" );
 	}
-	#endregion
-	
-	#region Server_Commands
 
-	[ServerCmd("skipround")]
-	public void SkipRound()
-	{
-		if (Round is BuildRound)
-		{
-			Round?.Finish();
-			Round = new FloodRound();
-			Round?.Start();
-			Assert.NotNull( Round );
-		}
-
-		if (Round is FloodRound)
-		{
-			Round?.Finish();
-			Round = new BuildRound();
-			Round?.Start();
-			Assert.NotNull( Round );
-		}
-		
-		
-	}
-	
-	#endregion
-	
 	public override void PostLevelLoaded()
 	{
 		base.PostLevelLoaded();
