@@ -24,7 +24,7 @@ using System.Threading.Tasks;
 			base.OnPlayerLeave( player );
 
 			Players.Remove( player );
-			Spectators.Remove(player);
+			//Spectators.Remove(player);
 		}
 
 		public override void OnPlayerSpawn( FloodPlayer player )
@@ -55,7 +55,7 @@ using System.Threading.Tasks;
 		{
 			if ( Host.IsServer )
 			{
-				Spectators.Clear();
+				//Spectators.Clear();
 			}
 		}
 		
@@ -65,7 +65,7 @@ using System.Threading.Tasks;
 		//base.OnSecond();
 	}
 
-	protected override void OnTimeUp()
+	public override void OnTimeUp()
 		{
 			if ( _isGameOver ) return;
 			

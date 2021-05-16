@@ -8,7 +8,7 @@ partial class Crossbow : BaseFloodWeapon, IPlayerCamera, IPlayerInput
 	public override float PrimaryRate => 1;
 	public override int Bucket => 3;
 	public override AmmoType AmmoType => AmmoType.Crossbow;
-
+	public override int Cost => 20;
 	[Net]
 	public bool Zoomed { get; set; }
 

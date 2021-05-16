@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Sandbox.UI;
 
 /// <summary>
 /// This is the heart of the gamemode. It's responsible
@@ -49,6 +50,13 @@ partial class FloodGame : Game
 	public override Player CreatePlayer() => new FloodPlayer();
 	
 	#region Spawn_Commands
+
+	[ServerCmd("spawn_weapon")]
+	public static void SpawnWeapon(string weaponName) {
+		
+	}
+
+
 	[ServerCmd( "spawn" )]
 	public static void Spawn( string modelname )
 	{
@@ -116,7 +124,7 @@ partial class FloodGame : Game
 	
 	public static void SystemMessage( string message )
 	{
-		Host.AssertServer();
+		//Host.AssertServer();
 		ChatBox.AddChatEntry( Player.All, "System", message, "/ui/system.png" );
 	}
 	
@@ -125,23 +133,7 @@ partial class FloodGame : Game
 	[ServerCmd("skipround")]
 	public void SkipRound()
 	{
-		if (Round is BuildRound)
-		{
-			Round?.Finish();
-			Round = new FloodRound();
-			Round?.Start();
-			Assert.NotNull( Round );
-		}
-
-		if (Round is FloodRound)
-		{
-			Round?.Finish();
-			Round = new BuildRound();
-			Round?.Start();
-			Assert.NotNull( Round );
-		}
-		
-		
+		Round?.OnTimeUp();
 	}
 	
 	#endregion

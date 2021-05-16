@@ -11,7 +11,7 @@ partial class Pistol : BaseFloodWeapon
 	public override float ReloadTime => 3.0f;
 
 	public override int Bucket => 1;
-
+	public override int Cost => 5;
 	public override void Spawn()
 	{
 		base.Spawn();

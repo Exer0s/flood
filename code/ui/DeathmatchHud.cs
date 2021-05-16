@@ -22,7 +22,7 @@ public partial class FloodHud : Hud
 		RootPanel.AddChild<NameTags>();
 		RootPanel.AddChild<DamageIndicator>();
 		RootPanel.AddChild<HitIndicator>();
-
+		RootPanel.AddChild<MoneyCounter>();
 		RootPanel.AddChild<InventoryBar>();
 		RootPanel.AddChild<PickupFeed>();
 		RootPanel.AddChild<CurrentTool>();

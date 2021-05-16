@@ -11,6 +11,7 @@ partial class Shotgun : BaseFloodWeapon
 	public override int ClipSize => 8;
 	public override float ReloadTime => 0.5f;
 	public override int Bucket => 2;
+	public override int Cost => 10;
 
 	public override void Spawn()
 	{

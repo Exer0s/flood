@@ -8,8 +8,8 @@ using System.Threading.Tasks;
 	public class BuildRound : BaseRound
 	{
 		public override string RoundName => "Build!";
-		[ServerVar( "flood_build_duration", Help = "The duration of the build round" )]
-		public override int RoundDuration => 300;
+		//[ServerVar( "flood_build_duration", Help = "The duration of the build round" )]
+		public override int RoundDuration => 5;
 		public override bool CanPlayerSuicide => true;
 
 		private bool _isGameOver;
@@ -71,7 +71,7 @@ using System.Threading.Tasks;
 		base.OnSecond();
 	}
 
-	protected override void OnTimeUp()
+	public override void OnTimeUp()
 		{
 			if ( _isGameOver ) return;
 			

@@ -10,6 +10,8 @@ public partial class FloodPlayer : BasePlayer
 
 	public bool SupressPickupNotices { get; private set; }
 
+	[Net] public int Money { get; set; }
+
 	public FloodPlayer()
 	{
 		Inventory = new Inventory( this );
@@ -267,6 +269,8 @@ public partial class FloodPlayer : BasePlayer
 			.SetPitch( 1 + healthinv * 1 );
 
 		HitIndicator.Current?.OnHit( pos, amount );
+
+		Money += 1;
 	}
 
 	[ClientRpc]

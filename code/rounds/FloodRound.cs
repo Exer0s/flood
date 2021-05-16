@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 	public class FloodRound : BaseRound
 	{
-		public override string RoundName => "Fight!";
-		[ServerVar( "flood_fight_duration", Help = "The duration of the flood round" )]
-		public override int RoundDuration => 180;
+		public override string RoundName => "Flood!";
+		//[ServerVar( "flood_fight_duration", Help = "The duration of the flood round" )]
+		public override int RoundDuration => 10;
 		public override bool CanPlayerSuicide => true;
 
 		public List<FloodPlayer> Spectators = new ();
@@ -33,9 +33,6 @@ using System.Threading.Tasks;
 		{
 			player.ClearAmmo();
 			player.Inventory.DeleteContents();
-			player.Inventory.Add( new Pistol(), true );
-			player.Inventory.Add( new SMG(), false );
-			player.Inventory.Add( new Shotgun(), false );
 			if (!Players.Contains(player))
 			{
 				AddPlayer(player);
@@ -46,7 +43,7 @@ using System.Threading.Tasks;
 			base.OnPlayerSpawn( player );
 		}
 
-	public WaterSea water;
+		public WaterFlood water;
 		protected override void OnStart()
 		{
 
@@ -55,7 +52,8 @@ using System.Threading.Tasks;
 				Sandbox.Player.All.ForEach( ( player ) => SupplyLoadouts( player as FloodPlayer ) );
 			}
 
-		water = new WaterSea();
+		water = new WaterFlood();
+		Log.Info("Created water mesh");
 		FloodGame.SystemMessage( "The build phase is over, Fight!" );
 
 
@@ -63,7 +61,7 @@ using System.Threading.Tasks;
 
 		protected override void OnFinish()
 		{
-			water.waterHeight = 1f;
+			water.waterLevel = 1f;
 			oldHeight += 0f;
 			water.MakeSeaMesh();
 			if ( Host.IsServer )
@@ -73,34 +71,36 @@ using System.Threading.Tasks;
 		}
 		
 		
-		private float heightChange = 0.05f;
+		private float heightChange = 0.5f;
+		private float heightGain = 0.1f;
 		private float oldHeight;
 		public override void OnTick()
 		{
 		if ( water == null ) return;
-		water.waterHeight += 0.02f;
-		oldHeight += 0.02f;
+		water.waterLevel += heightGain;
+		oldHeight += heightGain;
 		if (oldHeight > heightChange)
 		{
 			water.MakeSeaMesh();
-			water.CreatePhysics();
+			//water.CreatePhysics();
 			oldHeight = 0;
 		}
-		//base.OnTick();
+		base.OnTick();
 	}
 
 	public override void OnSecond()
 	{
 		if ( water == null ) return;
-		
-		//base.OnSecond();
+		//water.MakeSeaMesh();
+		Log.Info( "waterHeight updated : " + water.waterLevel.ToString() + " | " + oldHeight.ToString() );
+		base.OnSecond();
 	}
 
-	protected override void OnTimeUp()
+	public override void OnTimeUp()
 		{
 			if ( _isGameOver ) return;
-			
-			FloodGame.Instance.ChangeRound(new BuildRound());
+			Log.Info( "Flood round time up" );
+			FloodGame.Instance.ChangeRound(new FightRound());
 
 			base.OnTimeUp();
 		}
@@ -112,9 +112,6 @@ using System.Threading.Tasks;
 			//{
 			player.ClearAmmo();
 			player.Inventory.DeleteContents();
-			player.Inventory.Add( new Pistol(), true );
-			player.Inventory.Add( new SMG(), false );
-			player.Inventory.Add( new Shotgun(), false );
 			if (!Players.Contains(player))
 			{
 				AddPlayer(player);

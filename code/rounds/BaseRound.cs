@@ -91,5 +91,5 @@ using System.Threading.Tasks;
 
 		protected virtual void OnFinish() { }
 
-		protected virtual void OnTimeUp() { }
+		public virtual void OnTimeUp() { }
 	}

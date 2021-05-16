@@ -5,11 +5,11 @@ using Sandbox.UI.Tests;
 using System.Linq;
 
 [Library]
-public partial class EntityList : Panel
+public partial class WeaponList : Panel
 {
 	VirtualScrollPanel Canvas;
 
-	public EntityList()
+	public WeaponList()
 	{
 		AddClass( "spawnpage" );
 		AddChild( out Canvas, "canvas" );
@@ -24,15 +24,19 @@ public partial class EntityList : Panel
 			btn.AddEvent( "onclick", () => ConsoleSystem.Run( "spawn_entity", entry.Name ) );
 			btn.Style.Background = new PanelBackground
 			{
-				Texture = Texture.Load( $"/entity/{entry.Name}.png", false )
+				Texture = Texture.Load( $"/ui/weapons/{entry.Name}.png", false )
+				
 			};
 		};
 
-		var ents = Library.GetAllAttributes<Entity>().Where( x => x.Spawnable ).OrderBy( x => x.Title ).ToArray();
+		var ents = Library.GetAllAttributes<BaseFloodWeapon>();
 
 		foreach ( var entry in ents )
 		{
+			if ( entry.Name == "BaseFloodWeapon" ) return;
 			Canvas.AddItem( entry );
+			
+			Log.Info( $"Weapon loaded :{entry.Name} " );
 		}
 	}
 }
