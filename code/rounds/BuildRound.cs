@@ -85,7 +85,7 @@ using System.Threading.Tasks;
 			if ( _isGameOver ) return;
 
 			Log.Info( "Build Time Up!" );
-
+			FloodGame.Instance.ChangeRound(new FloodRound());
 
 			base.OnTimeUp();
 		}
