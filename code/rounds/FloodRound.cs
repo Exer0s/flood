@@ -67,6 +67,7 @@ using System.Threading.Tasks;
 			Log.Info( "Finished Fight Round" );
 			water.waterHeight = 1f;
 			oldHeight += 0f;
+			water.MakeSeaMesh();
 			if ( Host.IsServer )
 			{
 				Spectators.Clear();

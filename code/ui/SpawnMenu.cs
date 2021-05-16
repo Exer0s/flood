@@ -29,7 +29,7 @@ public partial class SpawnMenu : Panel
 				tabs.SelectedButton = tabs.AddButtonActive( "Props", ( b ) => props.SetClass( "active", b ) );
 
 				var ents = body.AddChild<EntityList>();
-				tabs.AddButtonActive( "Entities", ( b ) => ents.SetClass( "active", b ) );
+				tabs.AddButtonActive( "Weapons", ( b ) => ents.SetClass( "active", b ) );
 			}
 		}
 
@@ -75,7 +75,7 @@ public partial class SpawnMenu : Panel
 		if ( game == null ) return;
 		var round = game.Round;
 		if ( round == null ) return;
-		if ( round.RoundName != "Build!" ) return;
+		if ( round !is BuildRound ) return;
 		Parent.SetClass( "spawnmenuopen", Player.Local?.Input.Down( InputButton.Menu ) ?? false );
 	}
 
