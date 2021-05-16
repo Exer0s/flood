@@ -45,6 +45,7 @@ using System.Threading.Tasks;
 			base.OnPlayerSpawn( player );
 		}
 
+	public WaterSea water;
 		protected override void OnStart()
 		{
 			Log.Info( "Started Build Round" );
@@ -53,6 +54,11 @@ using System.Threading.Tasks;
 			{
 				Sandbox.Player.All.ForEach( ( player ) => SupplyLoadouts( player as FloodPlayer ) );
 			}
+
+		water = new WaterSea();
+		
+
+
 		}
 
 		protected override void OnFinish()
@@ -64,8 +70,30 @@ using System.Threading.Tasks;
 				Spectators.Clear();
 			}
 		}
+		private float heightChange = 0.5f;
+		private float oldHeight;
+		public override void OnTick()
+		{
+		if ( water == null ) return;
+		water.waterHeight += 0.1f;
+		oldHeight += 0.1f;
+		if (oldHeight > heightChange)
+		{
+			water.MakeSeaMesh();
+			water.CreatePhysics();
+			oldHeight = 0;
+		}
+		//base.OnTick();
+	}
 
-		protected override void OnTimeUp()
+	public override void OnSecond()
+	{
+		if ( water == null ) return;
+		
+		//base.OnSecond();
+	}
+
+	protected override void OnTimeUp()
 		{
 			if ( _isGameOver ) return;
 
