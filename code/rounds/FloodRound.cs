@@ -36,7 +36,6 @@ using System.Threading.Tasks;
 			player.Inventory.Add( new Pistol(), true );
 			player.Inventory.Add( new SMG(), false );
 			player.Inventory.Add( new Shotgun(), false );
-			Log.Info("Received weapons");
 			if (!Players.Contains(player))
 			{
 				AddPlayer(player);
@@ -50,7 +49,6 @@ using System.Threading.Tasks;
 	public WaterSea water;
 		protected override void OnStart()
 		{
-			Log.Info( "Started Fight Round" );
 
 			if ( Host.IsServer )
 			{
@@ -65,7 +63,6 @@ using System.Threading.Tasks;
 
 		protected override void OnFinish()
 		{
-			Log.Info( "Finished Fight Round" );
 			water.waterHeight = 1f;
 			oldHeight += 0f;
 			water.MakeSeaMesh();
@@ -102,8 +99,7 @@ using System.Threading.Tasks;
 	protected override void OnTimeUp()
 		{
 			if ( _isGameOver ) return;
-
-			Log.Info( "Fight Time Up!" );
+			
 			FloodGame.Instance.ChangeRound(new BuildRound());
 
 			base.OnTimeUp();
@@ -119,13 +115,11 @@ using System.Threading.Tasks;
 			player.Inventory.Add( new Pistol(), true );
 			player.Inventory.Add( new SMG(), false );
 			player.Inventory.Add( new Shotgun(), false );
-			Log.Info("Received weapons");
 			if (!Players.Contains(player))
 			{
 				AddPlayer(player);
 			}
-
-				Log.Info("Supplied loadout");
+			
 				//}
 		}
 	}

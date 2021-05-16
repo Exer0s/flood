@@ -12,8 +12,6 @@ using System.Threading.Tasks;
 		public override int RoundDuration => 300;
 		public override bool CanPlayerSuicide => true;
 
-		public List<FloodPlayer> Spectators = new ();
-
 		private bool _isGameOver;
 
 		public override void OnPlayerKilled( FloodPlayer player )
@@ -26,7 +24,6 @@ using System.Threading.Tasks;
 			base.OnPlayerLeave( player );
 
 			Players.Remove( player );
-			Spectators.Remove(player);
 		}
 
 		public override void OnPlayerSpawn( FloodPlayer player )
@@ -35,7 +32,6 @@ using System.Threading.Tasks;
 			player.Inventory.DeleteContents();
 			player.Inventory.Add( new PhysGun(), true );
 			player.Inventory.Add( new Tool(), false );
-			Log.Info("Received building tools");
 			if (!Players.Contains(player))
 			{
 				AddPlayer(player);
@@ -48,7 +44,6 @@ using System.Threading.Tasks;
 		
 		protected override void OnStart()
 		{
-			Log.Info( "Started Build Round" );
 
 			if ( Host.IsServer )
 			{
@@ -62,30 +57,24 @@ using System.Threading.Tasks;
 
 		protected override void OnFinish()
 		{
-			Log.Info( "Finished Build Round" );
-
-			if ( Host.IsServer )
-			{
-				Spectators.Clear();
-			}
+			base.OnFinish();
 		}
 		
 		
 		public override void OnTick()
 		{
-			//base.OnTick();
+			base.OnTick();
 		}
 
 	public override void OnSecond()
 	{
-		//base.OnSecond();
+		base.OnSecond();
 	}
 
 	protected override void OnTimeUp()
 		{
 			if ( _isGameOver ) return;
-
-			Log.Info( "Build Time Up!" );
+			
 			FloodGame.Instance.ChangeRound(new FloodRound());
 
 			base.OnTimeUp();
@@ -104,7 +93,6 @@ using System.Threading.Tasks;
 				{
 					AddPlayer(player);
 				}
-				Log.Info("Supplied loadout");
 				//}
 		}
 	}
