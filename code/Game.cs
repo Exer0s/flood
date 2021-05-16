@@ -113,8 +113,15 @@ partial class FloodGame : Game
 	}
 	#endregion
 	
+	
+	public static void SystemMessage( string message )
+	{
+		Host.AssertServer();
+		ChatBox.AddChatEntry( Player.All, "System", message, "/ui/system.png" );
+	}
+	
 	#region Server_Commands
-
+	//Skip Round Command
 	[ServerCmd("skipround")]
 	public void SkipRound()
 	{

@@ -58,7 +58,7 @@ using System.Threading.Tasks;
 			}
 
 		water = new WaterSea();
-		
+		FloodGame.SystemMessage( "The build phase is over, Fight!" );
 
 
 		}

@@ -55,7 +55,7 @@ using System.Threading.Tasks;
 				Sandbox.Player.All.ForEach( ( player ) => SupplyLoadouts( player as FloodPlayer ) );
 			}
 			
-		
+			FloodGame.SystemMessage( "The build phase has started" );
 
 
 		}
