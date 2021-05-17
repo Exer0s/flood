@@ -403,6 +403,7 @@ Sandbox.System/Sandbox.Rand.Int( System.Int32, System.Int32 )
 Sandbox.System/Sandbox.RealTimeSince
 Sandbox.System/Sandbox.RealTimeSince.op_Implicit( Sandbox.RealTimeSince )
 Sandbox.System/Sandbox.RealTimeSince.op_Implicit( System.Single )
+Sandbox.System/Sandbox.StringX.ToInt( System.String, System.Int32 )
 Sandbox.System/Sandbox.UI.Length
 Sandbox.System/Sandbox.UI.Length.Fraction( System.Single )
 Sandbox.System/Sandbox.UI.Length.Percent( System.Single )
@@ -462,6 +463,8 @@ System.Private.CoreLib/System.Action`2..ctor( System.Object, System.IntPtr )
 System.Private.CoreLib/System.Boolean
 System.Private.CoreLib/System.Collections.Generic.Dictionary`2
 System.Private.CoreLib/System.Collections.Generic.Dictionary`2..ctor()
+System.Private.CoreLib/System.Collections.Generic.Dictionary`2.Add( TKey, TValue )
+System.Private.CoreLib/System.Collections.Generic.Dictionary`2.get_Item( TKey )
 System.Private.CoreLib/System.Collections.Generic.Dictionary`2.Remove( TKey, TValue& )
 System.Private.CoreLib/System.Collections.Generic.Dictionary`2.set_Item( TKey, TValue )
 System.Private.CoreLib/System.Collections.Generic.IEnumerable`1
@@ -537,6 +540,7 @@ System.Private.CoreLib/System.String.Concat( System.String, System.String, Syste
 System.Private.CoreLib/System.String.Concat( System.String[] )
 System.Private.CoreLib/System.String.Contains( System.String )
 System.Private.CoreLib/System.String.Format( System.String, System.Object )
+System.Private.CoreLib/System.String.Format( System.String, System.Object, System.Object )
 System.Private.CoreLib/System.String.get_Length()
 System.Private.CoreLib/System.String.IsNullOrEmpty( System.String )
 System.Private.CoreLib/System.String.IsNullOrWhiteSpace( System.String )

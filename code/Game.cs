@@ -16,7 +16,14 @@ partial class FloodGame : Game
 	[ServerVar( "flood_min_players", Help = "The minimum players required to start." )]
 	public static int MinPlayers { get; set; } = 2;
 
-	
+	//Stores weapon cost for use in buy menu
+	public Dictionary<string, int> weaponCosts = new Dictionary<string, int>()
+	{
+		{ "Shotgun", 10},
+		{ "Pistol", 5},
+		{ "SMG", 15},
+		{ "Crossbow", 20},
+	};
 
 	[Net] public BaseRound Round { get; private set; }
 	private BaseRound _lastRound;
@@ -57,6 +64,9 @@ partial class FloodGame : Game
 		if (ConsoleSystem.Caller is FloodPlayer player)
 		{
 			BaseFloodWeapon weapon = Library.Create<BaseFloodWeapon>(weaponName);
+			var inventory = player.Inventory as Inventory;
+			if ( !inventory.CanAdd( weapon ) ) return;
+			Log.Info( $"{ConsoleSystem.Caller.Name} spawned {weaponName}" );
 			int cost = weapon.Cost;
 			if (player.Money >= cost)
 			{
@@ -66,6 +76,14 @@ partial class FloodGame : Game
 		}
 	}
 
+	[ServerCmd("give_money")]
+	public static void GiveMoney(string amount)
+	{
+		if (ConsoleSystem.Caller is FloodPlayer player)
+		{
+			player.Money += amount.ToInt();
+		}
+	}
 
 	[ServerCmd( "spawn" )]
 	public static void Spawn( string modelname )
@@ -140,11 +158,14 @@ partial class FloodGame : Game
 	
 	#region Server_Commands
 	//Skip Round Command
-	[ServerCmd("skipround")]
-	public void SkipRound()
+	/*[ServerCmd("skipround")]
+	public static void SkipRound(string args)
 	{
+		var player = ConsoleSystem.Caller as FloodPlayer;
+		if ( player == null ) return;
+
 		Round?.OnTimeUp();
-	}
+	}*/
 	
 	#endregion
 	
@@ -153,6 +174,8 @@ partial class FloodGame : Game
 		base.PostLevelLoaded();
 		_ = StartSecondTimer();
 		ItemRespawn.Init();
+
+		
 	}
 	
 	public async Task StartSecondTimer()

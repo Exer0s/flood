@@ -19,9 +19,10 @@ public partial class WeaponList : Panel
 		Canvas.OnCreateCell = ( cell, data ) =>
 		{
 			var entry = (LibraryAttribute)data;
-			var btn = cell.Add.Button( entry.Title );
+			if ( entry.Title == "BaseFloodWeapon" ) return;
+			var btn = cell.Add.Button( $"{entry.Title} - {FloodGame.Instance.weaponCosts[entry.Title]}" );
 			btn.AddClass( "icon" );
-			btn.AddEvent( "onclick", () => ConsoleSystem.Run( "spawn_entity", entry.Name ) );
+			btn.AddEvent( "onclick", () => ConsoleSystem.Run( "spawn_weapon", entry.Name ) );
 			btn.Style.Background = new PanelBackground
 			{
 				Texture = Texture.Load( $"/ui/weapons/{entry.Name}.png", false )
@@ -33,23 +34,10 @@ public partial class WeaponList : Panel
 
 		foreach ( var entry in ents )
 		{
-			if ( entry.Name == "BaseFloodWeapon" ) return;
+
 			Canvas.AddItem( entry );
-			
 			Log.Info( $"Weapon loaded :{entry.Name} " );
 		}
 	}
 }
 
-
-/* new List Attributes
- *
- * foreach Library.GetAllAttributes
- * Attrbiutes.Add(entry)
- *
- *foreach file system blah blah(check spawnlist)
- * if contains Attributes.e.Title, then 
- * 
- *
- * 
- */
