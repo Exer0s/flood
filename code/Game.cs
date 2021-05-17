@@ -99,7 +99,7 @@ partial class FloodGame : Game
 			.Size( 2 )
 			.Run();
 
-		var ent = new Prop();
+		var ent = new BreakableProp();
 		ent.WorldPos = tr.EndPos;
 		ent.WorldRot = Rotation.From( new Angles( 0, owner.EyeAng.yaw, 0 ) ) * Rotation.FromAxis( Vector3.Up, 180 );
 		ent.SetModel( modelname );
@@ -113,7 +113,7 @@ partial class FloodGame : Game
 			ent.PhysicsBody.Pos -= delta;
 			//DebugOverlay.Line( p, tr.EndPos, 10, false );
 		}
-
+		Log.Info( $"{ConsoleSystem.Caller.Name} spawned prop with {ent.Health}" );
 	}
 	
 	[ServerCmd( "spawn_entity" )]
