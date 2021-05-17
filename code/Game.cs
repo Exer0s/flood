@@ -1,6 +1,7 @@
 ﻿using Sandbox;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using Sandbox.UI;
 
@@ -53,7 +54,16 @@ partial class FloodGame : Game
 
 	[ServerCmd("spawn_weapon")]
 	public static void SpawnWeapon(string weaponName) {
-		
+		if (ConsoleSystem.Caller is FloodPlayer player)
+		{
+			BaseFloodWeapon weapon = Library.Create<BaseFloodWeapon>(weaponName);
+			int cost = weapon.Cost;
+			if (player.Money >= cost)
+			{
+				player.Money = player.Money - cost;
+				player.Inventory.Add(weapon, true);
+			}
+		}
 	}
 
 

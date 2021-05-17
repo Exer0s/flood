@@ -40,3 +40,16 @@ public partial class WeaponList : Panel
 		}
 	}
 }
+
+
+/* new List Attributes
+ *
+ * foreach Library.GetAllAttributes
+ * Attrbiutes.Add(entry)
+ *
+ *foreach file system blah blah(check spawnlist)
+ * if contains Attributes.e.Title, then 
+ * 
+ *
+ * 
+ */
