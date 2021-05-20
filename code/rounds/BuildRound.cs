@@ -44,15 +44,17 @@ using System.Threading.Tasks;
 		
 		protected override void OnStart()
 		{
+			Log.Info( "Started Hunt Round" );
 
 			if ( Host.IsServer )
 			{
-				Sandbox.Player.All.ForEach( ( player ) => SupplyLoadouts( player as FloodPlayer ) );
+				foreach ( var client in Client.All )
+				{
+					if ( client.Pawn is FloodPlayer player )
+						SupplyLoadouts( player );
+				}
 			}
-			
-			FloodGame.SystemMessage( "The build phase has started" );
-
-
+			FloodGame.SystemMessage("The build phase has started");
 		}
 
 		protected override void OnFinish()

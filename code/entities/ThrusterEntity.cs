@@ -16,11 +16,11 @@ public partial class ThrusterEntity : Prop, IPhysicsUpdate, IUse
 		{
 			if ( TargetBody.IsValid() )
 			{
-				TargetBody.ApplyForceAt( WorldPos, WorldRot.Down * (Massless ? Force * TargetBody.Mass : Force) );
+				TargetBody.ApplyForceAt( Position, Rotation.Down * (Massless ? Force * TargetBody.Mass : Force) );
 			}
 			else if ( PhysicsBody.IsValid() )
 			{
-				PhysicsBody.ApplyForce( WorldRot.Down * (Massless ? Force * PhysicsBody.Mass : Force) );
+				PhysicsBody.ApplyForce( Rotation.Down * (Massless ? Force * PhysicsBody.Mass : Force) );
 			}
 		}
 	}

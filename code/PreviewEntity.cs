@@ -17,18 +17,18 @@ namespace Sandbox.Tools
 
 			if ( RelativeToNormal )
 			{
-				WorldRot = Rotation.LookAt( tr.Normal, tr.Direction ) * RotationOffset;
-				WorldPos = tr.EndPos + WorldRot * PositionOffset;
+				Rotation  = Rotation.LookAt( tr.Normal, tr.Direction ) * RotationOffset;
+				Position = tr.EndPos + Rotation * PositionOffset;
 			}
 			else
 			{
-				WorldRot = Rotation.Identity * RotationOffset;
-				WorldPos = tr.EndPos + PositionOffset;
+				Rotation  = Rotation.Identity * RotationOffset;
+				Position = tr.EndPos + PositionOffset;
 			}
 
 			if ( OffsetBounds )
 			{
-				WorldPos += tr.Normal * CollisionBounds.Size * 0.5f;
+				Position += tr.Normal * CollisionBounds.Size * 0.5f;
 			}
 
 			return true;

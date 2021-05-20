@@ -18,7 +18,7 @@ partial class FloodViewModel : BaseViewModel
 	private void AddCameraEffects( Camera camera )
 	{
 
-		WorldRot = Player.Local.EyeRot;
+		Rotation = Player.Local.EyeRot;
 
 		//
 		// Bob up and down based on our walk movement
@@ -32,8 +32,8 @@ partial class FloodViewModel : BaseViewModel
 			walkBob += Time.Delta * 25.0f * speed;
 		}
 
-		WorldPos += up * MathF.Sin( walkBob ) * speed * -1;
-		WorldPos += left * MathF.Sin( walkBob * 0.6f ) * speed * -0.5f;
+		Position += up * MathF.Sin( walkBob ) * speed * -1;
+		Position += left * MathF.Sin( walkBob * 0.6f ) * speed * -0.5f;
 
 	}
 }

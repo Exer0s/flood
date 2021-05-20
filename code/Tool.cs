@@ -2,7 +2,7 @@
 using Sandbox.Tools;
 
 [Library( "weapon_tool" )]
-partial class Tool : Carriable, IPlayerControllable
+partial class Tool : Carriable
 {
 	[UserVar( "tool_current" )]
 	public static string UserToolCurrent { get; set; } = "tool_boxgun";
@@ -19,14 +19,14 @@ partial class Tool : Carriable, IPlayerControllable
 		SetModel( "weapons/rust_pistol/rust_pistol.vmdl" );
 	}
 
-	public virtual void OnPlayerControlTick( Player owner )
+	public virtual void OnPlayerControlTick( Client owner )
 	{
 		UpdateCurrentTool( owner );
 
-		CurrentTool?.OnPlayerControlTick();
+		CurrentTool?.Simulate();
 	}
 
-	private void UpdateCurrentTool( Player owner )
+	private void UpdateCurrentTool( Client owner )
 	{
 		var toolName = owner.GetUserString( "tool_current", "tool_boxgun" );
 		if ( toolName == null )
@@ -106,7 +106,7 @@ namespace Sandbox.Tools
 			DeletePreviews();
 		}
 
-		public virtual void OnPlayerControlTick()
+		public virtual void Simulate()
 		{
 
 		}

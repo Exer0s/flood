@@ -7,7 +7,7 @@
 		protected virtual float MaxDistance => 512;
 		protected virtual bool Massless => true;
 
-		public override void OnPlayerControlTick()
+		public override void Simulate()
 		{
 			if ( !Host.IsServer )
 				return;

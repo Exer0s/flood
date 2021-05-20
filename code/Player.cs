@@ -4,7 +4,7 @@ using System.Linq;
 using System.Numerics;
 using System.Threading;
 
-public partial class FloodPlayer : BasePlayer
+public partial class FloodPlayer : Player
 {
 	TimeSince timeSinceDropped;
 
@@ -84,9 +84,9 @@ public partial class FloodPlayer : BasePlayer
 	}
 
 
-	protected override void Tick()
+	protected override void Simulate(Client cl)
 	{
-		base.Tick();
+		base.Simulate(cl);
 
 		//
 		// Input requested a weapon switch
@@ -128,6 +128,8 @@ public partial class FloodPlayer : BasePlayer
 			}
 		}
 
+		SimulateActiveChild(cl, ActiveChild);
+		
 		//
 		// If the current weapon is out of ammo and we last fired it over half a second ago
 		// lets try to switch to a better wepaon
@@ -161,21 +163,21 @@ public partial class FloodPlayer : BasePlayer
 
 	Rotation lastCameraRot = Rotation.Identity;
 
-	public override void PostCameraSetup( Camera camera )
+	public override void PostCameraSetup( ref CameraSetup setup )
 	{
-		base.PostCameraSetup( camera );
+		base.PostCameraSetup( ref setup );
 
 		if ( lastCameraRot == Rotation.Identity )
-			lastCameraRot = Camera.Rot;
+			lastCameraRot = setup.Rotation;
 
-		var angleDiff = Rotation.Difference( lastCameraRot, Camera.Rot );
+		var angleDiff = Rotation.Difference( lastCameraRot, setup.Rotation );
 		var angleDiffDegrees = angleDiff.Angle();
 		var allowance = 20.0f;
 
 		if ( angleDiffDegrees > allowance )
 		{
 			// We could have a function that clamps a rotation to within x degrees of another rotation?
-			lastCameraRot = Rotation.Lerp( lastCameraRot, Camera.Rot, 1.0f - (allowance / angleDiffDegrees) );
+			lastCameraRot = Rotation.Lerp( lastCameraRot, setup.Rotation, 1.0f - (allowance / angleDiffDegrees) );
 		}
 		else
 		{
@@ -185,15 +187,9 @@ public partial class FloodPlayer : BasePlayer
 		// uncomment for lazy cam
 		//camera.Rot = lastCameraRot;
 
-		if ( camera is FirstPersonCamera )
+		if ( setup.Viewer != null )
 		{
-			AddCameraEffects( camera );
-		}
-
-		if ( timeSinceUpdatedFramerate > 1 )
-		{
-			timeSinceUpdatedFramerate = 0;
-			//UpdateFps( (int) (1.0f / Time.Delta) );
+			AddCameraEffects( ref setup );
 		}
 	}
 
@@ -201,40 +197,40 @@ public partial class FloodPlayer : BasePlayer
 	float lean = 0;
 	float fov = 0;
 
-	private void AddCameraEffects( Camera camera )
+	private void AddCameraEffects( ref CameraSetup setup )
 	{
 		var speed = Velocity.Length.LerpInverse( 0, 320 );
-		var forwardspeed = Velocity.Normal.Dot( camera.Rot.Forward );
+		var forwardspeed = Velocity.Normal.Dot( setup.Rotation.Forward );
 
-		var left = camera.Rot.Left;
-		var up = camera.Rot.Up;
+		var left = setup.Rotation.Left;
+		var up = setup.Rotation.Up;
 
 		if ( GroundEntity != null )
 		{
 			walkBob += Time.Delta * 25.0f * speed;
 		}
 
-		camera.Pos += up * MathF.Sin( walkBob ) * speed * 2;
-		camera.Pos += left * MathF.Sin( walkBob * 0.6f ) * speed * 1;
+		setup.Position += up * MathF.Sin( walkBob ) * speed * 2;
+		setup.Position += left * MathF.Sin( walkBob * 0.6f ) * speed * 1;
 
 		// Camera lean
-		lean = lean.LerpTo( Velocity.Dot( camera.Rot.Right ) * 0.015f, Time.Delta * 5.0f );
+		lean = lean.LerpTo( Velocity.Dot( setup.Rotation.Right ) * 0.03f, Time.Delta * 15.0f );
 
 		var appliedLean = lean;
 		appliedLean += MathF.Sin( walkBob ) * speed * 0.2f;
-		camera.Rot *= Rotation.From( 0, 0, appliedLean );
+		setup.Rotation *= Rotation.From( 0, 0, appliedLean );
 
 		speed = (speed - 0.7f).Clamp( 0, 1 ) * 3.0f;
 
 		fov = fov.LerpTo( speed * 20 * MathF.Abs( forwardspeed ), Time.Delta * 2.0f );
 
-		camera.FieldOfView += fov;
+		setup.FieldOfView += fov;
 
-	//	var tx = new Sandbox.UI.PanelTransform();
-	//	tx.AddRotation( 0, 0, lean * -0.1f );
+		//	var tx = new Sandbox.UI.PanelTransform();
+		//	tx.AddRotation( 0, 0, lean * -0.1f );
 
-	//	Hud.CurrentPanel.Style.Transform = tx;
-	//	Hud.CurrentPanel.Style.Dirty();
+		//	Hud.CurrentPanel.Style.Transform = tx;
+		//	Hud.CurrentPanel.Style.Dirty(); 
 
 	}
 
@@ -256,10 +252,10 @@ public partial class FloodPlayer : BasePlayer
 		if ( info.Attacker is FloodPlayer attacker && attacker != this )
 		{
 			// Note - sending this only to the attacker!
-			attacker.DidDamage( attacker, info.Position, info.Damage, ((float)Health).LerpInverse( 100, 0 ) );
+			attacker.DidDamage( To.Single(attacker), info.Position, info.Damage, ((float)Health).LerpInverse( 100, 0 ) );
 		}
 
-		TookDamage( this, info.Weapon.IsValid() ? info.Weapon.WorldPos : info.Attacker.WorldPos );
+		TookDamage( To.Single(this), info.Weapon.IsValid() ? info.Weapon.WorldPos : info.Attacker.WorldPos );
 	}
 
 	[ClientRpc]

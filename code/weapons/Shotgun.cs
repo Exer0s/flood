@@ -2,7 +2,7 @@
 
 
 [Library( "dm_shotgun", Title = "Shotgun" )]
-partial class Shotgun : BaseFloodWeapon
+partial class Shotgun : BaseDmWeapon
 { 
 	public override string ViewModelPath => "weapons/rust_pumpshotgun/v_rust_pumpshotgun.vmdl";
 	public override float PrimaryRate => 1;
@@ -11,7 +11,6 @@ partial class Shotgun : BaseFloodWeapon
 	public override int ClipSize => 8;
 	public override float ReloadTime => 0.5f;
 	public override int Bucket => 2;
-	public override int Cost => 10;
 
 	public override void Spawn()
 	{
@@ -33,7 +32,7 @@ partial class Shotgun : BaseFloodWeapon
 			return;
 		}
 
-		Owner.SetAnimParam( "b_attack", true );
+		(Owner as AnimEntity).SetAnimParam( "b_attack", true );
 
 		//
 		// Tell the clients to play the shoot effects
@@ -61,7 +60,7 @@ partial class Shotgun : BaseFloodWeapon
 			return;
 		}
 
-		Owner.SetAnimParam( "b_attack", true );
+		(Owner as AnimEntity).SetAnimParam( "b_attack", true );
 
 		//
 		// Tell the clients to play the shoot effects
@@ -88,7 +87,7 @@ partial class Shotgun : BaseFloodWeapon
 
 		ViewModelEntity?.SetAnimParam( "fire", true );
 
-		if (Owner == Player.Local)
+		if ( IsLocalPawn )
 		{
 			new Sandbox.ScreenShake.Perlin(1.0f, 1.5f, 2.0f);
 		}
@@ -106,7 +105,7 @@ partial class Shotgun : BaseFloodWeapon
 		ViewModelEntity?.SetAnimParam( "fire_double", true );
 		CrosshairPanel?.OnEvent( "fire" );
 
-		if (Owner == Player.Local)
+		if ( IsLocalPawn )
 		{
 			new Sandbox.ScreenShake.Perlin(3.0f, 3.0f, 3.0f);
 		}
@@ -122,7 +121,7 @@ partial class Shotgun : BaseFloodWeapon
 		if ( AmmoClip >= ClipSize )
 			return;
 
-		if ( Owner is FloodPlayer player )
+		if ( Owner is DeathmatchPlayer player )
 		{
 			var ammo = player.TakeAmmo( AmmoType, 1 );
 			if ( ammo == 0 )
@@ -147,7 +146,7 @@ partial class Shotgun : BaseFloodWeapon
 		ViewModelEntity?.SetAnimParam( "reload_finished", true );
 	}
 
-	public override void TickPlayerAnimator( PlayerAnimator anim )
+	public override void SimulateAnimator( PawnAnimator anim )
 	{
 		anim.SetParam( "holdtype", 2 ); // TODO this is shit
 		anim.SetParam( "aimat_weight", 1.0f );

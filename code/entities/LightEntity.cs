@@ -2,7 +2,7 @@
 using Sandbox.Tools;
 
 [Library( "ent_light", Title = "Light", Spawnable = true )]
-public partial class LightEntity : PointLightEntity, IUse, IRemovable
+public partial class LightEntity : PointLightEntity, IUse
 {
 	public PhysicsJoint AttachJoint;
 	public Particles AttachRope;

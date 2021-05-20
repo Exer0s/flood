@@ -4,7 +4,7 @@ using System;
 using System.Linq;
 
 [Library( "physgun" )]
-public partial class PhysGun : Carriable, IPlayerControllable, IPlayerInput
+public partial class PhysGun : Carriable
 {
 	public override string ViewModelPath => "weapons/rust_pistol/v_rust_pistol.vmdl";
 
@@ -45,14 +45,15 @@ public partial class PhysGun : Carriable, IPlayerControllable, IPlayerInput
 		SetInteractsAs( CollisionLayer.Debris );
 	}
 
-	public void OnPlayerControlTick( Player owner )
+	public override void Simulate( Client client )
 	{
+		var owner = Owner as Player;
 		if ( owner == null ) return;
 
-		var input = owner.Input;
+		var input = Input;
 		var eyePos = owner.EyePos;
 		var eyeDir = owner.EyeRot.Forward;
-		var eyeRot = Rotation.From( new Angles( 0.0f, owner.EyeAng.yaw, 0.0f ) );
+		var eyeRot = Rotation.From( new Angles( 0.0f, owner.EyeRot.Angles().yaw, 0.0f ) );
 
 		if ( !grabbing && input.Pressed( InputButton.Attack1 ) )
 		{
@@ -97,7 +98,7 @@ public partial class PhysGun : Carriable, IPlayerControllable, IPlayerInput
 
 		if ( BeamActive )
 		{
-			owner.Input.MouseWheel = 0;
+			Input.MouseWheel = 0;
 		}
 	}
 
@@ -155,7 +156,11 @@ public partial class PhysGun : Carriable, IPlayerControllable, IPlayerInput
 		GrabbedPos = body.Transform.PointToLocal( tr.EndPos );
 		GrabbedBone = tr.Entity.PhysicsGroup.GetBodyIndex( body );
 
-		owner.Pvs.Add( GrabbedEntity );
+		var client = GetClientOwner();
+		if ( client != null )
+		{
+			client.Pvs.Add( GrabbedEntity );
+		}
 	}
 
 	private void UpdateGrab( UserInput input, Vector3 eyePos, Rotation eyeRot, Vector3 eyeDir, bool wantsToFreeze )
@@ -274,10 +279,10 @@ public partial class PhysGun : Carriable, IPlayerControllable, IPlayerInput
 		holdDistance = Vector3.DistanceBetween( startPos, grabPos );
 		holdDistance = holdDistance.Clamp( MinTargetDistance, MaxTargetDistance );
 		heldPos = heldBody.Transform.PointToLocal( grabPos );
-		heldRot = rot.Inverse * heldBody.Rot;
+		heldRot = rot.Inverse * heldBody.Rotation;
 
-		holdBody.Pos = grabPos;
-		holdBody.Rot = heldBody.Rot;
+		holdBody.Position = grabPos;
+		holdBody.Rotation = heldBody.Rotation;
 
 		heldBody.Wake();
 		heldBody.EnableAutoSleeping = false;
@@ -302,9 +307,10 @@ public partial class PhysGun : Carriable, IPlayerControllable, IPlayerInput
 			heldBody.EnableAutoSleeping = true;
 		}
 
-		if ( Owner.IsValid() && GrabbedEntity.IsValid() )
+		var client = GetClientOwner();
+		if ( client != null && GrabbedEntity.IsValid() )
 		{
-			Owner.Pvs.Remove( GrabbedEntity );
+			client.Pvs.Remove( GrabbedEntity );
 		}
 
 		heldBody = null;
@@ -317,14 +323,14 @@ public partial class PhysGun : Carriable, IPlayerControllable, IPlayerInput
 		if ( !heldBody.IsValid() )
 			return;
 
-		holdBody.Pos = startPos + dir * holdDistance;
-		holdBody.Rot = rot * heldRot;
+		holdBody.Position = startPos + dir * holdDistance;
+		holdBody.Rotation = rot * heldRot;
 
 		if ( snapAngles )
 		{
-			var angles = holdBody.Rot.Angles();
+			var angles = holdBody.Rotation.Angles();
 
-			holdBody.Rot = Rotation.From(
+			holdBody.Rotation = Rotation.From(
 				MathF.Round( angles.pitch / RotateSnapAt ) * RotateSnapAt,
 				MathF.Round( angles.yaw / RotateSnapAt ) * RotateSnapAt,
 				MathF.Round( angles.roll / RotateSnapAt ) * RotateSnapAt
@@ -348,7 +354,7 @@ public partial class PhysGun : Carriable, IPlayerControllable, IPlayerInput
 		heldRot = localRot * heldRot;
 	}
 
-	public void BuildInput( ClientInput owner )
+	public override void BuildInput( InputBuilder owner )
 	{
 		if ( !GrabbedEntity.IsValid() )
 			return;
@@ -358,7 +364,7 @@ public partial class PhysGun : Carriable, IPlayerControllable, IPlayerInput
 
 		if ( owner.Down( InputButton.Use ) )
 		{
-			owner.ViewAngles = owner.LastViewAngles;
+			owner.ViewAngles = owner.OriginalViewAngles;
 		}
 	}
 

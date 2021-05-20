@@ -7,23 +7,24 @@ namespace Sandbox.UI
 	{
 		public static void PositionAtCrosshair( this Panel panel )
 		{
-			panel.PositionAtCrosshair( Player.Local );
+			panel.PositionAtCrosshair( Local.Pawn );
 		}
 
-		public static void PositionAtCrosshair( this Panel panel, Player player )
+		public static void PositionAtCrosshair( this Panel panel, Entity player )
 		{
 			if ( !player.IsValid() ) return;
 
 			var eyePos = player.EyePos;
 			var eyeRot = player.EyeRot;
 
-			var tr = Trace.Ray( eyePos, eyePos + eyeRot.Forward * 1000 )
+			var tr = Trace.Ray( eyePos, eyePos + eyeRot.Forward * 2000 )
 							.Size( 1.0f )
 							.Ignore( player )
 							.UseHitboxes()
 							.Run();
 
 			panel.PositionAtWorld( tr.EndPos );
+			
 		}
 
 		public static void PositionAtWorld( this Panel panel, Vector3 pos )

@@ -46,7 +46,11 @@ using System.Threading.Tasks;
 
 			if ( Host.IsServer )
 			{
-				Sandbox.Player.All.ForEach( ( player ) => SupplyLoadouts( player as FloodPlayer ) );
+				foreach ( var client in Client.All )
+				{
+					if ( client.Pawn is FloodPlayer player )
+						SupplyLoadouts( player );
+				}
 			}
 			
 		}

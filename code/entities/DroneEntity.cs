@@ -2,7 +2,7 @@
 using System;
 
 [Library( "ent_drone" , Title = "Drone", Spawnable = true )]
-public partial class DroneEntity : Prop, IPhysicsUpdate, IPlayerControllable
+public partial class DroneEntity : Prop, IPhysicsUpdate
 {
 	public virtual float altitudeAcceleration => 2000;
 	public virtual float movementAcceleration => 5000;
@@ -52,7 +52,7 @@ public partial class DroneEntity : Prop, IPhysicsUpdate, IPlayerControllable
 		body.LinearDamping = 4.0f;
 		body.AngularDamping = 4.0f;
 
-		var yawRot = Rotation.From( new Angles( 0, WorldRot.Angles().yaw, 0 ) );
+		var yawRot = Rotation.From( new Angles( 0, Rotation.Angles().yaw, 0 ) );
 		var worldMovement = yawRot * currentInput.movement;
 		var velocityDirection = body.Velocity.WithZ( 0 );
 		var velocityMagnitude = velocityDirection.Length;
@@ -89,7 +89,7 @@ public partial class DroneEntity : Prop, IPhysicsUpdate, IPlayerControllable
 		}
 	}
 
-	public void OnPlayerControlTick( Player owner )
+	public override void Simulate( Client owner )
 	{
 		if ( owner == null ) return;
 		if ( !IsServer ) return;
@@ -139,8 +139,8 @@ public partial class DroneEntity : Prop, IPhysicsUpdate, IPlayerControllable
 
 		for ( int i = 0; i < turbinePositions.Length; ++i )
 		{
-			var transform = Transform.ToWorld( new Transform( turbinePositions[i] * WorldScale, Rotation.From( new Angles( 0, spinAngle, 0 ) ) ) );
-			transform.Scale = WorldScale;
+			var transform = Transform.ToWorld( new Transform( turbinePositions[i] * Scale, Rotation.From( new Angles( 0, spinAngle, 0 ) ) ) );
+			transform.Scale = Scale;
 			SetBoneTransform( i, transform );
 		}
 	}

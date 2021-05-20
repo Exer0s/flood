@@ -2,7 +2,7 @@
 using Sandbox.UI;
 using System.Collections.Generic;
 
-public class InventoryBar : Panel, IClientInput
+public class InventoryBar : Panel
 {
 	readonly List<InventoryIcon> slots = new();
 
@@ -19,7 +19,7 @@ public class InventoryBar : Panel, IClientInput
 	{
 		base.Tick();
 
-		var player = Player.Local;
+		var player = Local.Pawn;
 		if ( player == null ) return;
 		if ( player.Inventory == null ) return;
 
@@ -42,13 +42,14 @@ public class InventoryBar : Panel, IClientInput
 		inventoryIcon.SetClass( "active", ent.IsActiveChild() );
 	}
 
-	public void ProcessClientInput( ClientInput input )
+	[Event( "buildinput" )]
+	public void ProcessClientInput( InputBuilder input )
 	{
-		var player = Player.Local;
+		var player = Local.Pawn as Player;
 		if ( player == null )
 			return;
 
-		var inventory = Player.Local.Inventory;
+		var inventory = player.Inventory;
 		if ( inventory == null )
 			return;
 
@@ -67,9 +68,9 @@ public class InventoryBar : Panel, IClientInput
 		if ( input.MouseWheel != 0 ) SwitchActiveSlot( input, inventory, input.MouseWheel );
 	}
 
-	private static void SetActiveSlot( ClientInput input, IBaseInventory inventory, int i )
+	private static void SetActiveSlot( InputBuilder input, IBaseInventory inventory, int i )
 	{
-		var player = Player.Local;
+		var player = Local.Pawn;
 		if ( player == null )
 			return;
 
@@ -83,7 +84,7 @@ public class InventoryBar : Panel, IClientInput
 		input.ActiveChild = ent;
 	}
 
-	private static void SwitchActiveSlot( ClientInput input, IBaseInventory inventory, int idelta )
+	private static void SwitchActiveSlot( InputBuilder input, IBaseInventory inventory, int idelta )
 	{
 		var count = inventory.Count();
 		if ( count == 0 ) return;

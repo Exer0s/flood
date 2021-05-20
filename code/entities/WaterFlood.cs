@@ -21,10 +21,10 @@ namespace Sandbox
 
 			CreatePhysics();
 		}
-		public float waterLevel;
+		
 		void CreatePhysics()
 		{
-			var PhysGroup = SetupPhysicsFromAABB( PhysicsMotionType.Static, new Vector3( -10000, -10000, -1000 ), new Vector3( 10000, 10000, waterLevel ) );
+			var PhysGroup = SetupPhysicsFromAABB( PhysicsMotionType.Static, new Vector3( -10000, -10000, -1000 ), new Vector3( 10000, 10000, 0 ) );
 			PhysGroup.SetSurface( "water" );
 
 			ClearCollisionLayers();
@@ -62,7 +62,7 @@ namespace Sandbox
 				{
 					var uv = new Vector2( x / (float)xRes, y / (float)yRes );
 					var pos = uv - new Vector2( 0.5f, 0.5f );
-					vb.Add( new Vertex( new Vector3( pos.x * size, pos.y * size, waterLevel ), Vector3.Down, Vector3.Right, uv ) );
+					vb.Add( new Vertex( new Vector3( pos.x * size, pos.y * size, 0 ), Vector3.Down, Vector3.Right, uv ) );
 				}
 			}
 

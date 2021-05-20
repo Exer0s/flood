@@ -16,14 +16,14 @@ partial class FloodGame : Game
 	[ServerVar( "flood_min_players", Help = "The minimum players required to start." )]
 	public static int MinPlayers { get; set; } = 2;
 
-	//Stores weapon cost for use in buy menu
-	public Dictionary<string, int> weaponCosts = new Dictionary<string, int>()
+	//Stores weapon cost for use in buy menu | I dont think this is needed anymore
+	/*public Dictionary<string, int> weaponCosts = new Dictionary<string, int>()
 	{
 		{ "Shotgun", 10},
 		{ "Pistol", 5},
 		{ "SMG", 15},
 		{ "Crossbow", 20},
-	};
+	};*/
 
 	[Net] public BaseRound Round { get; private set; }
 	private BaseRound _lastRound;
@@ -55,40 +55,54 @@ partial class FloodGame : Game
 	/// Called when a player joins and wants a player entity. We create
 	/// our own class so we can control what happens.
 	/// </summary>
-	public override Player CreatePlayer() => new FloodPlayer();
+	public override void ClientJoined( Client cl )
+	{
+		base.ClientJoined(cl);
+		
+		var player = new FloodPlayer();
+		player.Respawn();
+
+		cl.Pawn = player;
+	}
+
 	
 	#region Spawn_Commands
 
 	[ServerCmd("spawn_weapon")]
 	public static void SpawnWeapon(string weaponName) {
-		if (ConsoleSystem.Caller is FloodPlayer player)
-		{
+		var owner = ConsoleSystem.Caller?.Pawn;
+
+		if ( ConsoleSystem.Caller == null )
+			return;
+		
 			BaseFloodWeapon weapon = Library.Create<BaseFloodWeapon>(weaponName);
-			var inventory = player.Inventory as Inventory;
+			var inventory = owner.Inventory as Inventory;
 			if ( !inventory.CanAdd( weapon ) ) return;
 			Log.Info( $"{ConsoleSystem.Caller.Name} spawned {weaponName}" );
 			int cost = weapon.Cost;
-			if (player.Money >= cost)
+			if (owner.Money >= cost)
 			{
-				player.Money = player.Money - cost;
-				player.Inventory.Add(weapon, true);
+				owner.Money = player.Money - cost;
+				owner.Inventory.Add(weapon, true);
 			}
-		}
+		
 	}
 
 	[ServerCmd("give_money")]
 	public static void GiveMoney(string amount)
 	{
-		if (ConsoleSystem.Caller is FloodPlayer player)
-		{
-			player.Money += amount.ToInt();
-		}
+		var owner = ConsoleSystem.Caller?.Pawn;
+
+		if ( ConsoleSystem.Caller == null )
+			return;
+
+		owner.Money += amount.ToInt();
 	}
 
 	[ServerCmd( "spawn" )]
 	public static void Spawn( string modelname )
 	{
-		var owner = ConsoleSystem.Caller;
+		var owner = ConsoleSystem.Caller?.Pawn;
 
 		if ( ConsoleSystem.Caller == null )
 			return;
@@ -99,9 +113,9 @@ partial class FloodGame : Game
 			.Size( 2 )
 			.Run();
 
-		var ent = new BreakableProp();
-		ent.WorldPos = tr.EndPos;
-		ent.WorldRot = Rotation.From( new Angles( 0, owner.EyeAng.yaw, 0 ) ) * Rotation.FromAxis( Vector3.Up, 180 );
+		var ent = new Prop();
+		ent.Position = tr.EndPos;
+		ent.Rotation = Rotation.From( new Angles( 0, owner.EyeRot.Angles().yaw, 0 ) ) * Rotation.FromAxis( Vector3.Up, 180 );
 		ent.SetModel( modelname );
 
 		// Drop to floor
@@ -110,16 +124,16 @@ partial class FloodGame : Game
 			var p = ent.PhysicsBody.FindClosestPoint( tr.EndPos );
 
 			var delta = p - tr.EndPos;
-			ent.PhysicsBody.Pos -= delta;
+			ent.PhysicsBody.Position -= delta;
 			//DebugOverlay.Line( p, tr.EndPos, 10, false );
 		}
-		Log.Info( $"{ConsoleSystem.Caller.Name} spawned prop with {ent.Health}" );
+
 	}
-	
+
 	[ServerCmd( "spawn_entity" )]
 	public static void SpawnEntity( string entName )
 	{
-		var owner = ConsoleSystem.Caller;
+		var owner = ConsoleSystem.Caller.Pawn;
 
 		if ( owner == null )
 			return;
@@ -142,8 +156,8 @@ partial class FloodGame : Game
 				return;
 		}
 
-		ent.WorldPos = tr.EndPos;
-		ent.WorldRot = Rotation.From( new Angles( 0, owner.EyeAng.yaw, 0 ) );
+		ent.Position = tr.EndPos;
+		ent.Rotation = Rotation.From( new Angles( 0, owner.EyeRot.Angles().yaw, 0 ) );
 
 		//Log.Info( $"ent: {ent}" );
 	}
@@ -204,30 +218,6 @@ partial class FloodGame : Game
 		Round?.Finish();
 		Round = round;
 		Round?.Start();
-	}
-
-	/// <summary>
-	/// Called when a player has died, or been killed
-	/// </summary>
-	public override void PlayerKilled( Player player )
-	{
-		Log.Info( $"{player.Name} was killed" );
-
-		if ( player.LastAttacker != null )
-		{
-			if ( player.LastAttacker is Player attackPlayer )
-			{
-				KillFeed.AddEntry( attackPlayer.SteamId, attackPlayer.Name, player.SteamId, player.Name, player.LastAttackerWeapon?.ClassInfo?.Name );
-			}
-			else
-			{
-				KillFeed.AddEntry( (ulong)player.LastAttacker.NetworkIdent, player.LastAttacker.ToString(), player.SteamId, player.Name, "killed" );
-			}
-		}
-		else
-		{
-			KillFeed.AddEntry( (ulong)0, "", player.SteamId, player.Name, "died" );
-		}
 	}
 
 	private void OnSecond()

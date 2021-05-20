@@ -14,10 +14,10 @@ public partial class NoiseTest : Prop
 	[Event( "frame" )]
 	public void OnFrame()
 	{
-		var pos = WorldPos;
-		var right = WorldRot.Right * 4;
-		var forward = WorldRot.Forward * 4;
-		var up = WorldRot.Up * 50;
+		var pos = Position;
+		var right = Rotation.Right * 4;
+		var forward = Rotation.Forward * 4;
+		var up = Rotation.Up * 50;
 		var offset = Time.Now * 2.0f;
 		var offsetz = Time.Now * 0.1f;
 

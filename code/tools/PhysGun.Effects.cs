@@ -80,7 +80,7 @@ public partial class PhysGun
 				Beam.SetEntity( 1, GrabbedEntity, GrabbedPos, true );
 			}
 
-			lastBeamPos = GrabbedEntity.WorldPos + GrabbedEntity.WorldRot * GrabbedPos;
+			lastBeamPos = GrabbedEntity.Position + GrabbedEntity.Rotation * GrabbedPos;
 
 			EndNoHit?.Destroy( false );
 			EndNoHit = null;

@@ -6,8 +6,6 @@ using System;
 
 public class Crosshair : Panel
 {
-	public Label Health;
-
 	int fireCounter;
 
 	public Crosshair()

@@ -16,7 +16,7 @@ partial class CrossbowBolt : ModelEntity, IPhysicsUpdate
 
 	public virtual void OnPostPhysicsStep( float dt )
 	{
-		//DebugOverlay.Box( 0.1f, WorldPos, -0.1f, 1.1f, Host.Color );
+		//DebugOverlay.Box( 0.1f, Position, -0.1f, 1.1f, Host.Color );
 
 		if ( !IsServer )
 			return;
@@ -25,9 +25,9 @@ partial class CrossbowBolt : ModelEntity, IPhysicsUpdate
 			return;
 
 		float Speed = 100.0f;
-		var velocity = WorldRot.Forward * Speed;
+		var velocity = Rotation.Forward * Speed;
 
-		var start = WorldPos;
+		var start = Position;
 		var end = start + velocity;
 
 		var tr = Trace.Ray( start, end )
@@ -39,7 +39,7 @@ partial class CrossbowBolt : ModelEntity, IPhysicsUpdate
 				.Run();
 
 		// DebugOverlay.Line( start, end, 10.0f );
-		// DebugOverlay.Box( 10.0f, WorldPos, -1, 1, Color.Red );
+		// DebugOverlay.Box( 10.0f, Position, -1, 1, Color.Red );
 		// DebugOverlay.Box( 10.0f, tr.EndPos, -1, 1, Color.Red );
 
 		if ( tr.Hit )
@@ -49,7 +49,7 @@ partial class CrossbowBolt : ModelEntity, IPhysicsUpdate
 			// TODO: SPARKY PARTICLES (unless flesh)
 
 			Stuck = true;
-			WorldPos = tr.EndPos + WorldRot.Forward * -1;
+			Position = tr.EndPos + Rotation.Forward * -1;
 
 			if ( tr.Entity.IsValid() )
 			{
@@ -68,7 +68,7 @@ partial class CrossbowBolt : ModelEntity, IPhysicsUpdate
 			//
 			// Surface impact effect
 			//
-			tr.Normal = WorldRot.Forward * -1;
+			tr.Normal = Rotation.Forward * -1;
 			tr.Surface.DoBulletImpact( tr );
 			velocity = default;
 
@@ -78,7 +78,7 @@ partial class CrossbowBolt : ModelEntity, IPhysicsUpdate
 			//
 			ResetInterpolation();
 
-			// DebugOverlay.Box( 10.0f, WorldPos, -1, 1, Color.Red );
+			// DebugOverlay.Box( 10.0f, Position, -1, 1, Color.Red );
 			// DebugOverlay.Box( 10.0f, tr.EndPos, -1, 1, Color.Yellow );
 
 			// delete self in 30 seconds
@@ -86,7 +86,7 @@ partial class CrossbowBolt : ModelEntity, IPhysicsUpdate
 		}
 		else
 		{
-			WorldPos = end;
+			Position = end;
 		}
 
 		

@@ -6,9 +6,9 @@ using System;
 using System.Threading.Tasks;
 
 [Library]
-public partial class FloodHud : Hud
+public partial class DeathmatchHud : HudEntity<RootPanel>
 {
-	public FloodHud()
+	public DeathmatchHud()
 	{
 		if ( !IsClient )
 			return;
@@ -16,20 +16,21 @@ public partial class FloodHud : Hud
 		RootPanel.StyleSheet.Load( "/ui/DeathmatchHud.scss" );
 
 		RootPanel.AddChild<Vitals>();
-		RootPanel.AddChild<RoundTimer>();
 		RootPanel.AddChild<Ammo>();
 
 		RootPanel.AddChild<NameTags>();
 		RootPanel.AddChild<DamageIndicator>();
 		RootPanel.AddChild<HitIndicator>();
-		RootPanel.AddChild<MoneyCounter>();
+		RootPanel.AddChild<CurrentTool>();
+		RootPanel.AddChild<RoundTimer>();
+		RootPanel.AddChild<SpawnMenu>();
 		RootPanel.AddChild<InventoryBar>();
 		RootPanel.AddChild<PickupFeed>();
-		RootPanel.AddChild<CurrentTool>();
-		RootPanel.AddChild<SpawnMenu>();
+		RootPanel.AddChild<MoneyCounter>();
 		RootPanel.AddChild<ChatBox>();
 		RootPanel.AddChild<KillFeed>();
 		RootPanel.AddChild<Scoreboard>();
+		RootPanel.AddChild<VoiceList>();
 	}
 
 	[ClientRpc]

@@ -2,6 +2,7 @@
 using Sandbox;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -49,7 +50,11 @@ using System.Threading.Tasks;
 
 			if ( Host.IsServer )
 			{
-				Sandbox.Player.All.ForEach( ( player ) => SupplyLoadouts( player as FloodPlayer ) );
+				foreach ( var client in Client.All )
+				{
+					if ( client.Pawn is FloodPlayer player )
+						SupplyLoadouts( player );
+				}
 			}
 
 		water = new WaterFlood();
@@ -69,22 +74,14 @@ using System.Threading.Tasks;
 				Spectators.Clear();
 			}
 		}
-		
-		
-		private float heightChange = 0.5f;
-		private float heightGain = 0.1f;
-		private float oldHeight;
+
+
+		private float waterHeight;
 		public override void OnTick()
 		{
 		if ( water == null ) return;
-		water.waterLevel += heightGain;
-		oldHeight += heightGain;
-		if (oldHeight > heightChange)
-		{
-			water.MakeSeaMesh();
-			//water.CreatePhysics();
-			oldHeight = 0;
-		}
+		waterHeight += 0.25f;
+		water.Position = new Vector3(0, 0, waterHeight);
 		base.OnTick();
 	}
 

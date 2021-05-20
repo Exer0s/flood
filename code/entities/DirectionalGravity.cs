@@ -52,7 +52,7 @@ public partial class DirectionalGravity : Prop, IPhysicsUpdate
 		if ( !this.IsValid() )
 			return;
 
-		var gravity = WorldRot.Down * 800.0f;
+		var gravity = Rotation.Down * 800.0f;
 
 		if ( gravity != PhysicsWorld.Gravity )
 		{

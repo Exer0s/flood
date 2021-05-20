@@ -7,15 +7,13 @@ using System.Linq;
 using System.Numerics;
 using System.Threading.Tasks;
 
-public partial class BaseFloodWeapon : BaseWeapon, IRespawnableEntity
+partial class BaseDmWeapon : BaseWeapon, IRespawnableEntity
 {
 	public virtual AmmoType AmmoType => AmmoType.Pistol;
 	public virtual int ClipSize => 16;
 	public virtual float ReloadTime => 3.0f;
 	public virtual int Bucket => 1;
 	public virtual int BucketWeight => 100;
-	public virtual int Cost => 10;
-
 
 	[NetPredicted]
 	public int AmmoClip { get; set; }
@@ -35,7 +33,7 @@ public partial class BaseFloodWeapon : BaseWeapon, IRespawnableEntity
 
 	public int AvailableAmmo()
 	{
-		var owner = Owner as FloodPlayer;
+		var owner = Owner as DeathmatchPlayer;
 		if ( owner == null ) return 0;
 		return owner.AmmoCount( AmmoType );
 	}
@@ -57,7 +55,7 @@ public partial class BaseFloodWeapon : BaseWeapon, IRespawnableEntity
 
 		PickupTrigger = new PickupTrigger();
 		PickupTrigger.Parent = this;
-		PickupTrigger.WorldPos = WorldPos;
+		PickupTrigger.Position = Position;
 	}
 
 	public override void Reload()
@@ -70,7 +68,7 @@ public partial class BaseFloodWeapon : BaseWeapon, IRespawnableEntity
 
 		TimeSinceReload = 0;
 
-		if ( Owner is FloodPlayer player )
+		if ( Owner is DeathmatchPlayer player )
 		{
 			if ( player.AmmoCount( AmmoType ) <= 0 )
 				return;
@@ -79,18 +77,20 @@ public partial class BaseFloodWeapon : BaseWeapon, IRespawnableEntity
 		}
 
 		IsReloading = true;
-		Owner.SetAnimParam( "b_reload", true ); 
+
+		(Owner as AnimEntity).SetAnimParam( "b_reload", true );
+
 		StartReloadEffects();
 	}
 
-	public override void OnPlayerControlTick( Player owner ) 
+	public override void Simulate( Client owner ) 
 	{
 		if ( TimeSinceDeployed < 0.6f )
 			return;
 
 		if ( !IsReloading )
 		{
-			base.OnPlayerControlTick( owner );
+			base.Simulate( owner );
 		}
 
 		if ( IsReloading && TimeSinceReload > ReloadTime )
@@ -103,7 +103,7 @@ public partial class BaseFloodWeapon : BaseWeapon, IRespawnableEntity
 	{
 		IsReloading = false;
 
-		if ( Owner is FloodPlayer player )
+		if ( Owner is DeathmatchPlayer player )
 		{
 			var ammo = player.TakeAmmo( AmmoType, ClipSize - AmmoClip );
 			if ( ammo == 0 )
@@ -164,7 +164,7 @@ public partial class BaseFloodWeapon : BaseWeapon, IRespawnableEntity
 
 		Particles.Create( "particles/pistol_muzzleflash.vpcf", EffectEntity, "muzzle" );
 
-		if (Owner == Player.Local)
+		if ( IsLocalPawn )
 		{
 			new Sandbox.ScreenShake.Perlin();
 		}
@@ -230,8 +230,8 @@ public partial class BaseFloodWeapon : BaseWeapon, IRespawnableEntity
 		if ( string.IsNullOrEmpty( ViewModelPath ) )
 			return;
 
-		ViewModelEntity = new FloodViewModel();
-		ViewModelEntity.WorldPos = WorldPos;
+		ViewModelEntity = new DmViewModel();
+		ViewModelEntity.Position = Position;
 		ViewModelEntity.Owner = Owner;
 		ViewModelEntity.EnableViewmodelRendering = true;
 		ViewModelEntity.SetModel( ViewModelPath );
@@ -239,10 +239,10 @@ public partial class BaseFloodWeapon : BaseWeapon, IRespawnableEntity
 
 	public override void CreateHudElements()
 	{
-		if ( Hud.CurrentPanel == null ) return;
+		if ( Local.Hud == null ) return;
 
 		CrosshairPanel = new Crosshair();
-		CrosshairPanel.Parent = Hud.CurrentPanel;
+		CrosshairPanel.Parent = Local.Hud;
 		CrosshairPanel.AddClass( ClassInfo.Name );
 	}
 

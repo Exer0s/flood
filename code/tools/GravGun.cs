@@ -4,7 +4,7 @@ using System;
 using System.Linq;
 
 [Library( "gravgun" )]
-public partial class GravGun : Carriable, IPlayerControllable
+public partial class GravGun : Carriable
 {
 	public override string ViewModelPath => "weapons/rust_pistol/v_rust_pistol.vmdl";
 
@@ -41,8 +41,9 @@ public partial class GravGun : Carriable, IPlayerControllable
 		SetInteractsAs( CollisionLayer.Debris );
 	}
 
-	public void OnPlayerControlTick( Player owner )
+	public override void Simulate( Client client )
 	{
+		var owner = Owner;
 		if ( owner == null )
 			return;
 
@@ -51,7 +52,7 @@ public partial class GravGun : Carriable, IPlayerControllable
 
 		using ( Prediction.Off() )
 		{
-			var input = owner.Input;
+			var input = Input;
 			var eyePos = owner.EyePos;
 			var eyeRot = owner.EyeRot;
 			var eyeDir = owner.EyeRot.Forward;
@@ -133,7 +134,7 @@ public partial class GravGun : Carriable, IPlayerControllable
 						return;
 				}
 
-				if ( eyePos.Distance( body.Pos ) <= AttachDistance )
+				if ( eyePos.Distance( body.Position ) <= AttachDistance )
 				{
 					GrabStart( modelEnt, body, eyePos + eyeDir * HoldDistance, eyeRot );
 				}
@@ -219,10 +220,10 @@ public partial class GravGun : Carriable, IPlayerControllable
 		GrabEnd();
 
 		HeldBody = body;
-		HeldRot = grabRot.Inverse * HeldBody.Rot;
+		HeldRot = grabRot.Inverse * HeldBody.Rotation;
 
-		holdBody.Pos = grabPos;
-		holdBody.Rot = HeldBody.Rot;
+		holdBody.Position = grabPos;
+		holdBody.Rotation = HeldBody.Rotation;
 
 		HeldBody.Wake();
 		HeldBody.EnableAutoSleeping = false;
@@ -237,10 +238,8 @@ public partial class GravGun : Carriable, IPlayerControllable
 
 		HeldEntity = entity;
 
-		if ( Owner.IsValid() )
-		{
-			Owner.Pvs.Add( HeldEntity );
-		}
+		var client = GetClientOwner();
+		client?.Pvs.Add( HeldEntity );
 	}
 
 	private void GrabEnd()
@@ -255,9 +254,10 @@ public partial class GravGun : Carriable, IPlayerControllable
 			HeldBody.EnableAutoSleeping = true;
 		}
 
-		if ( Owner.IsValid() && HeldEntity.IsValid() )
+		if ( HeldEntity.IsValid() )
 		{
-			Owner.Pvs.Remove( HeldEntity );
+			var client = GetClientOwner();
+			client?.Pvs.Remove( HeldEntity );
 		}
 
 		HeldBody = null;
@@ -270,8 +270,8 @@ public partial class GravGun : Carriable, IPlayerControllable
 		if ( !HeldBody.IsValid() )
 			return;
 
-		holdBody.Pos = startPos + dir * HoldDistance;
-		holdBody.Rot = rot * HeldRot;
+		holdBody.Position = startPos + dir * HoldDistance;
+		holdBody.Rotation = rot * HeldRot;
 	}
 
 	public override bool IsUsable( Entity user )

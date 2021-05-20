@@ -2,23 +2,15 @@
 using Sandbox;
 using Sandbox.UI;
 
-public partial class KillFeed : Panel
+public partial class KillFeed : Sandbox.UI.KillFeed
 {
-	public static KillFeed Current;
-
 	public KillFeed()
 	{
-		Current = this;
-
 		StyleSheet.Load( "/ui/KillFeed.scss" );
 	}
 
-	[ClientRpc]
-	public static void AddEntry( ulong lsteamid, string left, ulong rsteamid, string right, string method )
+	public override Panel AddEntry( ulong lsteamid, string left, ulong rsteamid, string right, string method )
 	{
-		if ( Current == null )
-			return;
-
 		Log.Info( $"{left} killed {right} using {method}" );
 
 		var e = Current.AddChild<KillFeedEntry>();
@@ -26,9 +18,11 @@ public partial class KillFeed : Panel
 		e.AddClass( method );
 
 		e.Left.Text = left;
-		e.Left.SetClass( "me", lsteamid == (Player.Local?.SteamId) );
+		e.Left.SetClass( "me", lsteamid == (Local.SteamId) );
 
 		e.Right.Text = right;
-		e.Right.SetClass( "me", rsteamid == (Player.Local?.SteamId) );
+		e.Right.SetClass( "me", rsteamid == (Local.SteamId) );
+
+		return e;
 	}
 }

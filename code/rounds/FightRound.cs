@@ -18,7 +18,10 @@ public class FightRound : BaseRound
 
 	public override void OnPlayerKilled( FloodPlayer player )
 	{
-		player.Respawn();
+		Players.Remove( player );
+		Spectators.Add( player );
+
+		player.MakeSpectator( player.EyePos );
 	}
 
 	public override void OnPlayerLeave( FloodPlayer player )
@@ -31,17 +34,10 @@ public class FightRound : BaseRound
 
 	public override void OnPlayerSpawn( FloodPlayer player )
 	{
-		player.ClearAmmo();
-		player.Inventory.DeleteContents();
-		player.Inventory.Add( new Pistol(), true );
-		player.Inventory.Add( new SMG(), false );
-		player.Inventory.Add( new Shotgun(), false );
-		if ( !Players.Contains( player ) )
-		{
-			AddPlayer( player );
-		}
+		player.MakeSpectator();
 
-
+		Spectators.Add( player );
+		Players.Remove( player );
 
 		base.OnPlayerSpawn( player );
 	}
@@ -51,7 +47,11 @@ public class FightRound : BaseRound
 
 		if ( Host.IsServer )
 		{
-			Sandbox.Player.All.ForEach( ( player ) => SupplyLoadouts( player as FloodPlayer ) );
+			foreach ( var client in Client.All )
+			{
+				if ( client.Pawn is FloodPlayer player )
+					SupplyLoadouts( player );
+			}
 		}
 
 		FloodGame.SystemMessage( "The flood is over, fight!" );

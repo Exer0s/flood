@@ -2,7 +2,7 @@
 using Sandbox.Tools;
 
 [Library( "ent_lamp", Title = "Lamp", Spawnable = true )]
-public partial class LampEntity : SpotLightEntity, IUse, IRemovable
+public partial class LampEntity : SpotLightEntity, IUse
 {
 	public override void Spawn()
 	{

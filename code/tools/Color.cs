@@ -5,7 +5,7 @@ namespace Sandbox.Tools
 	[Library( "tool_color", Title = "Color", Description = "Change render color and alpha of entities", Group = "construction" )]
 	public partial class ColorTool : BaseTool
 	{
-		public override void OnPlayerControlTick()
+		public override void Simulate()
 		{
 			if ( !Host.IsServer )
 				return;

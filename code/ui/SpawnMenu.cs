@@ -28,20 +28,17 @@ public partial class SpawnMenu : Panel
 				var props = body.AddChild<SpawnList>();
 				tabs.SelectedButton = tabs.AddButtonActive( "Props", ( b ) => props.SetClass( "active", b ) );
 
-				var ents = body.AddChild<WeaponList>();
-				tabs.AddButtonActive( "Weapons", ( b ) => ents.SetClass( "active", b ) );
-				
+				var ents = body.AddChild<EntityList>();
+				tabs.AddButtonActive( "Entities", ( b ) => ents.SetClass( "active", b ) );
 			}
 		}
-
-		
 
 		var right = Add.Panel( "right" );
 		{
 			var tabs = right.Add.Panel( "tabs" );
 			{
 				tabs.Add.Button( "Tools" ).AddClass( "active" );
-				tabs.Add.Button( "Teams" );
+				tabs.Add.Button( "Utility" );
 			}
 			var body = right.Add.Panel( "body" );
 			{
@@ -74,12 +71,8 @@ public partial class SpawnMenu : Panel
 	public override void Tick()
 	{
 		base.Tick();
-		var game = FloodGame.Instance;
-		if ( game == null ) return;
-		var round = game.Round;
-		if ( round == null ) return;
-		//if ( round is BuildRound ) return;
-		Parent.SetClass( "spawnmenuopen", Player.Local?.Input.Down( InputButton.Menu ) ?? false );
+
+		Parent.SetClass( "spawnmenuopen", Local.Client.Input.Down( InputButton.Menu ) );
 	}
 
 }

@@ -1,14 +1,14 @@
 ﻿using Sandbox;
 
 [Library( "dm_crossbow", Title = "Crossbow" )]
-partial class Crossbow : BaseFloodWeapon, IPlayerCamera, IPlayerInput
+partial class Crossbow : BaseDmWeapon
 { 
 	public override string ViewModelPath => "weapons/rust_crossbow/v_rust_crossbow.vmdl";
 
 	public override float PrimaryRate => 1;
 	public override int Bucket => 3;
 	public override AmmoType AmmoType => AmmoType.Crossbow;
-	public override int Cost => 20;
+
 	[Net]
 	public bool Zoomed { get; set; }
 
@@ -34,18 +34,18 @@ partial class Crossbow : BaseFloodWeapon, IPlayerCamera, IPlayerInput
 		using ( Prediction.Off() )
 		{
 			var bolt = new CrossbowBolt();
-			bolt.WorldPos = Owner.EyePos;
-			bolt.WorldRot = Owner.EyeRot;
+			bolt.Position = Owner.EyePos;
+			bolt.Rotation = Owner.EyeRot;
 			bolt.Owner = Owner;
 			bolt.Velocity = Owner.EyeRot.Forward * 100;
 		}
 	}
 
-	public override void OnPlayerControlTick( Player player )
+	public override void Simulate( Client cl )
 	{
-		base.OnPlayerControlTick( player );
+		base.Simulate( cl );
 
-		Zoomed = Owner.Input.Down( InputButton.Attack2 );
+		Zoomed = Input.Down( InputButton.Attack2 );
 	}
 
 	public virtual void ModifyCamera( Camera cam )
@@ -56,11 +56,11 @@ partial class Crossbow : BaseFloodWeapon, IPlayerCamera, IPlayerInput
 		}
 	}
 
-	public virtual void BuildInput( ClientInput owner )
+	public override void BuildInput( InputBuilder owner ) 
 	{
 		if ( Zoomed )
 		{
-			owner.ViewAngles = Angles.Lerp( owner.LastViewAngles, owner.ViewAngles, 0.2f );
+			owner.ViewAngles = Angles.Lerp( owner.OriginalViewAngles, owner.ViewAngles, 0.2f );
 		}
 	}
 
@@ -69,7 +69,7 @@ partial class Crossbow : BaseFloodWeapon, IPlayerCamera, IPlayerInput
 	{
 		Host.AssertClient();
 
-		if ( Owner == Player.Local )
+		if ( Owner == Local.Pawn )
 		{
 			new Sandbox.ScreenShake.Perlin( 0.5f, 4.0f, 1.0f, 0.5f );
 		}

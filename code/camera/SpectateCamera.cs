@@ -1,68 +1,56 @@
 ﻿using Sandbox;
 
-	public partial class SpectateCamera : BaseCamera
-	{
-		[NetPredicted] public TimeSince TimeSinceDied { get; set; }
-		[NetPredicted] public Vector3 DeathPosition { get; set; }
+    public partial class SpectateCamera : Camera
+    {
+        [NetPredicted] public TimeSince TimeSinceDied { get; set; }
+        [NetPredicted] public Vector3 DeathPosition { get; set; }
 
-		public Player TargetPlayer { get; set; }
+        public Player TargetPlayer { get; set; }
 
-		private Vector3 _focusPoint;
-		public int _targetIdx;
+        private Vector3 _focusPoint;
+        public int _targetIdx;
 
-		public override void Activated()
-		{
-			base.Activated();
+        public override void Activated()
+        {
+            base.Activated();
 
-			_focusPoint = LastPos - GetViewOffset();
+            _focusPoint = CurrentView.Position - GetViewOffset();
 
-			FieldOfView = 70;
-		}
+            FieldOfView = 70;
+        }
 
-		public override void Update()
-		{
-			if ( Sandbox.Player.Local is not FloodPlayer player )
-				return;
+        public override void Update()
+        {
+            if ( Local.Pawn is not FloodPlayer player )
+            return;
 
-			/*if ( TargetPlayer == null || !TargetPlayer.IsValid() || player.Input.Pressed(InputButton.Attack1) )
-			{
-			var players = Sandbox.Player.All;
+          
 
-				if ( players != null && players.Count > 0 )
-				{
-					if ( ++_targetIdx >= players.Count )
-						_targetIdx = 0;
+            _focusPoint = Vector3.Lerp( _focusPoint, GetSpectatePoint(), Time.Delta * 5.0f );
 
-					TargetPlayer = players[_targetIdx];
-				}
-			}*/
+            Pos = _focusPoint + GetViewOffset();
+            Rot = player.EyeRot;
 
-			_focusPoint = Vector3.Lerp( _focusPoint, GetSpectatePoint(), Time.Delta * 5.0f );
+            FieldOfView = FieldOfView.LerpTo( 50, Time.Delta * 3.0f );
+            Viewer = null;
+        }
 
-			Pos = _focusPoint + GetViewOffset();
-			Rot = player.EyeRot;
+        private Vector3 GetSpectatePoint()
+        {
+            if ( Local.Pawn is not Player )
+                return DeathPosition;
 
-			FieldOfView = FieldOfView.LerpTo( 50, Time.Delta * 3.0f );
-			Viewer = null;
-		}
+            if ( TargetPlayer == null || !TargetPlayer.IsValid() || TimeSinceDied < 3 )
+                return DeathPosition;
 
-		private Vector3 GetSpectatePoint()
-		{
-			if ( Sandbox.Player.Local is not FloodPlayer )
-				return DeathPosition;
+            return TargetPlayer.EyePos;
+        }
 
-			if ( TargetPlayer == null || !TargetPlayer.IsValid() || TimeSinceDied < 3 )
-				return DeathPosition;
+        private Vector3 GetViewOffset()
+        {
+            if ( Local.Pawn is not Player player )
+            return Vector3.Zero;
 
-			return TargetPlayer.EyePos;
-		}
-
-		private Vector3 GetViewOffset()
-		{
-			if ( Sandbox.Player.Local is not FloodPlayer player )
-				return Vector3.Zero;
-
-			return player.EyeRot.Forward * -150 + Vector3.Up * 10;
-		}
-	}
-
+            return player.EyeRot.Forward * -150 + Vector3.Up * 10;
+        }
+    }

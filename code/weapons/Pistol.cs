@@ -2,7 +2,7 @@
 
 
 [Library( "dm_pistol", Title = "Pistol" )]
-partial class Pistol : BaseFloodWeapon
+partial class Pistol : BaseDmWeapon
 { 
 	public override string ViewModelPath => "weapons/rust_pistol/v_rust_pistol.vmdl";
 
@@ -11,7 +11,7 @@ partial class Pistol : BaseFloodWeapon
 	public override float ReloadTime => 3.0f;
 
 	public override int Bucket => 1;
-	public override int Cost => 5;
+
 	public override void Spawn()
 	{
 		base.Spawn();
@@ -22,7 +22,7 @@ partial class Pistol : BaseFloodWeapon
 
 	public override bool CanPrimaryAttack()
 	{
-		return base.CanPrimaryAttack() && Owner.Input.Pressed( InputButton.Attack1 );
+		return base.CanPrimaryAttack() && Input.Pressed( InputButton.Attack1 );
 	}
 
 	public override void AttackPrimary()
