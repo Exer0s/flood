@@ -44,7 +44,7 @@ partial class FloodGame : Game
 		//
 		if ( IsServer )
 		{
-			new FloodHud();
+			new DeathmatchHud();
 		}
 		
 		_ = StartTickTimer();
@@ -82,7 +82,7 @@ partial class FloodGame : Game
 			int cost = weapon.Cost;
 			if (owner.Money >= cost)
 			{
-				owner.Money = player.Money - cost;
+				owner.Money = owner.Money - cost;
 				owner.Inventory.Add(weapon, true);
 			}
 		

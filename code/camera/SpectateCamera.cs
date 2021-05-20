@@ -16,7 +16,7 @@
 
             _focusPoint = CurrentView.Position - GetViewOffset();
 
-            FieldOfView = 70;
+            FieldOfView = 85;
         }
 
         public override void Update()
