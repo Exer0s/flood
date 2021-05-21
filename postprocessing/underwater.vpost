@@ -1,0 +1,96 @@
+<!-- kv3 encoding:text:version{e21c7f3c-8a33-41c5-9977-a76d3a32aa0d} format:generic:version{7412167c-06e9-4698-aff2-e63eb59037e7} -->
+{
+	_class = "CPostProcessData"
+	m_layers = 
+	[
+		{
+			_class = "CBloomLayer"
+			m_name = "Bloom 0"
+			m_nOpacityPercent = 100
+			m_bVisible = true
+			m_pLayerMask = null
+			m_params = 
+			{
+				m_blendMode = "BLOOM_BLEND_ADD"
+				m_flBloomStrength = 9.999
+				m_flScreenBloomStrength = 1.0
+				m_flBlurBloomStrength = 1.0
+				m_flBloomThreshold = 0.0
+				m_flBloomThresholdWidth = 2.187
+				m_flSkyboxBloomStrength = 1.0
+				m_flBloomStartValue = 1.0
+				m_flBlurWeight = 
+				[
+					1.0, 1.0, 1.0, 1.0,
+					1.0,
+				]
+				m_vBlurTint = 
+				[
+					[ 0.0, 0.119538, 1.0 ],
+					[ 1.0, 1.0, 1.0 ],
+					[ 1.0, 1.0, 1.0 ],
+					[ 1.0, 1.0, 1.0 ],
+					[ 1.0, 1.0, 1.0 ],
+				]
+			}
+		},
+		{
+			_class = "CCurvesColorCorrectionLayer"
+			m_name = "Curves 0"
+			m_nOpacityPercent = 100
+			m_bVisible = true
+			m_pLayerMask = null
+			m_curvePointsRGB = 
+			[
+				[ 0.0, 0.0 ],
+				[ 138.0, 70.0 ],
+				[ 255.0, 255.0 ],
+			]
+			m_curvePointsR = 
+			[
+				[ 0.0, 0.0 ],
+				[ 255.0, 255.0 ],
+			]
+			m_curvePointsG = 
+			[
+				[ 0.0, 0.0 ],
+				[ 255.0, 255.0 ],
+			]
+			m_curvePointsB = 
+			[
+				[ 0.0, 0.0 ],
+				[ 255.0, 255.0 ],
+			]
+		},
+		{
+			_class = "CColorTintColorCorrectionLayer"
+			m_name = "Color Tint 0"
+			m_nOpacityPercent = 100
+			m_bVisible = true
+			m_pLayerMask = null
+			m_nTintColorR = 19
+			m_nTintColorG = 180
+			m_nTintColorB = 255
+			m_nStrength = 20
+			m_bPreserveLuminosity = true
+		},
+		{
+			_class = "CToneMappingLayer"
+			m_name = "Tone Mapping 0"
+			m_nOpacityPercent = 100
+			m_bVisible = true
+			m_pLayerMask = null
+			m_params = 
+			{
+				m_flExposureBias = 0.0
+				m_flShoulderStrength = 0.15
+				m_flLinearStrength = 0.5
+				m_flLinearAngle = 0.1
+				m_flToeStrength = 0.2
+				m_flToeNum = 0.02
+				m_flToeDenom = 0.3
+				m_flWhitePoint = 4.0
+			}
+		},
+	]
+}
