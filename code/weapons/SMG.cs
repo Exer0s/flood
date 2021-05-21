@@ -2,7 +2,7 @@
 using System;
 
 [Library( "dm_smg", Title = "SMG" )]
-partial class SMG : BaseDmWeapon
+partial class SMG : BaseFloodWeapon
 { 
 	public override string ViewModelPath => "weapons/rust_smg/v_rust_smg.vmdl";
 
@@ -11,6 +11,7 @@ partial class SMG : BaseDmWeapon
 	public override int ClipSize => 30;
 	public override float ReloadTime => 4.0f;
 	public override int Bucket => 2;
+	public override int Cost => 20;
 
 	public override void Spawn()
 	{

@@ -6,7 +6,7 @@ using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 
-	public class FloodRound : BaseRound
+	public partial class FloodRound : BaseRound
 	{
 		public override string RoundName => "Flood!";
 		//[ServerVar( "flood_fight_duration", Help = "The duration of the flood round" )]
@@ -44,7 +44,7 @@ using System.Threading.Tasks;
 			base.OnPlayerSpawn( player );
 		}
 
-		
+		private WaterFlood water;
 		protected override void OnStart()
 		{
 
@@ -57,8 +57,7 @@ using System.Threading.Tasks;
 				}
 			}
 
-		
-		Log.Info("Created water mesh");
+		water = FloodGame.Instance.waterInstance;
 		FloodGame.SystemMessage( "The build phase is over, the water rises..." );
 
 
@@ -74,10 +73,15 @@ using System.Threading.Tasks;
 		}
 
 
-		
+		[Net] private float waterHeight { get; set; }
 		public override void OnTick()
 		{
-		
+		if ( water == null ) return;
+		if (Host.IsServer)
+		{
+			waterHeight += 0.2f;
+		}
+		water.Position = new Vector3(0, 0, waterHeight);
 		base.OnTick();
 	}
 
@@ -90,6 +94,7 @@ using System.Threading.Tasks;
 		{
 			if ( _isGameOver ) return;
 			Log.Info( "Flood round time up" );
+			FloodGame.Instance.waterHeight = waterHeight;
 			FloodGame.Instance.ChangeRound(new FightRound());
 
 			base.OnTimeUp();

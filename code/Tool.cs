@@ -9,7 +9,7 @@ partial class Tool : Carriable
 
 	public override string ViewModelPath => "weapons/rust_pistol/v_rust_pistol.vmdl";
 
-	[Net]
+	[NetPredicted]
 	public BaseTool CurrentTool { get; set; }
 
 	public override void Spawn()
@@ -19,7 +19,7 @@ partial class Tool : Carriable
 		SetModel( "weapons/rust_pistol/rust_pistol.vmdl" );
 	}
 
-	public virtual void OnPlayerControlTick( Client owner )
+	public override void Simulate( Client owner )
 	{
 		UpdateCurrentTool( owner );
 
@@ -33,7 +33,7 @@ partial class Tool : Carriable
 			return;
 
 		// Already the right tool
-		if ( CurrentTool != null && CurrentTool.Parent == this && CurrentTool.Owner == owner && CurrentTool.ClassInfo.IsNamed( toolName ) )
+		if ( CurrentTool != null && CurrentTool.Parent == this && CurrentTool.Owner == owner.Pawn && CurrentTool.ClassInfo.IsNamed( toolName ) )
 			return;
 
 		if ( CurrentTool != null )
@@ -47,7 +47,7 @@ partial class Tool : Carriable
 		if ( CurrentTool != null )
 		{
 			CurrentTool.Parent = this;
-			CurrentTool.Owner = owner;
+			CurrentTool.Owner = owner.Pawn as Player;
 			CurrentTool.Activate();
 		}
 	}

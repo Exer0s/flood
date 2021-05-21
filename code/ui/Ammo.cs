@@ -19,7 +19,7 @@ public class Ammo : Panel
 		var player = Local.Pawn;
 		if ( player == null ) return;
 
-		var weapon = player.ActiveChild as BaseDmWeapon;
+		var weapon = player.ActiveChild as BaseFloodWeapon;
 		SetClass( "active", weapon != null );
 
 		if ( weapon == null ) return;

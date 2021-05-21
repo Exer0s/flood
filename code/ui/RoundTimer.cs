@@ -17,7 +17,7 @@ public class RoundTimer : Panel
 
 	public override void Tick()
 	{
-		var player = Player.Local;
+		var player = Local.Client.Pawn;
 		if ( player == null ) return;
 
 		var game = FloodGame.Instance;

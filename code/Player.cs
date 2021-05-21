@@ -3,6 +3,7 @@ using System;
 using System.Linq;
 using System.Numerics;
 using System.Threading;
+using System.Collections.Generic;
 
 public partial class FloodPlayer : Player
 {
@@ -12,13 +13,20 @@ public partial class FloodPlayer : Player
 
 	[Net] public int Money { get; set; }
 
+
+	public List<string> weaponsInCart = new List<string>();
+
+
 	public FloodPlayer()
 	{
 		Inventory = new Inventory( this );
 	}
 
+	
+
 	public override void Respawn()
 	{
+		if ( !FloodGame.Instance.RespawnEnabled ) return;
 		SetModel( "models/citizen/citizen.vmdl" );
 
 		Controller = new WalkController();
@@ -35,7 +43,7 @@ public partial class FloodPlayer : Player
 
 		SupressPickupNotices = true;
 
-		Inventory.Add( new Pistol(), true );
+		//Inventory.Add( new Pistol(), true );
 		//Inventory.Add( new Shotgun() );
 		//Inventory.Add( new SMG() );
 		//Inventory.Add( new Crossbow() );
@@ -50,16 +58,12 @@ public partial class FloodPlayer : Player
 		base.Respawn();
 	}
 
-	public void MakeSpectator( Vector3 position = default )
+	public void MakeSpectator()
 	{
 		EnableAllCollisions = false;
 		EnableDrawing = false;
 		Controller = null;
-		Camera = new SpectateCamera
-		{
-			DeathPosition = position,
-			TimeSinceDied = 0
-		};
+		Camera = new DevCamera();
 	}
 
 	public override void OnKilled()
@@ -74,17 +78,16 @@ public partial class FloodPlayer : Player
 		//
 		Inventory.DeleteContents();
 
-		BecomeRagdollOnClient( LastDamage.Force, GetHitboxBone( LastDamage.HitboxIndex ) );
-
 		Controller = null;
-		Camera = new SpectateRagdollCamera();
+		BecomeRagdollOnClient(LastDamage.Force, GetHitboxBone(LastDamage.HitboxIndex));
+		Camera = new DevCamera();
 
 		EnableAllCollisions = false;
 		EnableDrawing = false;
 	}
 
 
-	protected override void Simulate(Client cl)
+	public override void Simulate(Client cl)
 	{
 		base.Simulate(cl);
 
@@ -214,7 +217,7 @@ public partial class FloodPlayer : Player
 		setup.Position += left * MathF.Sin( walkBob * 0.6f ) * speed * 1;
 
 		// Camera lean
-		lean = lean.LerpTo( Velocity.Dot( setup.Rotation.Right ) * 0.03f, Time.Delta * 15.0f );
+		lean = lean.LerpTo( Velocity.Dot( setup.Rotation.Right ) * 0.015f, Time.Delta * 15.0f );
 
 		var appliedLean = lean;
 		appliedLean += MathF.Sin( walkBob ) * speed * 0.2f;
@@ -255,7 +258,7 @@ public partial class FloodPlayer : Player
 			attacker.DidDamage( To.Single(attacker), info.Position, info.Damage, ((float)Health).LerpInverse( 100, 0 ) );
 		}
 
-		TookDamage( To.Single(this), info.Weapon.IsValid() ? info.Weapon.WorldPos : info.Attacker.WorldPos );
+		TookDamage( To.Single(this), info.Weapon.IsValid() ? info.Weapon.Position : info.Attacker.Position );
 	}
 
 	[ClientRpc]

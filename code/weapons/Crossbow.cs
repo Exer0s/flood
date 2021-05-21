@@ -1,13 +1,14 @@
 ﻿using Sandbox;
 
 [Library( "dm_crossbow", Title = "Crossbow" )]
-partial class Crossbow : BaseDmWeapon
+partial class Crossbow : BaseFloodWeapon
 { 
 	public override string ViewModelPath => "weapons/rust_crossbow/v_rust_crossbow.vmdl";
 
 	public override float PrimaryRate => 1;
 	public override int Bucket => 3;
 	public override AmmoType AmmoType => AmmoType.Crossbow;
+	public override int Cost => 15;
 
 	[Net]
 	public bool Zoomed { get; set; }

@@ -43,7 +43,7 @@ partial class Inventory : BaseInventory
         if ( !Contains( ent ) )
             return false;
 
-        if ( ent is ICarriable carry )
+        if ( ent is BaseCarriable carry )
         {
             carry.OnCarryDrop( Owner );
         }

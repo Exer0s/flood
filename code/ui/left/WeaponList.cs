@@ -19,11 +19,26 @@ public partial class WeaponList : Panel
 		Canvas.OnCreateCell = ( cell, data ) =>
 		{
 			var entry = (LibraryAttribute)data;
-			if ( entry.Title == "BaseFloodWeapon" ) return;
+			var localPlayer = Local.Pawn as FloodPlayer;
+			var localClient = Local.Client;
+			//if ( entry.Title == "BaseFloodWeapon" ) return;
 			BaseFloodWeapon weapon = Library.Create<BaseFloodWeapon>(entry.Name);
 			var btn = cell.Add.Button( $"{entry.Title} - {weapon.Cost}" );
 			btn.AddClass( "icon" );
-			btn.AddEvent( "onclick", () => ConsoleSystem.Run( "spawn_weapon", entry.Name ) );
+			btn.AddEvent( "onclick", () => {
+
+				ConsoleSystem.Run( "spawn_weapon", entry.Name );
+				/*if ( localPlayer.weaponsInCart.Contains( entry.Name ))
+				{
+					Log.Info( $"{localClient.Name} removed {entry.Name} to their cart" );
+					localPlayer.weaponsInCart.Remove( entry.Name );
+				} else
+				{
+					Log.Info( $"{localClient.Name} added {entry.Name} to their cart" );
+					localPlayer.weaponsInCart.Add( entry.Name );
+				}*/
+				
+			});
 			btn.Style.Background = new PanelBackground
 			{
 				Texture = Texture.Load( $"/ui/weapons/{entry.Name}.png", false )
@@ -35,9 +50,16 @@ public partial class WeaponList : Panel
 
 		foreach ( var entry in ents )
 		{
+			//Log.Info( $"Weapon loaded :{entry.Name} | {entry.Title} " );
+			//if ( entry.Title.Contains("BaseFloodWeapon") ) return;
+			var weaponIcon = Texture.Load( $"/ui/weapons/{entry.Name}.png", false );
 
-			Canvas.AddItem( entry );
-			Log.Info( $"Weapon loaded :{entry.Name} " );
+			if ( weaponIcon != null )
+			{
+				Canvas.AddItem( entry );
+			}
+			
+			
 		}
 	}
 }

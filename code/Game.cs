@@ -15,16 +15,9 @@ partial class FloodGame : Game
 	
 	[ServerVar( "flood_min_players", Help = "The minimum players required to start." )]
 	public static int MinPlayers { get; set; } = 2;
-
-	//Stores weapon cost for use in buy menu | I dont think this is needed anymore
-	/*public Dictionary<string, int> weaponCosts = new Dictionary<string, int>()
-	{
-		{ "Shotgun", 10},
-		{ "Pistol", 5},
-		{ "SMG", 15},
-		{ "Crossbow", 20},
-	};*/
-
+	[Net] public bool RespawnEnabled { get; set; } = true;
+	[Net] public WaterFlood waterInstance { get; private set; }
+	[Net] public float waterHeight { get; private set; }
 	[Net] public BaseRound Round { get; private set; }
 	private BaseRound _lastRound;
 
@@ -70,7 +63,7 @@ partial class FloodGame : Game
 
 	[ServerCmd("spawn_weapon")]
 	public static void SpawnWeapon(string weaponName) {
-		var owner = ConsoleSystem.Caller?.Pawn;
+		var owner = ConsoleSystem.Caller?.Pawn as FloodPlayer;
 
 		if ( ConsoleSystem.Caller == null )
 			return;
@@ -91,7 +84,7 @@ partial class FloodGame : Game
 	[ServerCmd("give_money")]
 	public static void GiveMoney(string amount)
 	{
-		var owner = ConsoleSystem.Caller?.Pawn;
+		var owner = ConsoleSystem.Caller?.Pawn as FloodPlayer;
 
 		if ( ConsoleSystem.Caller == null )
 			return;
@@ -113,7 +106,7 @@ partial class FloodGame : Game
 			.Size( 2 )
 			.Run();
 
-		var ent = new Prop();
+		var ent = new BreakableProp();
 		ent.Position = tr.EndPos;
 		ent.Rotation = Rotation.From( new Angles( 0, owner.EyeRot.Angles().yaw, 0 ) ) * Rotation.FromAxis( Vector3.Up, 180 );
 		ent.SetModel( modelname );
@@ -162,14 +155,14 @@ partial class FloodGame : Game
 		//Log.Info( $"ent: {ent}" );
 	}
 	#endregion
-	
-	
+
+
 	public static void SystemMessage( string message )
 	{
-		//Host.AssertServer();
-		ChatBox.AddChatEntry( Player.All, "System", message, "/ui/system.png" );
+		Host.AssertServer();
+		ChatBox.AddChatEntry( To.Everyone, "Server", message, "/ui/system.png" );
 	}
-	
+
 	#region Server_Commands
 	//Skip Round Command
 	/*[ServerCmd("skipround")]
@@ -180,9 +173,9 @@ partial class FloodGame : Game
 
 		Round?.OnTimeUp();
 	}*/
-	
+
 	#endregion
-	
+
 	public override void PostLevelLoaded()
 	{
 		base.PostLevelLoaded();
@@ -245,7 +238,7 @@ partial class FloodGame : Game
 	
 	private void CheckMinimumPlayers()
 	{
-		if (Sandbox.Player.All.Count >= MinPlayers)
+		if (Client.All.Count >= MinPlayers)
 		{
 			if (Round == null)
 			{

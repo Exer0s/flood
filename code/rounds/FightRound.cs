@@ -9,7 +9,7 @@ public class FightRound : BaseRound
 {
 	public override string RoundName => "Fight!";
 	//[ServerVar( "flood_fight_duration", Help = "The duration of the flood round" )]
-	public override int RoundDuration => 180;
+	public override int RoundDuration => 20;
 	public override bool CanPlayerSuicide => true;
 
 	public List<FloodPlayer> Spectators = new ();
@@ -21,7 +21,7 @@ public class FightRound : BaseRound
 		Players.Remove( player );
 		Spectators.Add( player );
 
-		player.MakeSpectator( player.EyePos );
+		player.MakeSpectator();
 	}
 
 	public override void OnPlayerLeave( FloodPlayer player )
@@ -49,11 +49,12 @@ public class FightRound : BaseRound
 		{
 			foreach ( var client in Client.All )
 			{
-				if ( client.Pawn is FloodPlayer player )
-					SupplyLoadouts( player );
+				if ( client.Pawn is FloodPlayer player ) 
+				SupplyLoadouts( player );
 			}
+			FloodGame.Instance.RespawnEnabled = false;
 		}
-
+		
 		FloodGame.SystemMessage( "The flood is over, fight!" );
 
 
@@ -71,20 +72,23 @@ public class FightRound : BaseRound
 	public override void OnTick()
 	{
 		
-		//base.OnTick();
+		base.OnTick();
 	}
 
 	public override void OnSecond()
 	{
 
-		//base.OnSecond();
+		base.OnSecond();
 	}
 
 	public override void OnTimeUp()
 	{
 		if ( _isGameOver ) return;
-
-		FloodGame.Instance.ChangeRound( new PostGameRound() );
+		Log.Info( "Fight time over" );
+		FloodGame.Instance.ChangeRound( new PostGameRound() {
+			Spectators = Spectators,
+			Players = Players
+		} );
 
 		base.OnTimeUp();
 	}
@@ -92,18 +96,22 @@ public class FightRound : BaseRound
 	private void SupplyLoadouts( FloodPlayer player )
 	{
 		// Give everyone who is alive their starting loadouts.
-		//if ( player.LifeState == LifeState.Alive )
-		//{
+		if ( player.LifeState == LifeState.Alive )
+		{
 		player.ClearAmmo();
 		player.Inventory.DeleteContents();
-		player.Inventory.Add( new Pistol(), true );
-		player.Inventory.Add( new SMG(), false );
-		player.Inventory.Add( new Shotgun(), false );
+		Log.Info( $"Supplying fight weapons" );
+		foreach (var weapon in player.weaponsInCart)
+		{
+				Log.Info( $"Given {weapon}" );
+				ConsoleSystem.Run( "spawn_weapon", weapon );
+		}
+
 		if ( !Players.Contains( player ) )
 		{
 			AddPlayer( player );
 		}
 
-		//}
+		}
 	}
 }

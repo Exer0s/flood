@@ -5,13 +5,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-	public class PostGameRound : BaseRound
+	public partial class PostGameRound : BaseRound
 	{
 		public override string RoundName => "Post-Game";
 		[ServerVar( "flood_post_game_duration", Help = "The duration of the post-game round" )]
 		public override int RoundDuration => 15;
 		public override bool CanPlayerSuicide => true;
-		
+
+		public List<FloodPlayer> Spectators = new ();
+
 		private bool _isGameOver;
 
 		public override void OnPlayerKilled( FloodPlayer player )
@@ -40,7 +42,7 @@ using System.Threading.Tasks;
 				
 			base.OnPlayerSpawn( player );
 		}
-		
+		private WaterFlood water;
 		protected override void OnStart()
 		{
 
@@ -52,7 +54,8 @@ using System.Threading.Tasks;
 						SupplyLoadouts( player );
 				}
 			}
-			
+		waterHeight = FloodGame.Instance.waterHeight;
+		water = FloodGame.Instance.waterInstance;
 		}
 
 		protected override void OnFinish()
@@ -66,7 +69,19 @@ using System.Threading.Tasks;
 
 	public override void OnSecond()
 	{
-		//base.OnSecond();
+		base.OnSecond();
+	}
+	[Net] private float waterHeight { get; set; }
+	public override void OnTick()
+	{
+		if ( water == null ) return;
+		if ( waterHeight <= 0 ) return;
+		if ( Host.IsServer )
+		{
+			waterHeight -= 0.2f;
+		}
+		water.Position = new Vector3( 0, 0, waterHeight );
+		base.OnTick();
 	}
 
 	public override void OnTimeUp()

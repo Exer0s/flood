@@ -2,7 +2,7 @@
 
 
 [Library( "dm_shotgun", Title = "Shotgun" )]
-partial class Shotgun : BaseDmWeapon
+partial class Shotgun : BaseFloodWeapon
 { 
 	public override string ViewModelPath => "weapons/rust_pumpshotgun/v_rust_pumpshotgun.vmdl";
 	public override float PrimaryRate => 1;
@@ -11,6 +11,7 @@ partial class Shotgun : BaseDmWeapon
 	public override int ClipSize => 8;
 	public override float ReloadTime => 0.5f;
 	public override int Bucket => 2;
+	public override int Cost => 10;
 
 	public override void Spawn()
 	{
@@ -121,7 +122,7 @@ partial class Shotgun : BaseDmWeapon
 		if ( AmmoClip >= ClipSize )
 			return;
 
-		if ( Owner is DeathmatchPlayer player )
+		if ( Owner is FloodPlayer player )
 		{
 			var ammo = player.TakeAmmo( AmmoType, 1 );
 			if ( ammo == 0 )

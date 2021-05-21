@@ -36,25 +36,37 @@ using System.Threading.Tasks;
 			{
 				AddPlayer(player);
 			}
-			
-				
-				
-			base.OnPlayerSpawn( player );
-		}
+
+
 		
+		base.OnPlayerSpawn( player );
+		}
+
+		private WaterFlood water;
 		protected override void OnStart()
 		{
-			Log.Info( "Started Hunt Round" );
 
 			if ( Host.IsServer )
 			{
 				foreach ( var client in Client.All )
 				{
 					if ( client.Pawn is FloodPlayer player )
+					{
 						SupplyLoadouts( player );
+						player.Respawn();
+					}
 				}
+
+			if ( FloodGame.Instance.waterInstance == null )
+			{
+				water = new WaterFlood();
+				FloodGame.Instance.waterInstance = water;
 			}
-			FloodGame.SystemMessage("The build phase has started");
+			FloodGame.Instance.RespawnEnabled = true;
+		}
+		
+		
+		FloodGame.SystemMessage("The build phase has started");
 		}
 
 		protected override void OnFinish()

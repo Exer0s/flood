@@ -2,13 +2,14 @@
 
 
 [Library( "dm_pistol", Title = "Pistol" )]
-partial class Pistol : BaseDmWeapon
+partial class Pistol : BaseFloodWeapon
 { 
 	public override string ViewModelPath => "weapons/rust_pistol/v_rust_pistol.vmdl";
 
 	public override float PrimaryRate => 15.0f;
 	public override float SecondaryRate => 1.0f;
 	public override float ReloadTime => 3.0f;
+	public override int Cost => 0;
 
 	public override int Bucket => 1;
 

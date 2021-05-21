@@ -8,19 +8,19 @@ using Sandbox;
 [Library( "prop_flood" )]
 public partial class BreakableProp : Prop
 {
-	[Net] public float Health { get; set; }
+	[Net] public float PropHealth { get; set; }
 
 	protected override void UpdatePropData(Model model)
 	{
 		var propInfo = model.GetPropData();
-		Health = (int)propInfo.Health;
+		PropHealth = propInfo.Health;
 	}
 
 	public override void TakeDamage(DamageInfo info)
 	{
-		Health -= info.Damage;
+		PropHealth -= info.Damage;
 
-		if (Health <= 0)
+		if (PropHealth <= 0)
 		{
 			OnKilled();
 		}
