@@ -32,4 +32,10 @@ public partial class Carriable : BaseCarriable, IUse
 	{
 		return Owner == null;
 	}
+
+	public override void OnCarryDrop(Entity player) {
+		Log.Info("Weapon dropped");
+		base.OnCarryDrop(player);
+	}
+
 }

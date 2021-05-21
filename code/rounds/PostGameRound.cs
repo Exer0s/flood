@@ -53,7 +53,8 @@ using System.Threading.Tasks;
 					if ( client.Pawn is FloodPlayer player )
 						SupplyLoadouts( player );
 				}
-			}
+			FloodGame.Instance.canUseWeapons = false;
+		}
 		waterHeight = FloodGame.Instance.waterHeight;
 		water = FloodGame.Instance.waterInstance;
 		}

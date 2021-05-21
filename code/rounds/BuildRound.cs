@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 	{
 		public override string RoundName => "Build!";
 		//[ServerVar( "flood_build_duration", Help = "The duration of the build round" )]
-		public override int RoundDuration => 5;
+		public override int RoundDuration => 10;
 		public override bool CanPlayerSuicide => true;
 
 		private bool _isGameOver;
@@ -101,8 +101,14 @@ using System.Threading.Tasks;
 			//{
 				player.ClearAmmo();
 				player.Inventory.DeleteContents();
-				player.Inventory.Add( new PhysGun(), true );
-				player.Inventory.Add( new Tool(), false );
+				if (player.pgun == null)
+				{
+				player.pgun = Library.Create<PhysGun>( "physgun" );
+				player.tgun = Library.Create<Tool>( "weapon_tool" );
+				}
+				
+				player.Inventory.Add( player.pgun, true );
+				player.Inventory.Add( player.tgun, false );
 				if (!Players.Contains(player))
 				{
 					AddPlayer(player);

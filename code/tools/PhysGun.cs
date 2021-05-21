@@ -265,6 +265,13 @@ public partial class PhysGun : Carriable
 
 	public override void OnCarryDrop( Entity dropper )
 	{
+		if ( IsClient ) return;
+
+		SetParent( null );
+		Owner = null;
+		//MoveType = MoveType.Physics;
+		EnableDrawing = false;
+		EnableAllCollisions = false;
 	}
 
 	private void GrabInit( PhysicsBody body, Vector3 startPos, Vector3 grabPos, Rotation rot )

@@ -58,6 +58,7 @@ public class InventoryBar : Panel
 			return;
 		}
 
+		if ( !FloodGame.Instance.canUseWeapons ) return;
 		if ( input.Pressed( InputButton.Slot1 ) ) SetActiveSlot( input, inventory, 0 );
 		if ( input.Pressed( InputButton.Slot2 ) ) SetActiveSlot( input, inventory, 1 );
 		if ( input.Pressed( InputButton.Slot3 ) ) SetActiveSlot( input, inventory, 2 );

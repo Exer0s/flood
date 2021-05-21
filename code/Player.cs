@@ -13,9 +13,8 @@ public partial class FloodPlayer : Player
 
 	[Net] public int Money { get; set; }
 
-
-	public List<string> weaponsInCart = new List<string>();
-
+	public PhysGun pgun;
+	public Tool tgun;
 
 	public FloodPlayer()
 	{

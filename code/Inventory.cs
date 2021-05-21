@@ -37,17 +37,18 @@ partial class Inventory : BaseInventory
 
     public override bool Drop( Entity ent )
     {
+		Log.Info( $"Player attempted to drop {ent}" );
         if ( !Host.IsServer )
             return false;
-
-        if ( !Contains( ent ) )
-            return false;
-
-        if ( ent is BaseCarriable carry )
+        //if ( !Contains( ent ) )
+            //return false;
+		if ( ent is Carriable)
         {
-            carry.OnCarryDrop( Owner );
+			Log.Info( "ent is carriable" );
+			ent.OnCarryDrop( Owner );
         }
 
-        return ent.Parent == null;
+		return ent.Parent == null;
+
     }
 }

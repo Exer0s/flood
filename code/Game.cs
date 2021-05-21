@@ -20,6 +20,7 @@ partial class FloodGame : Game
 	[Net] public float waterHeight { get; private set; }
 	[Net] public BaseRound Round { get; private set; }
 	private BaseRound _lastRound;
+	[Net] public bool canUseWeapons { get; set; } = true;
 
 	#region Singleton
 	public static FloodGame Instance
@@ -64,7 +65,7 @@ partial class FloodGame : Game
 
 	public static void SystemMessage( string message )
 	{
-		Host.AssertServer();
+		//Host.AssertServer();
 		ChatBox.AddChatEntry( To.Everyone, "Server", message, "/ui/system.png" );
 	}
 

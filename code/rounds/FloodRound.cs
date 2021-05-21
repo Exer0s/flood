@@ -55,7 +55,8 @@ using System.Threading.Tasks;
 					if ( client.Pawn is FloodPlayer player )
 						SupplyLoadouts( player );
 				}
-			}
+			FloodGame.Instance.canUseWeapons = false;
+		}
 
 		water = FloodGame.Instance.waterInstance;
 		FloodGame.SystemMessage( "The build phase is over, the water rises..." );
@@ -103,15 +104,17 @@ using System.Threading.Tasks;
 		private void SupplyLoadouts( FloodPlayer player )
 		{
 			// Give everyone who is alive their starting loadouts.
-			//if ( player.LifeState == LifeState.Alive )
-			//{
-			player.ClearAmmo();
-			player.Inventory.DeleteContents();
+			if ( player.LifeState == LifeState.Alive )
+			{
+			//Log.Info( "Dropping build tools, holstering weapon" );
+			player.Inventory.Drop( player.pgun );
+			player.Inventory.Drop( player.tgun );
+			player.ActiveChild = null;
 			if (!Players.Contains(player))
 			{
 				AddPlayer(player);
 			}
 			
-				//}
+			}
 		}
 	}

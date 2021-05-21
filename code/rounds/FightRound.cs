@@ -49,10 +49,13 @@ public class FightRound : BaseRound
 		{
 			foreach ( var client in Client.All )
 			{
-				if ( client.Pawn is FloodPlayer player ) 
-				SupplyLoadouts( player );
+				if (client.Pawn is FloodPlayer player)
+				{
+					SupplyLoadouts( player );
+				}
 			}
 			FloodGame.Instance.RespawnEnabled = false;
+			FloodGame.Instance.canUseWeapons = true;
 		}
 		
 		FloodGame.SystemMessage( "The flood is over, fight!" );
@@ -98,15 +101,6 @@ public class FightRound : BaseRound
 		// Give everyone who is alive their starting loadouts.
 		if ( player.LifeState == LifeState.Alive )
 		{
-		player.ClearAmmo();
-		player.Inventory.DeleteContents();
-		Log.Info( $"Supplying fight weapons" );
-		foreach (var weapon in player.weaponsInCart)
-		{
-				Log.Info( $"Given {weapon}" );
-				ConsoleSystem.Run( "spawn_weapon", weapon );
-		}
-
 		if ( !Players.Contains( player ) )
 		{
 			AddPlayer( player );
@@ -114,4 +108,6 @@ public class FightRound : BaseRound
 
 		}
 	}
+
+
 }

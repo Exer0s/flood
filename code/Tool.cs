@@ -76,6 +76,13 @@ partial class Tool : Carriable
 
 	public override void OnCarryDrop( Entity dropper )
 	{
+		if ( IsClient ) return;
+
+		SetParent( null );
+		Owner = null;
+		//MoveType = MoveType.Physics;
+		EnableDrawing = false;
+		EnableAllCollisions = false;
 	}
 
 	[Event( "frame" )]
