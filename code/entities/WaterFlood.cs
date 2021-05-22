@@ -14,7 +14,7 @@ public partial class WaterFlood : Water
 
 		public override void Touch(Entity ent)
 		{
-			if (ent is FloodPlayer && FloodGame.Instance.Round is FightRound)
+			/*if (ent is FloodPlayer && FloodGame.Instance.Round is FightRound)
 			{
 			if (ent.Health <= 0)
 			{
@@ -26,7 +26,7 @@ public partial class WaterFlood : Water
 				ent.Health -= 1;
 			}
 			
-			}
+			}*/
 		base.Touch( ent );
 		}
 

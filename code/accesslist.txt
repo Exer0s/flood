@@ -568,7 +568,6 @@ System.Private.CoreLib/System.String.Concat( System.String, System.String, Syste
 System.Private.CoreLib/System.String.Concat( System.String[] )
 System.Private.CoreLib/System.String.Contains( System.String )
 System.Private.CoreLib/System.String.Format( System.String, System.Object )
-System.Private.CoreLib/System.String.Format( System.String, System.Object, System.Object )
 System.Private.CoreLib/System.String.get_Length()
 System.Private.CoreLib/System.String.IsNullOrEmpty( System.String )
 System.Private.CoreLib/System.String.IsNullOrWhiteSpace( System.String )

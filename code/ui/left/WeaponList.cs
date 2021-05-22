@@ -11,7 +11,7 @@ public partial class WeaponList : Panel
 
 	public WeaponList()
 	{
-		AddClass( "spawnpage" );
+		AddClass( "weaponpage" );
 		AddChild( out Canvas, "canvas" );
 
 		Canvas.Layout.AutoColumns = true;
@@ -22,11 +22,18 @@ public partial class WeaponList : Panel
 			var localPlayer = Local.Pawn as FloodPlayer;
 			var localClient = Local.Client;
 			BaseFloodWeapon weapon = Library.Create<BaseFloodWeapon>(entry.Name);
-			var btn = cell.Add.Button( $"{entry.Title} - {weapon.Cost}" );
+			var btn = cell.Add.Button( $"{entry.Title}" );
+			var cost = cell.Add.Label($"${weapon.Cost}", "weaponcost");
+			
 			btn.AddClass( "icon" );
 			btn.AddEvent( "onclick", () => {
 
 				ConsoleSystem.Run( "spawn_weapon", entry.Name );
+				if (localPlayer.Money >= weapon.Cost)
+				{
+					cost.Text = "Purchased";
+				}
+				
 				
 			});
 			btn.Style.Background = new PanelBackground
@@ -34,6 +41,8 @@ public partial class WeaponList : Panel
 				Texture = Texture.Load( $"/ui/weapons/{entry.Name}.png", false )
 				
 			};
+			
+
 		};
 
 		var ents = Library.GetAllAttributes<BaseFloodWeapon>();
