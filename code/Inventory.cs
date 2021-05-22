@@ -40,9 +40,7 @@ partial class Inventory : BaseInventory
 		Log.Info( $"Player attempted to drop {ent}" );
         if ( !Host.IsServer )
             return false;
-        //if ( !Contains( ent ) )
-            //return false;
-		if ( ent is Carriable)
+        if ( ent is Carriable)
         {
 			Log.Info( "ent is carriable" );
 			ent.OnCarryDrop( Owner );

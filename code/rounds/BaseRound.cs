@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 	public abstract partial class BaseRound : NetworkClass
 	{
-		public virtual int RoundDuration => 0;
+		public virtual int RoundDuration { get; set; } = 0;
 		public virtual string RoundName => "";
 		public virtual bool CanPlayerSuicide => false;
 

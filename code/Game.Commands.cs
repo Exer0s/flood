@@ -16,15 +16,19 @@ partial class FloodGame
 
 		if ( ConsoleSystem.Caller == null )
 			return;
-		
+			//Creates weapon entity reference
 			BaseFloodWeapon weapon = Library.Create<BaseFloodWeapon>(weaponName);
+			//get player inv
 			var inventory = owner.Inventory as Inventory;
+			//see if we already have it
 			if ( !inventory.CanAdd( weapon ) ) return;
 			Log.Info( $"{ConsoleSystem.Caller.Name} spawned {weaponName}" );
 			int cost = weapon.Cost;
+			//Spends money for weapon
 			if (owner.Money >= cost)
 			{
 				owner.Money = owner.Money - cost;
+				//Adds weapon to inv
 				owner.Inventory.Add(weapon, true);
 			}
 		
@@ -48,16 +52,18 @@ partial class FloodGame
 
 		if ( ConsoleSystem.Caller == null )
 			return;
-
+		//Finds point where the player is looking at
 		var tr = Trace.Ray( owner.EyePos, owner.EyePos + owner.EyeRot.Forward * 500 )
 			.UseHitboxes()
 			.Ignore( owner )
 			.Size( 2 )
 			.Run();
-
+		//Spawns new prop
 		var ent = new BreakableProp();
+		//sets prop position and rotation to where player is looking
 		ent.Position = tr.EndPos;
 		ent.Rotation = Rotation.From( new Angles( 0, owner.EyeRot.Angles().yaw, 0 ) ) * Rotation.FromAxis( Vector3.Up, 180 );
+		//set model of the prop
 		ent.SetModel( modelname );
 
 		// Drop to floor
@@ -79,29 +85,28 @@ partial class FloodGame
 
 		if ( owner == null )
 			return;
-
+		//gets entity reference
 		var attribute = Library.GetAttribute( entName );
 
 		if ( attribute == null || !attribute.Spawnable )
 			return;
-
+		//finds where player is looking
 		var tr = Trace.Ray( owner.EyePos, owner.EyePos + owner.EyeRot.Forward * 200 )
 			.UseHitboxes()
 			.Ignore( owner )
 			.Size( 2 )
 			.Run();
-
+		//spawns entity
 		var ent = Library.Create<Entity>( entName );
 		if ( ent is BaseCarriable && owner.Inventory != null )
 		{
 			if ( owner.Inventory.Add( ent, true ) )
 				return;
 		}
-
+		//
 		ent.Position = tr.EndPos;
 		ent.Rotation = Rotation.From( new Angles( 0, owner.EyeRot.Angles().yaw, 0 ) );
-
-		//Log.Info( $"ent: {ent}" );
+		
 	}
 	#endregion
 	

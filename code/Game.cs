@@ -13,6 +13,7 @@ using Sandbox.UI;
 partial class FloodGame : Game
 {
 	
+	#region Networked Variables
 	[ServerVar( "flood_min_players", Help = "The minimum players required to start." )]
 	public static int MinPlayers { get; set; } = 2;
 	[Net] public bool RespawnEnabled { get; set; } = true;
@@ -21,7 +22,9 @@ partial class FloodGame : Game
 	[Net] public BaseRound Round { get; private set; }
 	private BaseRound _lastRound;
 	[Net] public bool canUseWeapons { get; set; } = true;
-
+	#endregion
+	
+	
 	#region Singleton
 	public static FloodGame Instance
 	{
@@ -62,7 +65,7 @@ partial class FloodGame : Game
 	
 	
 
-
+	//Sends message to all clients
 	public static void SystemMessage( string message )
 	{
 		//Host.AssertServer();
@@ -70,10 +73,11 @@ partial class FloodGame : Game
 	}
 
 	
-
+	//Called after level loads
 	public override void PostLevelLoaded()
 	{
 		base.PostLevelLoaded();
+		//Starts timer for the round system
 		_ = StartSecondTimer();
 		ItemRespawn.Init();
 
