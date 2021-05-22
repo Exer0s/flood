@@ -20,7 +20,7 @@ using System.Threading.Tasks;
 		public override void OnPlayerKilled( FloodPlayer player )
 		{
 			player.Respawn();
-		}
+	}
 
 		public override void OnPlayerLeave( FloodPlayer player )
 		{
@@ -28,7 +28,7 @@ using System.Threading.Tasks;
 
 			Players.Remove( player );
 			Spectators.Remove(player);
-		}
+	}
 
 		public override void OnPlayerSpawn( FloodPlayer player )
 		{
@@ -38,9 +38,8 @@ using System.Threading.Tasks;
 			{
 				AddPlayer(player);
 			}
-			
-				
-				
+
+
 			base.OnPlayerSpawn( player );
 		}
 
@@ -107,6 +106,7 @@ using System.Threading.Tasks;
 			if ( player.LifeState == LifeState.Alive )
 			{
 			//Log.Info( "Dropping build tools, holstering weapon" );
+
 			player.Inventory.Drop( player.pgun );
 			player.Inventory.Drop( player.tgun );
 			player.ActiveChild = null;

@@ -130,6 +130,14 @@ partial class FloodGame : Game
 		}
 	}
 
+	public override void OnKilled(Entity ent)
+	{
+		if (ent is FloodPlayer player)
+		{
+			Round?.OnPlayerKilled( player );
+		}
+		base.OnKilled( ent );
+	}
 	
 	private void CheckMinimumPlayers()
 	{

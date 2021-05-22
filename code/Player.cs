@@ -27,7 +27,7 @@ public partial class FloodPlayer : Player
 	{
 		if ( !FloodGame.Instance.RespawnEnabled ) return;
 		SetModel( "models/citizen/citizen.vmdl" );
-
+		FloodGame.Instance.Round?.OnPlayerSpawn(this);
 		Controller = new WalkController();
 		Animator = new StandardPlayerAnimator();
 		Camera = new FirstPersonCamera();
@@ -70,7 +70,7 @@ public partial class FloodPlayer : Player
 		base.OnKilled();
 
 		//
-		Inventory.DropActive();
+		//Inventory.DropActive();
 
 		//
 		// Delete any items we didn't drop
