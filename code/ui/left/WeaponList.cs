@@ -28,11 +28,34 @@ public partial class WeaponList : Panel
 			btn.AddClass( "icon" );
 			btn.AddEvent( "onclick", () => {
 
-				ConsoleSystem.Run( "spawn_weapon", entry.Name );
-				if (localPlayer.Money >= weapon.Cost)
+				
+				if (cost.Text == weapon.Cost.ToString())
 				{
-					cost.Text = "Purchased";
+					if (localPlayer.Money >= weapon.Cost)
+					{
+						
+						bool didAdd = localPlayer.Inventory.Add(weapon, true);
+						if (didAdd)
+						{
+							localPlayer.Money -= weapon.Cost;
+							cell.SetClass("purchased", true);
+							cost.Text = "Purchased";
+						}
+						
+					}
 				}
+
+				if (cost.Text == "Purchased")
+				{
+					bool didDrop = localPlayer.Inventory.Drop(weapon);
+					if (didDrop)
+					{
+						localPlayer.Money += weapon.Cost;
+						cell.SetClass("purchased", false);
+						cost.Text = $"{weapon.Cost}";
+					}
+				}
+				
 				
 				
 			});

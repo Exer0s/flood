@@ -265,12 +265,13 @@ partial class BaseFloodWeapon : BaseWeapon, IRespawnableEntity
 
 	public override void OnCarryDrop( Entity dropper )
 	{
-		base.OnCarryDrop( dropper );
+		if ( IsClient ) return;
 
-		if ( PickupTrigger.IsValid() )
-		{
-			PickupTrigger.EnableTouch = true;
-		}
+		SetParent( null );
+		Owner = null;
+		//MoveType = MoveType.Physics;
+		EnableDrawing = false;
+		EnableAllCollisions = false;
 	}
 
 }

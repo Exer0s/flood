@@ -154,6 +154,12 @@
                 left: 40px;
                 right: 0;
                 pointer-events: none;
+                
+                &.purchased {
+                    font-size:8px;
+                    color: #fff;
+                }
+                
 		}
         }
 
