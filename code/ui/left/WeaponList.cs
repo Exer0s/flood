@@ -20,6 +20,7 @@ public partial class WeaponList : Panel
 		{
 			var entry = (LibraryAttribute)data;
 			var localPlayer = Local.Pawn as FloodPlayer;
+			var localInventory = localPlayer.Inventory as Inventory;
 			var localClient = Local.Client;
 			BaseFloodWeapon weapon = Library.Create<BaseFloodWeapon>(entry.Name);
 			var btn = cell.Add.Button( $"{entry.Title}" );
@@ -28,32 +29,28 @@ public partial class WeaponList : Panel
 			btn.AddClass( "icon" );
 			btn.AddEvent( "onclick", () => {
 
-				
-				if (cost.Text == weapon.Cost.ToString())
+				if ( localPlayer == null ) return;
+				//Buying weapons
+				if ( localInventory.CanAdd(weapon) && !localPlayer.playerWeapons.ContainsKey(entry.Name))
 				{
 					if (localPlayer.Money >= weapon.Cost)
 					{
-						
-						bool didAdd = localPlayer.Inventory.Add(weapon, true);
-						if (didAdd)
-						{
-							localPlayer.Money -= weapon.Cost;
-							cell.SetClass("purchased", true);
-							cost.Text = "Purchased";
-						}
-						
+						ConsoleSystem.Run( "spawn_weapon", entry.Name );
+						cell.SetClass("purchased", true);
+						cost.Text = "Purchased";
 					}
-				}
-
-				if (cost.Text == "Purchased")
+				} else
 				{
-					bool didDrop = localPlayer.Inventory.Drop(weapon);
-					if (didDrop)
-					{
-						localPlayer.Money += weapon.Cost;
-						cell.SetClass("purchased", false);
-						cost.Text = $"{weapon.Cost}";
-					}
+					Log.Info($"Purchase info : {localInventory.CanAdd( weapon ).ToString()} || {localPlayer.playerWeapons.ContainsKey( entry.Name ).ToString()}" );
+				}
+				//Selling weapons 
+				//!! This doesnt work till they make Dictionary's networkable
+				if ( !localInventory.CanAdd( weapon ) && localPlayer.playerWeapons.ContainsKey( entry.Name ) )
+				{
+					
+					ConsoleSystem.Run( "sell_weapon", entry.Name );
+					cell.SetClass( "purchased", false );
+					cost.Text = $"${weapon.Cost}";
 				}
 				
 				

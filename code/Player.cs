@@ -13,6 +13,8 @@ public partial class FloodPlayer : Player
 
 	[Net] public int Money { get; set; }
 
+	public Dictionary<string, Entity> playerWeapons = new Dictionary<string, Entity>();
+
 	public PhysGun pgun;
 	public Tool tgun;
 

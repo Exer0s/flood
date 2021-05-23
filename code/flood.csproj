@@ -23,11 +23,11 @@
   </PropertyGroup>
 
 	<ItemGroup>
-		<Analyzer Include="D:/Mikaels Steam/steamapps/common/sbox/bin/managed/Sandbox.Generator.dll" />
-		<Reference Include="D:/Mikaels Steam/steamapps/common/sbox/bin/managed/Sandbox.System.dll" />
-		<Reference Include="D:/Mikaels Steam/steamapps/common/sbox/bin/managed/Sandbox.Engine.dll" />
-		<Reference Include="D:/Mikaels Steam/steamapps/common/sbox/bin/managed/Sandbox.Game.dll" />
-		<Reference Include="D:/Mikaels Steam/steamapps/common/sbox/bin/managed/Sandbox.Hotload.dll" />
+		<Analyzer Include="D:/Mikaels Steam/steamapps/common/sbox/bin/managed/Sandbox.Generator.dll"/>
+		<Reference Include="D:/Mikaels Steam/steamapps/common/sbox/bin/managed/Sandbox.System.dll"/>
+		<Reference Include="D:/Mikaels Steam/steamapps/common/sbox/bin/managed/Sandbox.Engine.dll"/>
+		<Reference Include="D:/Mikaels Steam/steamapps/common/sbox/bin/managed/Sandbox.Game.dll"/>
+		<Reference Include="D:/Mikaels Steam/steamapps/common/sbox/bin/managed/Sandbox.Hotload.dll"/>
 	</ItemGroup>
 
   <ItemGroup>

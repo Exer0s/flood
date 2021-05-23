@@ -31,9 +31,9 @@ public partial class SpawnList : Panel
 
 		foreach ( var file in FileSystem.Mounted.FindFile( "models", "*.vmdl_c.png", true ) )
 		{
-			if ( string.IsNullOrWhiteSpace( file ) ) continue;
-			if ( file.Contains( "_lod0" ) ) continue;
-			if ( file.Contains( "clothes" ) ) continue;
+			//if ( string.IsNullOrWhiteSpace( file ) ) continue;
+			//if ( file.Contains( "_lod0" ) ) continue;
+			//if ( file.Contains( "clothes" ) ) continue;
 
 			Canvas.AddItem( file.Remove( file.Length - 6 ) );
 		}

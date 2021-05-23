@@ -101,10 +101,17 @@ public class FightRound : BaseRound
 		// Give everyone who is alive their starting loadouts.
 		if ( player.LifeState == LifeState.Alive )
 		{
-		if ( !Players.Contains( player ) )
-		{
-			AddPlayer( player );
-		}
+			//If the player bought no weapons, we give them a pistol at the start of the round
+			if (player.playerWeapons.Count == 0)
+			{
+				player.Inventory.Add(new Pistol(), true);
+			}
+
+
+			if ( !Players.Contains( player ) )
+			{
+				AddPlayer( player );
+			}
 
 		}
 	}

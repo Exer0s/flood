@@ -43,6 +43,7 @@ Sandbox.Game/Sandbox.DamageInfo.WithWeapon( Sandbox.Entity )
 Sandbox.Game/Sandbox.DebugOverlay.Line( Vector3, Vector3, Color, System.Single, System.Boolean )
 Sandbox.Game/Sandbox.DebugOverlay.Text( Vector3, System.String, System.Single )
 Sandbox.Game/Sandbox.Entity
+Sandbox.Game/Sandbox.Entity.BuildNetworkTable( Sandbox.Internal.NetworkTableBuilder& )
 Sandbox.Game/Sandbox.Entity.ClientSpawn()
 Sandbox.Game/Sandbox.Entity.Delete()
 Sandbox.Game/Sandbox.Entity.DeleteAsync( System.Single )
@@ -72,8 +73,6 @@ Sandbox.Game/Sandbox.Entity.get_Transform()
 Sandbox.Game/Sandbox.Entity.get_Velocity()
 Sandbox.Game/Sandbox.Entity.GetClientOwner()
 Sandbox.Game/Sandbox.Entity.IsActiveChild()
-Sandbox.Game/Sandbox.Entity.NetRead( Sandbox.NetRead )
-Sandbox.Game/Sandbox.Entity.NetWrite( Sandbox.NetWrite )
 Sandbox.Game/Sandbox.Entity.OnCarryDrop( Sandbox.Entity )
 Sandbox.Game/Sandbox.Entity.OnDestroy()
 Sandbox.Game/Sandbox.Entity.OnKilled()
@@ -122,6 +121,29 @@ Sandbox.Game/Sandbox.InputBuilder
 Sandbox.Game/Sandbox.InputBuilder.Down( Sandbox.InputButton )
 Sandbox.Game/Sandbox.InputBuilder.Pressed( Sandbox.InputButton )
 Sandbox.Game/Sandbox.InputButton
+Sandbox.Game/Sandbox.Internal.NetworkAtomic`1
+Sandbox.Game/Sandbox.Internal.NetworkAtomic`1..ctor( T )
+Sandbox.Game/Sandbox.Internal.NetworkAtomic`1..ctor()
+Sandbox.Game/Sandbox.Internal.NetworkAtomic`1.GetValue()
+Sandbox.Game/Sandbox.Internal.NetworkAtomic`1.SetValue( T )
+Sandbox.Game/Sandbox.Internal.NetworkEmbedClass`1
+Sandbox.Game/Sandbox.Internal.NetworkEmbedClass`1..ctor()
+Sandbox.Game/Sandbox.Internal.NetworkEmbedClass`1.GetValue()
+Sandbox.Game/Sandbox.Internal.NetworkEmbedClass`1.SetValue( T )
+Sandbox.Game/Sandbox.Internal.NetworkEntity`1
+Sandbox.Game/Sandbox.Internal.NetworkEntity`1..ctor()
+Sandbox.Game/Sandbox.Internal.NetworkEntity`1.GetValue()
+Sandbox.Game/Sandbox.Internal.NetworkEntity`1.SetValue( T )
+Sandbox.Game/Sandbox.Internal.NetworkList`1
+Sandbox.Game/Sandbox.Internal.NetworkList`1..ctor( System.Collections.Generic.List`1<T> )
+Sandbox.Game/Sandbox.Internal.NetworkList`1.GetValue()
+Sandbox.Game/Sandbox.Internal.NetworkList`1.SetValue( System.Collections.Generic.IList`1<T> )
+Sandbox.Game/Sandbox.Internal.NetworkString`1
+Sandbox.Game/Sandbox.Internal.NetworkString`1..ctor()
+Sandbox.Game/Sandbox.Internal.NetworkString`1.GetValue()
+Sandbox.Game/Sandbox.Internal.NetworkString`1.SetValue( System.String )
+Sandbox.Game/Sandbox.Internal.NetworkTableBuilder
+Sandbox.Game/Sandbox.Internal.NetworkTableBuilder.Register<T>( T&, System.String, System.Boolean, System.Boolean )
 Sandbox.Game/Sandbox.Joints.RevoluteJoint
 Sandbox.Game/Sandbox.Joints.RevoluteJoint.IsValid()
 Sandbox.Game/Sandbox.Joints.RevoluteJoint.Remove()
@@ -197,21 +219,16 @@ Sandbox.Game/Sandbox.ModelEntity.SetupPhysicsFromModel( Sandbox.PhysicsMotionTyp
 Sandbox.Game/Sandbox.ModelEntity.TakeDecalsFrom( Sandbox.ModelEntity )
 Sandbox.Game/Sandbox.MoveType
 Sandbox.Game/Sandbox.NetRead
-Sandbox.Game/Sandbox.NetRead.IsGroup( Sandbox.NetVarGroup )
 Sandbox.Game/Sandbox.NetRead.ReadClass<T>( T, System.String )
 Sandbox.Game/Sandbox.NetRead.ReadData<T>()
-Sandbox.Game/Sandbox.NetRead.ReadPropertyId()
 Sandbox.Game/Sandbox.NetworkClass..ctor()
-Sandbox.Game/Sandbox.NetworkClass.NetRead( Sandbox.NetRead )
+Sandbox.Game/Sandbox.NetworkClass.BuildNetworkTable( Sandbox.Internal.NetworkTableBuilder& )
 Sandbox.Game/Sandbox.NetworkClass.NetworkDirty( System.String, Sandbox.NetVarGroup )
-Sandbox.Game/Sandbox.NetworkClass.NetWrite( Sandbox.NetWrite )
 Sandbox.Game/Sandbox.Networked.get_NetworkIdent()
 Sandbox.Game/Sandbox.Networked.OnCallRemoteProcedure( System.Int32, Sandbox.NetRead )
 Sandbox.Game/Sandbox.NetWrite
-Sandbox.Game/Sandbox.NetWrite.IsGroup( Sandbox.NetVarGroup )
 Sandbox.Game/Sandbox.NetWrite.SendRpc( System.Nullable`1<Sandbox.To>, Sandbox.Entity )
 Sandbox.Game/Sandbox.NetWrite.StartRpc( System.Int32, Sandbox.Entity )
-Sandbox.Game/Sandbox.NetWrite.Write<T>( System.Int32, T )
 Sandbox.Game/Sandbox.NetWrite.Write<T>( T )
 Sandbox.Game/Sandbox.NullChecks.IsValid( Sandbox.Entity )
 Sandbox.Game/Sandbox.NullChecks.IsValid( Sandbox.PhysicsBody )
@@ -429,8 +446,8 @@ Sandbox.System/Sandbox.MathX.LerpInverse( System.Single, System.Single, System.S
 Sandbox.System/Sandbox.MathX.LerpTo( System.Single, System.Single, System.Single, System.Boolean )
 Sandbox.System/Sandbox.MathX.RadianToDegree( System.Single )
 Sandbox.System/Sandbox.NetAttribute
-Sandbox.System/Sandbox.NetPredictedAttribute
 Sandbox.System/Sandbox.NetVarGroup
+Sandbox.System/Sandbox.PredictedAttribute
 Sandbox.System/Sandbox.Rand.Float( System.Single, System.Single )
 Sandbox.System/Sandbox.Rand.FromArray<T>( T[], T )
 Sandbox.System/Sandbox.Rand.Int( System.Int32, System.Int32 )
@@ -495,14 +512,25 @@ System.Private.CoreLib/System.Action`1..ctor( System.Object, System.IntPtr )
 System.Private.CoreLib/System.Action`2
 System.Private.CoreLib/System.Action`2..ctor( System.Object, System.IntPtr )
 System.Private.CoreLib/System.Boolean
+System.Private.CoreLib/System.Boolean.ToString()
 System.Private.CoreLib/System.Collections.Generic.Dictionary`2
 System.Private.CoreLib/System.Collections.Generic.Dictionary`2..ctor()
+System.Private.CoreLib/System.Collections.Generic.Dictionary`2.Add( TKey, TValue )
+System.Private.CoreLib/System.Collections.Generic.Dictionary`2.ContainsKey( TKey )
+System.Private.CoreLib/System.Collections.Generic.Dictionary`2.get_Count()
+System.Private.CoreLib/System.Collections.Generic.Dictionary`2.get_Item( TKey )
 System.Private.CoreLib/System.Collections.Generic.Dictionary`2.Remove( TKey, TValue& )
 System.Private.CoreLib/System.Collections.Generic.Dictionary`2.set_Item( TKey, TValue )
+System.Private.CoreLib/System.Collections.Generic.ICollection`1.Add( T )
+System.Private.CoreLib/System.Collections.Generic.ICollection`1.Clear()
+System.Private.CoreLib/System.Collections.Generic.ICollection`1.get_Count()
 System.Private.CoreLib/System.Collections.Generic.IEnumerable`1
 System.Private.CoreLib/System.Collections.Generic.IEnumerable`1.GetEnumerator()
 System.Private.CoreLib/System.Collections.Generic.IEnumerator`1
 System.Private.CoreLib/System.Collections.Generic.IEnumerator`1.get_Current()
+System.Private.CoreLib/System.Collections.Generic.IList`1
+System.Private.CoreLib/System.Collections.Generic.IList`1.get_Item( System.Int32 )
+System.Private.CoreLib/System.Collections.Generic.IList`1.set_Item( System.Int32, T )
 System.Private.CoreLib/System.Collections.Generic.IReadOnlyCollection`1.get_Count()
 System.Private.CoreLib/System.Collections.Generic.IReadOnlyList`1
 System.Private.CoreLib/System.Collections.Generic.List`1
@@ -524,7 +552,6 @@ System.Private.CoreLib/System.Diagnostics.DebuggerHiddenAttribute
 System.Private.CoreLib/System.Diagnostics.DebuggerStepThroughAttribute
 System.Private.CoreLib/System.Double
 System.Private.CoreLib/System.Exception
-System.Private.CoreLib/System.Exception..ctor( System.String )
 System.Private.CoreLib/System.Func`2
 System.Private.CoreLib/System.Func`2..ctor( System.Object, System.IntPtr )
 System.Private.CoreLib/System.IDisposable
@@ -544,7 +571,6 @@ System.Private.CoreLib/System.Nullable`1
 System.Private.CoreLib/System.Nullable`1..ctor( T )
 System.Private.CoreLib/System.Object
 System.Private.CoreLib/System.Object..ctor()
-System.Private.CoreLib/System.Object.Equals( System.Object, System.Object )
 System.Private.CoreLib/System.Object.GetType()
 System.Private.CoreLib/System.Object.ToString()
 System.Private.CoreLib/System.Runtime.CompilerServices.AsyncStateMachineAttribute
@@ -565,12 +591,12 @@ System.Private.CoreLib/System.Single
 System.Private.CoreLib/System.String
 System.Private.CoreLib/System.String.Concat( System.String, System.String )
 System.Private.CoreLib/System.String.Concat( System.String, System.String, System.String )
+System.Private.CoreLib/System.String.Concat( System.String, System.String, System.String, System.String )
 System.Private.CoreLib/System.String.Concat( System.String[] )
 System.Private.CoreLib/System.String.Contains( System.String )
 System.Private.CoreLib/System.String.Format( System.String, System.Object )
 System.Private.CoreLib/System.String.get_Length()
 System.Private.CoreLib/System.String.IsNullOrEmpty( System.String )
-System.Private.CoreLib/System.String.IsNullOrWhiteSpace( System.String )
 System.Private.CoreLib/System.String.op_Equality( System.String, System.String )
 System.Private.CoreLib/System.String.Remove( System.Int32 )
 System.Private.CoreLib/System.Threading.Tasks.Task

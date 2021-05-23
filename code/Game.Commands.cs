@@ -10,6 +10,24 @@ partial class FloodGame
         
 	    #region Spawn_Commands
 
+	[ServerCmd("sell_weapon")]
+	public static void SellWeapon(string weaponName)
+	{
+		var owner = ConsoleSystem.Caller?.Pawn as FloodPlayer;
+
+		if ( ConsoleSystem.Caller == null ) return;
+
+		var inventory = owner.Inventory as Inventory;
+
+		BaseFloodWeapon weapon = Library.Create<BaseFloodWeapon>( weaponName );
+
+		if (!inventory.CanAdd(weapon))
+		{
+			inventory.Drop( owner.playerWeapons[weaponName] );
+			owner.Money += weapon.Cost;
+		}
+	}
+
 	[ServerCmd("spawn_weapon")]
 	public static void SpawnWeapon(string weaponName) {
 		var owner = ConsoleSystem.Caller?.Pawn as FloodPlayer;
@@ -30,6 +48,7 @@ partial class FloodGame
 				owner.Money = owner.Money - cost;
 				//Adds weapon to inv
 				owner.Inventory.Add(weapon, true);
+				owner.playerWeapons.Add( weaponName, weapon );
 			}
 		
 	}

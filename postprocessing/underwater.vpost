@@ -16,7 +16,7 @@
 				m_flScreenBloomStrength = 1.0
 				m_flBlurBloomStrength = 1.0
 				m_flBloomThreshold = 0.0
-				m_flBloomThresholdWidth = 2.187
+				m_flBloomThresholdWidth = 2.1025
 				m_flSkyboxBloomStrength = 1.0
 				m_flBloomStartValue = 1.0
 				m_flBlurWeight = 
@@ -71,7 +71,7 @@
 			m_nTintColorR = 19
 			m_nTintColorG = 180
 			m_nTintColorB = 255
-			m_nStrength = 20
+			m_nStrength = 10
 			m_bPreserveLuminosity = true
 		},
 		{

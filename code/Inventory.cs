@@ -37,20 +37,18 @@ partial class Inventory : BaseInventory
 
     public override bool Drop( Entity ent )
     {
-		Log.Info( $"Player attempted to drop {ent}" );
+		bool isWeapon = false;
         if ( !Host.IsServer )
             return false;
-
-        if (ent is BaseFloodWeapon weapon)
+		if (ent is BaseFloodWeapon weapon)
         {
-            weapon.OnCarryDrop( Owner );
-            return true;
+			weapon.OnCarryDrop( Owner );
+			isWeapon = true;
         }
         
         
-        if ( ent is Carriable)
+        if ( ent is Carriable && !isWeapon)
         {
-			Log.Info( "ent is carriable" );
 			ent.OnCarryDrop( Owner );
         }
 
