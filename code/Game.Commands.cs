@@ -89,12 +89,18 @@ partial class FloodGame
 		if ( ent.PhysicsBody != null && ent.PhysicsGroup.BodyCount == 1 )
 		{
 			var p = ent.PhysicsBody.FindClosestPoint( tr.EndPos );
-
+			
 			var delta = p - tr.EndPos;
 			ent.PhysicsBody.Position -= delta;
 			//DebugOverlay.Line( p, tr.EndPos, 10, false );
 		}
 
+		var tr2 = Trace.Ray( owner.EyePos, owner.EyePos + owner.EyeRot.Forward * 500 )
+			.UseHitboxes()
+			.Ignore( owner )
+			.Size( 2 )
+			.Run();
+		Log.Info($"spawned prop with surface {tr2.Surface.Name}");
 	}
 
 	[ServerCmd( "spawn_entity" )]

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 public class FightRound : BaseRound
 {
 	public override string RoundName => "Fight!";
-	[ServerVar( "flood_fight_duration", Help = "The duration of the fight round" )]
+	//[ServerVar( "flood_fight_duration", Help = "The duration of the fight round" )] //ServerVars must be static, virtual vars cant
 	public override int RoundDuration { get; set; } = 10;
 	public override bool CanPlayerSuicide => true;
 
@@ -101,8 +101,9 @@ public class FightRound : BaseRound
 		// Give everyone who is alive their starting loadouts.
 		if ( player.LifeState == LifeState.Alive )
 		{
+			var inventory = player.Inventory as Inventory;
 			//If the player bought no weapons, we give them a pistol at the start of the round
-			if (player.playerWeapons.Count == 0)
+			if ( player.playerWeapons.Count == 0 && inventory.CanAdd(new Pistol()))
 			{
 				player.Inventory.Add(new Pistol(), true);
 			}

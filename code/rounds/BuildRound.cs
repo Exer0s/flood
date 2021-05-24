@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 	public class BuildRound : BaseRound
 	{
 		public override string RoundName => "Build!";
-		[ServerVar( "flood_build_duration", Help = "The duration of the build round" )]
+		//[ServerVar( "flood_build_duration", Help = "The duration of the build round" )]
 		public override int RoundDuration { get; set; } = 10;
 		public override bool CanPlayerSuicide => true;
 

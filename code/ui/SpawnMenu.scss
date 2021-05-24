@@ -126,6 +126,59 @@
     }
 }
 
+.teampage {
+    display: none;
+
+    &.active {
+        display: flex;
+        opacity: 1;
+    }
+
+    .canvas {
+        overflow: scroll;
+        width: 100%;
+        flex-grow: 1;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        margin: 10px;
+        border-radius: 5px;
+
+        .cell {
+            padding: 5px;
+
+			.playername {
+				font-size:12px;
+				color: #fff;
+				position: absolute;
+				bottom: 0;
+                left: 0;
+                right: 0;
+                pointer-events: none;
+                
+                &.isteam {
+                    font-size:8px;
+                    color: #fff;
+                }
+
+			.background {
+            border-radius: 4px;
+            color: rgba( #fff, 0.5 );
+            font-size: 12px;
+            text-align: center;
+            cursor: pointer;
+            width: 100%;
+            height: 100%;
+            background-position: center;
+            background-size: cover;
+            background-color: rgba(black, 0.1);
+            background-image: url( /ui/tools/spawnicon.png );
+			}
+                
+			}
+        }
+    }
+}
+
 .weaponpage {
     display: none;
 
@@ -199,6 +252,7 @@
         }
     }
 }
+
 
 
 .spawnpage {

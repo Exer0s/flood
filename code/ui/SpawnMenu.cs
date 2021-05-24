@@ -30,6 +30,10 @@ public partial class SpawnMenu : Panel
 
 				var ents = body.AddChild<WeaponList>();
 				tabs.AddButtonActive( "Weapons", ( b ) => ents.SetClass( "active", b ) );
+
+				var team = body.AddChild<TeamPage>();
+				tabs.AddButtonActive( "Team", ( b ) => team.SetClass( "active", b ) );
+
 			}
 		}
 
@@ -38,7 +42,7 @@ public partial class SpawnMenu : Panel
 			var tabs = right.Add.Panel( "tabs" );
 			{
 				tabs.Add.Button( "Tools" ).AddClass( "active" );
-				tabs.Add.Button( "Group" );
+				tabs.Add.Button( "Utility" );
 			}
 			var body = right.Add.Panel( "body" );
 			{
