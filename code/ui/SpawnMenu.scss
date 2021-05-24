@@ -154,11 +154,6 @@
                 left: 0;
                 right: 0;
                 pointer-events: none;
-                
-                &.isteam {
-                    font-size:8px;
-                    color: #fff;
-                }
 
 			.background {
             border-radius: 4px;
@@ -177,6 +172,11 @@
 			}
         }
     }
+}
+
+.isteam playername {
+    font-size:8px;
+    color: #fff;
 }
 
 .weaponpage {
@@ -207,11 +207,6 @@
                 left: 40px;
                 right: 0;
                 pointer-events: none;
-                
-                &.purchased {
-                    font-size:8px;
-                    color: #fff;
-                }
                 
 		}
         }
@@ -253,7 +248,10 @@
     }
 }
 
-
+.purchased weaponcost {
+    font-size:8px;
+    color: #fff;
+}
 
 .spawnpage {
     display: none;
@@ -289,7 +287,7 @@
             background-position: center;
             background-size: cover;
             background-color: rgba(black, 0.1);
-            background-image: url( /entity/spawnicon.png );
+            background-image: url( /ui/tools/spawnicon.png );
 
             label {
                 font-size: 9px;

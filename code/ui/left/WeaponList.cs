@@ -36,7 +36,7 @@ public partial class WeaponList : Panel
 					if (localPlayer.Money >= weapon.Cost)
 					{
 						ConsoleSystem.Run( "spawn_weapon", entry.Name );
-						cell.SetClass("purchased", true);
+						SetClass("purchased", true);
 						cost.Text = "Purchased";
 					}
 				} else
@@ -49,7 +49,7 @@ public partial class WeaponList : Panel
 				{
 					
 					ConsoleSystem.Run( "sell_weapon", entry.Name );
-					cell.SetClass( "purchased", false );
+					SetClass( "purchased", false );
 					cost.Text = $"${weapon.Cost}";
 				}
 				
