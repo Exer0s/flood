@@ -48,6 +48,9 @@ roundtimer
 	color: #e6e6e6;
 	mix-blend-mode: lighten;
 	font-family: Roboto;
+	background-image: url( /ui/tools/spawnicon.png );
+	background-size: 100%;
+	background-color: rgba( #4a4a4a, 0.3 );
 
 	label {
         align-items: center;

@@ -36,12 +36,13 @@ public partial class WeaponList : Panel
 					if (localPlayer.Money >= weapon.Cost)
 					{
 						ConsoleSystem.Run( "spawn_weapon", entry.Name );
-						SetClass("purchased", true);
+						//TODO : on buy, make the font smaller and change the text color to white
+						cell.SetClass("owned", true);
 						cost.Text = "Purchased";
 					}
 				} else
 				{
-					Log.Info($"Purchase info : {localInventory.CanAdd( weapon ).ToString()} || {localPlayer.playerWeapons.ContainsKey( entry.Name ).ToString()}" );
+					//Log.Info($"Purchase info : {localInventory.CanAdd( weapon ).ToString()} || {localPlayer.playerWeapons.ContainsKey( entry.Name ).ToString()}" );
 				}
 				//Selling weapons 
 				//!! This doesnt work till they make Dictionary's networkable

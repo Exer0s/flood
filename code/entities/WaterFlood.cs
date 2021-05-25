@@ -1,8 +1,10 @@
 ﻿using Sandbox;
 
-[Library( "env_flood" )]
-public partial class WaterFlood : Water
+namespace Flood.Water
 {
+	[Library( "env_flood" )]
+	public partial class WaterFlood : Water
+	{
 		public override void Spawn()
 		{
 			base.Spawn();
@@ -12,7 +14,7 @@ public partial class WaterFlood : Water
 			CreatePhysics();
 		}
 
-		public override void Touch(Entity ent)
+		public override void Touch( Entity ent )
 		{
 			/*if (ent is FloodPlayer && FloodGame.Instance.Round is FightRound)
 			{
@@ -27,7 +29,7 @@ public partial class WaterFlood : Water
 			}
 			
 			}*/
-		base.Touch( ent );
+			base.Touch( ent );
 		}
 
 		public override void ClientSpawn()
@@ -100,4 +102,5 @@ public partial class WaterFlood : Water
 			var model = vb.CreateModel( $"TesselatedPlane-{NetworkIdent}.vmdl", material );
 			SetModel( model );
 		}
+	}
 }

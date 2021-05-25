@@ -41,6 +41,7 @@ Sandbox.Game/Sandbox.DamageInfo.UsingTraceResult( Sandbox.TraceResult )
 Sandbox.Game/Sandbox.DamageInfo.WithAttacker( Sandbox.Entity, Sandbox.Entity )
 Sandbox.Game/Sandbox.DamageInfo.WithWeapon( Sandbox.Entity )
 Sandbox.Game/Sandbox.DebugOverlay.Line( Vector3, Vector3, Color, System.Single, System.Boolean )
+Sandbox.Game/Sandbox.DebugOverlay.Line( Vector3, Vector3, System.Single, System.Boolean )
 Sandbox.Game/Sandbox.DebugOverlay.Text( Vector3, System.String, System.Single )
 Sandbox.Game/Sandbox.Entity
 Sandbox.Game/Sandbox.Entity.BuildNetworkTable( Sandbox.Internal.NetworkTableBuilder& )
@@ -134,6 +135,10 @@ Sandbox.Game/Sandbox.Internal.NetworkEntity`1
 Sandbox.Game/Sandbox.Internal.NetworkEntity`1..ctor()
 Sandbox.Game/Sandbox.Internal.NetworkEntity`1.GetValue()
 Sandbox.Game/Sandbox.Internal.NetworkEntity`1.SetValue( T )
+Sandbox.Game/Sandbox.Internal.NetworkEntityList`1
+Sandbox.Game/Sandbox.Internal.NetworkEntityList`1..ctor( System.Collections.Generic.List`1<T> )
+Sandbox.Game/Sandbox.Internal.NetworkEntityList`1.GetValue()
+Sandbox.Game/Sandbox.Internal.NetworkEntityList`1.SetValue( System.Collections.Generic.IList`1<T> )
 Sandbox.Game/Sandbox.Internal.NetworkList`1
 Sandbox.Game/Sandbox.Internal.NetworkList`1..ctor( System.Collections.Generic.List`1<T> )
 Sandbox.Game/Sandbox.Internal.NetworkList`1.GetValue()
@@ -222,8 +227,8 @@ Sandbox.Game/Sandbox.NetRead
 Sandbox.Game/Sandbox.NetRead.ReadClass<T>( T, System.String )
 Sandbox.Game/Sandbox.NetRead.ReadData<T>()
 Sandbox.Game/Sandbox.NetworkClass..ctor()
-Sandbox.Game/Sandbox.NetworkClass.BuildNetworkTable( Sandbox.Internal.NetworkTableBuilder& )
-Sandbox.Game/Sandbox.NetworkClass.NetworkDirty( System.String, Sandbox.NetVarGroup )
+Sandbox.Game/Sandbox.NetworkComponent.BuildNetworkTable( Sandbox.Internal.NetworkTableBuilder& )
+Sandbox.Game/Sandbox.NetworkComponent.NetworkDirty( System.String, Sandbox.NetVarGroup )
 Sandbox.Game/Sandbox.Networked.get_NetworkIdent()
 Sandbox.Game/Sandbox.Networked.OnCallRemoteProcedure( System.Int32, Sandbox.NetRead )
 Sandbox.Game/Sandbox.NetWrite
@@ -252,6 +257,7 @@ Sandbox.Game/Sandbox.PhysicsBody.ApplyTorque( Vector3 )
 Sandbox.Game/Sandbox.PhysicsBody.FindClosestPoint( Vector3 )
 Sandbox.Game/Sandbox.PhysicsBody.get_BodyType()
 Sandbox.Game/Sandbox.PhysicsBody.get_Entity()
+Sandbox.Game/Sandbox.PhysicsBody.get_GravityScale()
 Sandbox.Game/Sandbox.PhysicsBody.get_LocalMassCenter()
 Sandbox.Game/Sandbox.PhysicsBody.get_Mass()
 Sandbox.Game/Sandbox.PhysicsBody.get_PhysicsGroup()
@@ -512,7 +518,6 @@ System.Private.CoreLib/System.Action`1..ctor( System.Object, System.IntPtr )
 System.Private.CoreLib/System.Action`2
 System.Private.CoreLib/System.Action`2..ctor( System.Object, System.IntPtr )
 System.Private.CoreLib/System.Boolean
-System.Private.CoreLib/System.Boolean.ToString()
 System.Private.CoreLib/System.Collections.Generic.Dictionary`2
 System.Private.CoreLib/System.Collections.Generic.Dictionary`2..ctor()
 System.Private.CoreLib/System.Collections.Generic.Dictionary`2.Add( TKey, TValue )
@@ -591,7 +596,6 @@ System.Private.CoreLib/System.Single
 System.Private.CoreLib/System.String
 System.Private.CoreLib/System.String.Concat( System.String, System.String )
 System.Private.CoreLib/System.String.Concat( System.String, System.String, System.String )
-System.Private.CoreLib/System.String.Concat( System.String, System.String, System.String, System.String )
 System.Private.CoreLib/System.String.Concat( System.String[] )
 System.Private.CoreLib/System.String.Contains( System.String )
 System.Private.CoreLib/System.String.Format( System.String, System.Object )

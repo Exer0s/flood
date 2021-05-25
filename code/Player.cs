@@ -87,11 +87,36 @@ public partial class FloodPlayer : Player
 		EnableDrawing = false;
 	}
 
-
+	public float traceCooldown = 0.25f;
 	public override void Simulate(Client cl)
 	{
 		base.Simulate(cl);
+		if (traceCooldown <= 0) {
+			var tr = Trace.Ray( Position, Position + Rotation.Down * 500 )
+			.UseHitboxes()
+			.Ignore( this )
+			.Size( 2 )
+			.Run();
+			traceCooldown = 0.25f;
+			DebugOverlay.Line(Position, Position + Rotation.Down * 500);
+			if (tr.Entity != null && !tr.Entity.IsWorld && this.Parent != tr.Entity)
+			{
+				Log.Info( "Trace detected a entity" );
+				//this.Parent = tr.Entity;
+				var bodyCount = this.PhysicsGroup.BodyCount;
+				for ( int i = 0; i < bodyCount; i++ )
+				{
+					var pBody = this.PhysicsGroup.GetBody( i );
+					var propBody = tr.Entity.PhysicsGroup.GetBody( 0 );
+					pBody.GravityScale = propBody.GravityScale;
+					
+				}
+			}
+		}
+		
 
+
+		traceCooldown -= Sandbox.Time.Delta;
 		//
 		// Input requested a weapon switch
 		//
@@ -155,13 +180,9 @@ public partial class FloodPlayer : Player
 
 		ActiveChild = best;
 	}
+	
+	
 
-	public override void StartTouch( Entity other )
-	{
-		if ( timeSinceDropped < 1 ) return;
-
-		base.StartTouch( other );
-	}
 
 	RealTimeSince timeSinceUpdatedFramerate;
 

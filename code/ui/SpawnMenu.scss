@@ -206,9 +206,14 @@
 				bottom: -30px;
                 left: 40px;
                 right: 0;
-                pointer-events: none;
-                
-		}
+                pointer-events: none;     
+
+				.owned {
+					color: #fff;
+				}
+
+			}
+
         }
 
 		
@@ -248,10 +253,7 @@
     }
 }
 
-.purchased weaponcost {
-    font-size:8px;
-    color: #fff;
-}
+
 
 .spawnpage {
     display: none;

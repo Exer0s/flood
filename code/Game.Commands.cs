@@ -7,9 +7,18 @@ using Sandbox.UI;
 
 partial class FloodGame
     {
-        
-	    #region Spawn_Commands
 
+
+	#region Round Duration Variables
+	[ServerVar( "flood_build_duration", Help = "The duration of the build round" )]
+	public static int buildDuration { get; set; } = 10;
+	[ServerVar( "flood_fight_duration", Help = "The duration of the fight round" )]
+	public static int fightDuration { get; set; } = 10;
+	[ServerVar( "flood_postgame_duration", Help = "The duration of the post-game round" )]
+	public static int postDuration { get; set; } = 10;
+	#endregion
+
+	#region Weapon Commands
 	[ServerCmd("sell_weapon")]
 	public static void SellWeapon(string weaponName)
 	{
@@ -52,6 +61,7 @@ partial class FloodGame
 			}
 		
 	}
+	#endregion
 
 	[ServerCmd("give_money")]
 	public static void GiveMoney(string amount)
@@ -64,6 +74,7 @@ partial class FloodGame
 		owner.Money += amount.ToInt();
 	}
 
+	#region spawning commands
 	[ServerCmd( "spawn" )]
 	public static void Spawn( string modelname )
 	{
@@ -100,7 +111,20 @@ partial class FloodGame
 			.Ignore( owner )
 			.Size( 2 )
 			.Run();
-		Log.Info($"spawned prop with surface {tr2.Surface.Name}");
+		var oldSurface = tr2.Surface;
+		Log.Info($"spawned prop with surface {oldSurface.Name}");
+		switch ( oldSurface.Name ) {
+			case "wood.sheet":
+				ent.PhysicsGroup.SetSurface("flood_wood");
+			break;
+
+		}
+		var tr3 = Trace.Ray( owner.EyePos, owner.EyePos + owner.EyeRot.Forward * 500 )
+			.UseHitboxes()
+			.Ignore( owner )
+			.Size( 2 )
+			.Run();
+		Log.Info( $"swapped surface to {tr3.Surface.Name}" );
 	}
 
 	[ServerCmd( "spawn_entity" )]
@@ -135,7 +159,7 @@ partial class FloodGame
 	}
 	#endregion
 	
-		#region Server_Commands
+	#region Server_Commands
 	//Skip Round Command
 	/*[ServerCmd("skipround")]
 	public static void SkipRound(string args)

@@ -9,6 +9,7 @@ using Sandbox;
 public partial class BreakableProp : Prop
 {
 	[Net] public float PropHealth { get; set; }
+	[Net] public List<Entity> holdingPlayers { get; set; } = new List<Entity>();
 
 	protected override void UpdatePropData(Model model)
 	{

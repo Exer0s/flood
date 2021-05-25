@@ -8,8 +8,7 @@ using System.Threading.Tasks;
 	public partial class PostGameRound : BaseRound
 	{
 		public override string RoundName => "Post-Game";
-		//[ServerVar( "flood_postgame_duration", Help = "The duration of the post-game round" )]
-		public override int RoundDuration { get; set; } = 10;
+		public override int RoundDuration { get; set; } = FloodGame.postDuration;
 		public override bool CanPlayerSuicide => true;
 
 		public List<FloodPlayer> Spectators = new ();
