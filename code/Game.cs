@@ -45,7 +45,9 @@ partial class FloodGame : Game
 		}
 		
 		_ = StartTickTimer();
-		
+
+		Global.PhysicsSubSteps = 5;
+
 	}
 
 	/// <summary>

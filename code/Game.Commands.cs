@@ -112,6 +112,8 @@ partial class FloodGame
 			.Size( 2 )
 			.Run();
 		var oldSurface = tr2.Surface;
+		
+
 		Log.Info($"spawned prop with surface {oldSurface.Name}");
 		switch ( oldSurface.Name ) {
 			case "wood.sheet":
@@ -125,6 +127,7 @@ partial class FloodGame
 			.Size( 2 )
 			.Run();
 		Log.Info( $"swapped surface to {tr3.Surface.Name}" );
+		ent.surface = tr3.Surface;
 	}
 
 	[ServerCmd( "spawn_entity" )]

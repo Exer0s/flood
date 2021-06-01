@@ -1,35 +1,16 @@
 ﻿using Sandbox;
+using System;
+//using System.Collections.Generic;
 
-namespace Flood.Water
+[Library( "env_flood" )]
+public partial class WaterFlood : Water
 {
-	[Library( "env_flood" )]
-	public partial class WaterFlood : Water
-	{
 		public override void Spawn()
 		{
 			base.Spawn();
 
 			Transmit = TransmitType.Always;
-
 			CreatePhysics();
-		}
-
-		public override void Touch( Entity ent )
-		{
-			/*if (ent is FloodPlayer && FloodGame.Instance.Round is FightRound)
-			{
-			if (ent.Health <= 0)
-			{
-				ent.Health = 0;
-				ent.OnKilled();
-				
-			} else
-			{
-				ent.Health -= 1;
-			}
-			
-			}*/
-			base.Touch( ent );
 		}
 
 		public override void ClientSpawn()
@@ -45,12 +26,15 @@ namespace Flood.Water
 
 		void CreatePhysics()
 		{
-			var PhysGroup = SetupPhysicsFromAABB( PhysicsMotionType.Static, new Vector3( -10000, -10000, -1000 ), new Vector3( 10000, 10000, 0 ) );
-			PhysGroup.SetSurface( "water" );
+			SetInteractsExclude( CollisionLayer.STATIC_LEVEL );
+
+			var physicsGroup = SetupPhysicsFromAABB( PhysicsMotionType.Static, new Vector3( -10000, -10000, -1000 ), new Vector3( 10000, 10000, 0 ) );
+			physicsGroup.SetSurface( "water" );
 
 			ClearCollisionLayers();
 			AddCollisionLayer( CollisionLayer.Water );
 			AddCollisionLayer( CollisionLayer.Trigger );
+
 			EnableSolidCollisions = false;
 			EnableTouch = true;
 			EnableTouchPersists = true;
@@ -102,5 +86,4 @@ namespace Flood.Water
 			var model = vb.CreateModel( $"TesselatedPlane-{NetworkIdent}.vmdl", material );
 			SetModel( model );
 		}
-	}
 }

@@ -23,19 +23,19 @@ public partial class FloodPlayer : Player
 		Inventory = new Inventory( this );
 	}
 
-	
+
 
 	public override void Respawn()
 	{
 		if ( !FloodGame.Instance.RespawnEnabled ) return;
 		SetModel( "models/citizen/citizen.vmdl" );
-		FloodGame.Instance.Round?.OnPlayerSpawn(this);
+		FloodGame.Instance.Round?.OnPlayerSpawn( this );
 		Controller = new WalkController();
 		Animator = new StandardPlayerAnimator();
 		Camera = new FirstPersonCamera();
-		  
-		EnableAllCollisions = true; 
-		EnableDrawing = true; 
+
+		EnableAllCollisions = true;
+		EnableDrawing = true;
 		EnableHideInFirstPerson = true;
 		EnableShadowInFirstPerson = true;
 
@@ -80,18 +80,17 @@ public partial class FloodPlayer : Player
 		Inventory.DeleteContents();
 
 		Controller = null;
-		BecomeRagdollOnClient(LastDamage.Force, GetHitboxBone(LastDamage.HitboxIndex));
+		BecomeRagdollOnClient( LastDamage.Force, GetHitboxBone( LastDamage.HitboxIndex ) );
 		Camera = new DevCamera();
 
 		EnableAllCollisions = false;
 		EnableDrawing = false;
 	}
 
-	public float traceCooldown = 0.25f;
-	public override void Simulate(Client cl)
+	public override void Simulate( Client cl )
 	{
-		base.Simulate(cl);
-		if (traceCooldown <= 0) {
+		base.Simulate( cl );
+		/*if (traceCooldown <= 0) {
 			var tr = Trace.Ray( Position, Position + Rotation.Down * 500 )
 			.UseHitboxes()
 			.Ignore( this )
@@ -101,22 +100,28 @@ public partial class FloodPlayer : Player
 			DebugOverlay.Line(Position, Position + Rotation.Down * 500);
 			if (tr.Entity != null && !tr.Entity.IsWorld && this.Parent != tr.Entity)
 			{
-				Log.Info( "Trace detected a entity" );
+				//Log.Info( "Trace detected a entity" );
 				//this.Parent = tr.Entity;
 				var bodyCount = this.PhysicsGroup.BodyCount;
 				for ( int i = 0; i < bodyCount; i++ )
 				{
 					var pBody = this.PhysicsGroup.GetBody( i );
-					var propBody = tr.Entity.PhysicsGroup.GetBody( 0 );
-					pBody.GravityScale = propBody.GravityScale;
+					if ( tr.Entity is BreakableProp prop )
+					{
+						if ( prop.holdingBodies.Contains( pBody ) ) return;
+						prop.holdingBodies.Add( pBody );
+						var propBody = tr.Entity.PhysicsGroup.GetBody( 0 );
+						pBody.GravityScale = propBody.GravityScale;
+						Log.Info( "Added physics body to props list" );
+					}
+					else return;
 					
 				}
 			}
-		}
+		} */
 		
 
 
-		traceCooldown -= Sandbox.Time.Delta;
 		//
 		// Input requested a weapon switch
 		//
