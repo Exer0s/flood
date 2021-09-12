@@ -2,6 +2,7 @@
 using System;
 
 [Library( "dm_smg", Title = "SMG" )]
+[Hammer.EditorModel( "weapons/rust_smg/rust_smg.vmdl" )]
 partial class SMG : BaseFloodWeapon
 { 
 	public override string ViewModelPath => "weapons/rust_smg/v_rust_smg.vmdl";
@@ -11,8 +12,8 @@ partial class SMG : BaseFloodWeapon
 	public override int ClipSize => 30;
 	public override float ReloadTime => 4.0f;
 	public override int Bucket => 2;
-	public override int Cost => 20;
 
+	public override int Cost => 35;
 	public override void Spawn()
 	{
 		base.Spawn();
@@ -32,7 +33,7 @@ partial class SMG : BaseFloodWeapon
 			return;
 		}
 
-		(Owner as AnimEntity).SetAnimParam( "b_attack", true );
+		(Owner as AnimEntity).SetAnimBool( "b_attack", true );
 
 		//
 		// Tell the clients to play the shoot effects
@@ -43,6 +44,7 @@ partial class SMG : BaseFloodWeapon
 		//
 		// Shoot the bullets
 		//
+		Rand.SetSeed(Time.Tick);
 		ShootBullet( 0.1f, 1.5f, 5.0f, 3.0f );
 
 	}
@@ -65,8 +67,8 @@ partial class SMG : BaseFloodWeapon
 			new Sandbox.ScreenShake.Perlin(0.5f, 4.0f, 1.0f, 0.5f);
 		}
 
-		ViewModelEntity?.SetAnimParam( "fire", true );
-		CrosshairPanel?.OnEvent( "fire" );
+		ViewModelEntity?.SetAnimBool( "fire", true );
+		CrosshairPanel?.CreateEvent( "fire" );
 	}
 
 	public override void SimulateAnimator( PawnAnimator anim )

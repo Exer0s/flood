@@ -11,7 +11,7 @@ public partial class NoiseTest : Prop
 		SetupPhysicsFromModel( PhysicsMotionType.Dynamic, false );
 	}
 
-	[Event( "frame" )]
+	[Event.Frame]
 	public void OnFrame()
 	{
 		var pos = Position;
@@ -21,7 +21,7 @@ public partial class NoiseTest : Prop
 		var offset = Time.Now * 2.0f;
 		var offsetz = Time.Now * 0.1f;
 
-		var mode = (int) ((Time.Now * 0.3f) % 5);
+		var mode = (int)((Time.Now * 0.3f) % 5);
 
 		switch ( mode )
 		{
@@ -62,7 +62,7 @@ public partial class NoiseTest : Prop
 		pos -= right * size * 0.5f;
 		pos -= forward * size * 0.5f;
 
-		for ( float x = 0; x< size; x++ )
+		for ( float x = 0; x < size; x++ )
 			for ( float y = 0; y < size; y++ )
 			{
 				float val = 0;
@@ -78,7 +78,7 @@ public partial class NoiseTest : Prop
 						{
 							val = Noise.SparseConvolution( x * 0.1f + offset, y * 0.1f, offsetz ) * 0.5f;
 							break;
-						}					
+						}
 					case 2:
 						{
 							val = Noise.SparseConvolutionNormalized( x * 0.1f + offset, y * 0.1f, offsetz ) * 0.5f;
@@ -88,7 +88,7 @@ public partial class NoiseTest : Prop
 						{
 							val = Noise.Turbulence( 2, x * 0.1f + offset, y * 0.1f, offsetz ) * 0.5f;
 							break;
-						}					
+						}
 					case 4:
 						{
 							val = Noise.Fractal( 2, x * 0.1f + offset, y * 0.1f, offsetz ) * 0.5f;
@@ -97,7 +97,7 @@ public partial class NoiseTest : Prop
 				}
 
 				var start = pos + x * right + y * forward;
-				DebugOverlay.Line( start, start + up * val, Color.Lerp( Color.Red, Color.Green, (val + 1.0f ) / 2.0f ) );
+				DebugOverlay.Line( start, start + up * val, Color.Lerp( Color.Red, Color.Green, (val + 1.0f) / 2.0f ) );
 			}
 	}
 }

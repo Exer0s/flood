@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 public class FightRound : BaseRound
 {
 	public override string RoundName => "Fight!";
-	public override int RoundDuration { get; set; } = FloodGame.fightDuration;
+	public override int RoundDuration { get; set; } = 30;
 	public override bool CanPlayerSuicide => true;
 
 	public List<FloodPlayer> Spectators = new ();

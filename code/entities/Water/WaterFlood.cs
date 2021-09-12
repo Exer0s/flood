@@ -1,10 +1,12 @@
-﻿using Sandbox;
-using System;
-//using System.Collections.Generic;
-
-[Library( "env_flood" )]
-public partial class WaterFlood : Water
+﻿namespace Sandbox
 {
+	/// <summary>
+	/// Simple water effect
+	/// </summary>
+	[Library( "env_flood" )]
+	[Hammer.EditorModel( "models/hammer/env_sea.vmdl" )]
+	public partial class WaterFlood : Water
+	{
 		public override void Spawn()
 		{
 			base.Spawn();
@@ -21,7 +23,7 @@ public partial class WaterFlood : Water
 
 			MakeSeaMesh();
 			CreatePhysics();
-			SceneLayer = "water";
+			//SceneLayer = "water";
 		}
 
 		void CreatePhysics()
@@ -83,7 +85,15 @@ public partial class WaterFlood : Water
 				}
 			}
 
-			var model = vb.CreateModel( $"TesselatedPlane-{NetworkIdent}.vmdl", material );
+			var mesh = new Mesh( material );
+			mesh.CreateBuffers( vb );
+			mesh.SetBounds( new Vector3( -10000, -10000, -1000 ), new Vector3( 10000, 10000, 0 ) );
+
+			var model = Model.Builder
+				.AddMesh( mesh )
+				.Create();
+
 			SetModel( model );
 		}
+	}
 }

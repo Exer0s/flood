@@ -10,9 +10,7 @@
 
 			using ( Prediction.Off() )
 			{
-				var input = Owner.Input;
-
-				if ( !input.Pressed( InputButton.Attack1 ) )
+				if ( !Input.Pressed( InputButton.Attack1 ) )
 					return;
 
 				var startPos = Owner.EyePos;
@@ -37,7 +35,7 @@
 				tr.Entity.Delete();
 
 				var particle = Particles.Create( "particles/physgun_freeze.vpcf" );
-				particle.SetPos( 0, tr.Entity.Position );
+				particle.SetPosition( 0, tr.Entity.Position );
 			}
 		}
 	}

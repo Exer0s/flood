@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 	{
 		public override string RoundName => "Flood!";
 		//[ServerVar( "flood_flood_duration", Help = "The duration of the flood round" )]
-		public override int RoundDuration { get; set; } = 10;
+		public override int RoundDuration { get; set; } = 30;
 		public override bool CanPlayerSuicide => true;
 
 		public List<FloodPlayer> Spectators = new ();

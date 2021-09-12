@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-	public abstract partial class BaseRound : NetworkClass
+	public abstract partial class BaseRound : NetworkComponent
 	{
 		public virtual int RoundDuration { get; set; } = 0;
 		public virtual string RoundName => "";
@@ -82,7 +82,6 @@ using System.Threading.Tasks;
 				else
 				{
 					TimeLeftFormatted = TimeSpan.FromSeconds( TimeLeft ).ToString( @"mm\:ss" );
-					NetworkDirty( "TimeLeftFormatted", NetVarGroup.Net );
 				}
 			}
 		}

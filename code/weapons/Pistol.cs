@@ -2,6 +2,7 @@
 
 
 [Library( "dm_pistol", Title = "Pistol" )]
+[Hammer.EditorModel( "weapons/rust_pistol/rust_pistol.vmdl" )]
 partial class Pistol : BaseFloodWeapon
 { 
 	public override string ViewModelPath => "weapons/rust_pistol/v_rust_pistol.vmdl";
@@ -9,10 +10,10 @@ partial class Pistol : BaseFloodWeapon
 	public override float PrimaryRate => 15.0f;
 	public override float SecondaryRate => 1.0f;
 	public override float ReloadTime => 3.0f;
-	public override int Cost => 0;
 
 	public override int Bucket => 1;
 
+	public override int Cost => 15;
 	public override void Spawn()
 	{
 		base.Spawn();
@@ -47,7 +48,8 @@ partial class Pistol : BaseFloodWeapon
 		//
 		// Shoot the bullets
 		//
-		ShootBullet( 0.05f, 1.5f, 9.0f, 3.0f );
+		//Rand.SetSeed( Time.Tick );
+		ShootBullet( 0.2f, 1.5f, 9.0f, 3.0f );
 
 	}
 }

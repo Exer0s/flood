@@ -23,16 +23,14 @@
   </PropertyGroup>
 
 	<ItemGroup>
-		<Analyzer Include="D:/Mikaels Steam/steamapps/common/sbox/bin/managed/Sandbox.Generator.dll"/>
-		<Reference Include="D:/Mikaels Steam/steamapps/common/sbox/bin/managed/Sandbox.System.dll"/>
-		<Reference Include="D:/Mikaels Steam/steamapps/common/sbox/bin/managed/Sandbox.Engine.dll"/>
-		<Reference Include="D:/Mikaels Steam/steamapps/common/sbox/bin/managed/Sandbox.Game.dll"/>
-		<Reference Include="D:/Mikaels Steam/steamapps/common/sbox/bin/managed/Sandbox.Hotload.dll"/>
+		<Analyzer Include="C:/Users/crazy/Desktop/sbox/bin/managed/Sandbox.Generator.dll"/>
+		<Reference Include="C:/Users/crazy/Desktop/sbox/bin/managed/Sandbox.System.dll"/>
+		<Reference Include="C:/Users/crazy/Desktop/sbox/bin/managed/Sandbox.Engine.dll"/>
+		<Reference Include="C:/Users/crazy/Desktop/sbox/bin/managed/Sandbox.Game.dll"/>
 	</ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="D:\Mikaels Steam\steamapps\common\sbox\addons\base\code\base.csproj"></ProjectReference>
-
+<ProjectReference Include="C:\Users\crazy\Desktop\sbox\Addons\base\code\base.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,6 +1,7 @@
 ﻿using Sandbox;
 
 [Library( "dm_crossbow", Title = "Crossbow" )]
+[Hammer.EditorModel( "weapons/rust_crossbow/rust_crossbow.vmdl" )]
 partial class Crossbow : BaseFloodWeapon
 { 
 	public override string ViewModelPath => "weapons/rust_crossbow/v_rust_crossbow.vmdl";
@@ -8,7 +9,8 @@ partial class Crossbow : BaseFloodWeapon
 	public override float PrimaryRate => 1;
 	public override int Bucket => 3;
 	public override AmmoType AmmoType => AmmoType.Crossbow;
-	public override int Cost => 15;
+
+	public override int Cost => 50;
 
 	[Net]
 	public bool Zoomed { get; set; }
@@ -49,11 +51,13 @@ partial class Crossbow : BaseFloodWeapon
 		Zoomed = Input.Down( InputButton.Attack2 );
 	}
 
-	public virtual void ModifyCamera( Camera cam )
+	public override void PostCameraSetup( ref CameraSetup camSetup )
 	{
+		base.PostCameraSetup( ref camSetup );
+
 		if ( Zoomed )
 		{
-			cam.FieldOfView = 20;
+			camSetup.FieldOfView = 20;
 		}
 	}
 
@@ -75,7 +79,7 @@ partial class Crossbow : BaseFloodWeapon
 			new Sandbox.ScreenShake.Perlin( 0.5f, 4.0f, 1.0f, 0.5f );
 		}
 
-		ViewModelEntity?.SetAnimParam( "fire", true );
-		CrosshairPanel?.OnEvent( "fire" );
+		ViewModelEntity?.SetAnimBool( "fire", true );
+		CrosshairPanel?.CreateEvent( "fire" );
 	}
 }

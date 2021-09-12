@@ -47,26 +47,26 @@ public partial class PhysGun : Carriable
 
 	public override void Simulate( Client client )
 	{
-		var owner = Owner as Player;
-		if ( owner == null ) return;
+		if ( Owner is not Player owner ) return;
 
-		var input = Input;
 		var eyePos = owner.EyePos;
 		var eyeDir = owner.EyeRot.Forward;
 		var eyeRot = Rotation.From( new Angles( 0.0f, owner.EyeRot.Angles().yaw, 0.0f ) );
 
-		if ( !grabbing && input.Pressed( InputButton.Attack1 ) )
+		if ( Input.Pressed( InputButton.Attack1 ) )
 		{
-			grabbing = true;
+			(Owner as AnimEntity)?.SetAnimBool( "b_attack", true );
+
+			if ( !grabbing )
+				grabbing = true;
 		}
 
-		bool grabEnabled = grabbing && input.Down( InputButton.Attack1 );
-		bool wantsToFreeze = input.Pressed( InputButton.Attack2 );
+		bool grabEnabled = grabbing && Input.Down( InputButton.Attack1 );
+		bool wantsToFreeze = Input.Pressed( InputButton.Attack2 );
 
-		if ( IsClient && wantsToFreeze )
+		if ( GrabbedEntity.IsValid() && wantsToFreeze )
 		{
-			grabEnabled = false;
-			grabbing = false;
+			(Owner as AnimEntity)?.SetAnimBool( "b_attack", true );
 		}
 
 		BeamActive = grabEnabled;
@@ -82,7 +82,7 @@ public partial class PhysGun : Carriable
 				{
 					if ( heldBody.IsValid() )
 					{
-						UpdateGrab( input, eyePos, eyeRot, eyeDir, wantsToFreeze );
+						UpdateGrab( eyePos, eyeRot, eyeDir, wantsToFreeze );
 					}
 					else
 					{
@@ -92,6 +92,11 @@ public partial class PhysGun : Carriable
 				else if ( grabbing )
 				{
 					GrabEnd();
+				}
+
+				if ( !grabbing && Input.Pressed( InputButton.Reload ) )
+				{
+					TryUnfreezeAll( owner, eyePos, eyeRot, eyeDir );
 				}
 			}
 		}
@@ -111,15 +116,52 @@ public partial class PhysGun : Carriable
 		return false;
 	}
 
+	private void TryUnfreezeAll( Player owner, Vector3 eyePos, Rotation eyeRot, Vector3 eyeDir )
+	{
+		var tr = Trace.Ray( eyePos, eyePos + eyeDir * MaxTargetDistance )
+			.UseHitboxes()
+			.Ignore( owner, false )
+			.HitLayer( CollisionLayer.Debris )
+			.Run();
+
+		if ( !tr.Hit || !tr.Entity.IsValid() || tr.Entity.IsWorld ) return;
+
+		var rootEnt = tr.Entity.Root;
+		if ( !rootEnt.IsValid() ) return;
+
+		var physicsGroup = rootEnt.PhysicsGroup;
+		if ( physicsGroup == null ) return;
+
+		bool unfrozen = false;
+
+		for ( int i = 0; i < physicsGroup.BodyCount; ++i )
+		{
+			var body = physicsGroup.GetBody( i );
+			if ( !body.IsValid() ) continue;
+
+			if ( body.BodyType == PhysicsBodyType.Static )
+			{
+				body.BodyType = PhysicsBodyType.Dynamic;
+				unfrozen = true;
+			}
+		}
+
+		if ( unfrozen )
+		{
+			var freezeEffect = Particles.Create( "particles/physgun_freeze.vpcf" );
+			freezeEffect.SetPosition( 0, tr.EndPos );
+		}
+	}
+
 	private void TryStartGrab( Player owner, Vector3 eyePos, Rotation eyeRot, Vector3 eyeDir )
 	{
 		var tr = Trace.Ray( eyePos, eyePos + eyeDir * MaxTargetDistance )
 			.UseHitboxes()
-			.Ignore( owner )
+			.Ignore( owner, false )
 			.HitLayer( CollisionLayer.Debris )
 			.Run();
 
-		if ( !tr.Hit || !tr.Body.IsValid() || tr.Entity.IsWorld ) return;
+		if ( !tr.Hit || !tr.Entity.IsValid() || !tr.Body.IsValid() || tr.Entity.IsWorld ) return;
 
 		var rootEnt = tr.Entity.Root;
 		var body = tr.Body;
@@ -163,7 +205,7 @@ public partial class PhysGun : Carriable
 		}
 	}
 
-	private void UpdateGrab( UserInput input, Vector3 eyePos, Rotation eyeRot, Vector3 eyeDir, bool wantsToFreeze )
+	private void UpdateGrab( Vector3 eyePos, Rotation eyeRot, Vector3 eyeDir, bool wantsToFreeze )
 	{
 		if ( wantsToFreeze )
 		{
@@ -172,24 +214,24 @@ public partial class PhysGun : Carriable
 			if ( GrabbedEntity.IsValid() )
 			{
 				var freezeEffect = Particles.Create( "particles/physgun_freeze.vpcf" );
-				freezeEffect.SetPos( 0, heldBody.Transform.PointToWorld( GrabbedPos ) );
+				freezeEffect.SetPosition( 0, heldBody.Transform.PointToWorld( GrabbedPos ) );
 			}
 
 			GrabEnd();
 			return;
 		}
 
-		MoveTargetDistance( input.MouseWheel * TargetDistanceSpeed );
+		MoveTargetDistance( Input.MouseWheel * TargetDistanceSpeed );
 
-		bool rotating = input.Down( InputButton.Use );
+		bool rotating = Input.Down( InputButton.Use );
 		bool snapping = false;
 
 		if ( rotating )
 		{
-			EnableAngularSpring( input.Down( InputButton.Run ) ? 100.0f : 0.0f );
-			DoRotate( eyeRot, input.MouseDelta * RotateSpeed );
+			EnableAngularSpring( Input.Down( InputButton.Run ) ? 100.0f : 0.0f );
+			DoRotate( eyeRot, Input.MouseDelta * RotateSpeed );
 
-			snapping = input.Down( InputButton.Run );
+			snapping = Input.Down( InputButton.Run );
 		}
 		else
 		{
@@ -201,7 +243,7 @@ public partial class PhysGun : Carriable
 
 	private void EnableAngularSpring( float scale )
 	{
-		if ( holdJoint.IsValid() )
+		if ( holdJoint.IsValid )
 		{
 			holdJoint.AngularDampingRatio = AngularDampingRatio * scale;
 			holdJoint.AngularFrequency = AngularFrequency * scale;
@@ -210,7 +252,7 @@ public partial class PhysGun : Carriable
 
 	private void DisableAngularSpring()
 	{
-		if ( holdJoint.IsValid() )
+		if ( holdJoint.IsValid )
 		{
 			holdJoint.AngularDampingRatio = 0.0f;
 			holdJoint.AngularFrequency = 0.0f;
@@ -224,8 +266,10 @@ public partial class PhysGun : Carriable
 
 		if ( !holdBody.IsValid() )
 		{
-			holdBody = PhysicsWorld.AddBody();
-			holdBody.BodyType = PhysicsBodyType.Keyframed;
+			holdBody = new PhysicsBody
+			{
+				BodyType = PhysicsBodyType.Keyframed
+			};
 		}
 	}
 
@@ -265,13 +309,6 @@ public partial class PhysGun : Carriable
 
 	public override void OnCarryDrop( Entity dropper )
 	{
-		if ( IsClient ) return;
-
-		SetParent( null );
-		Owner = null;
-		//MoveType = MoveType.Physics;
-		EnableDrawing = false;
-		EnableAllCollisions = false;
 	}
 
 	private void GrabInit( PhysicsBody body, Vector3 startPos, Vector3 grabPos, Rotation rot )
@@ -304,7 +341,7 @@ public partial class PhysGun : Carriable
 
 	private void GrabEnd()
 	{
-		if ( holdJoint.IsValid() )
+		if ( holdJoint.IsValid )
 		{
 			holdJoint.Remove();
 		}

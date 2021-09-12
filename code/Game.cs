@@ -18,7 +18,7 @@ partial class FloodGame : Game
 	public static int MinPlayers { get; set; } = 2;
 	[Net] public bool RespawnEnabled { get; set; } = true;
 	[Net] public WaterFlood waterInstance { get; private set; }
-	[Net] public float waterHeight { get; private set; }
+	[Net] public float waterHeight { get; set; }
 	[Net] public BaseRound Round { get; private set; }
 	private BaseRound _lastRound;
 	[Net] public bool canUseWeapons { get; set; } = true;

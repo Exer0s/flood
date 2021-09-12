@@ -2,7 +2,7 @@
 using System.Linq;
 
 [Library( "directional_gravity", Title = "Directional Gravity", Spawnable = true )]
-public partial class DirectionalGravity : Prop, IPhysicsUpdate
+public partial class DirectionalGravity : Prop
 {
 	bool enabled = false;
 
@@ -41,7 +41,8 @@ public partial class DirectionalGravity : Prop, IPhysicsUpdate
 		enabled = false;
 	}
 
-	public void OnPostPhysicsStep( float dt )
+	[Event.Physics.PostStep]
+	protected void UpdateGravity()
 	{
 		if ( !IsServer )
 			return;

@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 	{
 		public override string RoundName => "Build!";
 		
-		public override int RoundDuration { get; set; } = FloodGame.buildDuration;
+		public override int RoundDuration { get; set; } = 30;
 		public override bool CanPlayerSuicide => true;
 
 		private bool _isGameOver;

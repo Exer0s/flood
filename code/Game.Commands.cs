@@ -89,7 +89,7 @@ partial class FloodGame
 			.Size( 2 )
 			.Run();
 		//Spawns new prop
-		var ent = new BreakableProp();
+		var ent = new Prop();
 		//sets prop position and rotation to where player is looking
 		ent.Position = tr.EndPos;
 		ent.Rotation = Rotation.From( new Angles( 0, owner.EyeRot.Angles().yaw, 0 ) ) * Rotation.FromAxis( Vector3.Up, 180 );
@@ -127,7 +127,7 @@ partial class FloodGame
 			.Size( 2 )
 			.Run();
 		Log.Info( $"swapped surface to {tr3.Surface.Name}" );
-		ent.surface = tr3.Surface;
+		//ent.surface = tr3.Surface;
 	}
 
 	[ServerCmd( "spawn_entity" )]

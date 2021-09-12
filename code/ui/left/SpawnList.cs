@@ -18,11 +18,7 @@ public partial class SpawnList : Panel
 		{
 			var file = (string)data;
 			var panel = cell.Add.Panel( "icon" );
-			panel.AddEvent( "onclick", () => 
-			{
-				ConsoleSystem.Run( "spawn", "models/" + file );
-				Log.Info( "Attemping to spawn a prop" );
-			} );
+			panel.AddEventListener( "onclick", () => ConsoleSystem.Run( "spawn", "models/" + file ) );
 			panel.Style.Background = new PanelBackground
 			{
 				Texture = Texture.Load( $"/models/{file}_c.png", false )
@@ -31,9 +27,9 @@ public partial class SpawnList : Panel
 
 		foreach ( var file in FileSystem.Mounted.FindFile( "models", "*.vmdl_c.png", true ) )
 		{
-			//if ( string.IsNullOrWhiteSpace( file ) ) continue;
-			//if ( file.Contains( "_lod0" ) ) continue;
-			//if ( file.Contains( "clothes" ) ) continue;
+			if ( string.IsNullOrWhiteSpace( file ) ) continue;
+			if ( file.Contains( "_lod0" ) ) continue;
+			if ( file.Contains( "clothes" ) ) continue;
 
 			Canvas.AddItem( file.Remove( file.Length - 6 ) );
 		}

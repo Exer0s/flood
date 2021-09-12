@@ -10,8 +10,6 @@ public class Crosshair : Panel
 
 	public Crosshair()
 	{
-		StyleSheet.Load( "/ui/Crosshair.scss" );
-
 		for( int i=0; i<5; i++ )
 		{
 			var p = Add.Panel( "element" );
@@ -30,14 +28,9 @@ public class Crosshair : Panel
 			fireCounter--;
 	}
 
-	public override void OnEvent( string eventName )
+	[PanelEvent]
+	public void FireEvent()
 	{
-		if ( eventName == "fire" )
-		{
-			// this is a hack until we have animation or TriggerClass support
-			fireCounter += 2;
-		}
-
-		base.OnEvent( eventName );
+		fireCounter += 2;
 	}
 }

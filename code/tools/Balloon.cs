@@ -1,18 +1,29 @@
 ﻿namespace Sandbox.Tools
 {
-	[Library( "tool_light", Title = "Lights", Description = "A dynamic point light", Group = "construction" )]
-	public partial class LightTool : BaseTool
+	[Library( "tool_balloon", Title = "Balloons", Description = "Create Balloons!", Group = "construction" )]
+	public partial class BalloonTool : BaseTool
 	{
+		[Net]
+		public Color Tint { get; set; }
+
 		PreviewEntity previewModel;
 
-		private string Model => "models/light/light_tubular.vmdl";
+		public override void Activate()
+		{
+			base.Activate();
+
+			if ( Host.IsServer )
+			{
+				Tint = Color.Random;
+			}
+		}
 
 		protected override bool IsPreviewTraceValid( TraceResult tr )
 		{
 			if ( !base.IsPreviewTraceValid( tr ) )
 				return false;
 
-			if ( tr.Entity is LightEntity )
+			if ( tr.Entity is BalloonEntity )
 				return false;
 
 			return true;
@@ -20,16 +31,19 @@
 
 		public override void CreatePreviews()
 		{
-			if ( TryCreatePreview( ref previewModel, Model ) )
+			if ( TryCreatePreview( ref previewModel, "models/citizen_props/balloonregular01.vmdl" ) )
 			{
 				previewModel.RelativeToNormal = false;
-				previewModel.OffsetBounds = true;
-				previewModel.PositionOffset = -previewModel.CollisionBounds.Center;
 			}
 		}
 
 		public override void Simulate()
 		{
+			if ( previewModel.IsValid() )
+			{
+				previewModel.RenderColor = Tint;
+			}
+
 			if ( !Host.IsServer )
 				return;
 
@@ -46,41 +60,33 @@
 					.Ignore( Owner )
 					.Run();
 
-				if ( !tr.Hit || !tr.Entity.IsValid() )
+				if ( !tr.Hit )
+					return;
+
+				if ( !tr.Entity.IsValid() )
 					return;
 
 				CreateHitEffects( tr.EndPos );
 
-				if ( tr.Entity is LightEntity )
-				{
-					// TODO: Set properties
-
+				if ( tr.Entity is BalloonEntity )
 					return;
-				}
 
-				var light = new LightEntity
+				var ent = new BalloonEntity
 				{
-					Enabled = true,
-					DynamicShadows = false,
-					Range = 128,
-					Falloff = 1.0f,
-					LinearAttenuation = 0.0f,
-					QuadraticAttenuation = 1.0f,
-					Brightness = 1,
-					Color = Color.Random,
-					LightCookie = Texture.Load( "materials/effects/lightcookie.vtex" )
+					Position = tr.EndPos,
 				};
 
-				light.UseFogNoShadows();
-				light.SetModel( Model );
-				light.SetupPhysicsFromModel( PhysicsMotionType.Dynamic, false );
-				light.Position = tr.EndPos + -light.CollisionBounds.Center + tr.Normal * light.CollisionBounds.Size * 0.5f;
+				ent.SetModel( "models/citizen_props/balloonregular01.vmdl" );
+				ent.PhysicsBody.GravityScale = -0.2f;
+				ent.RenderColor = Tint;
+
+				Tint = Color.Random;
 
 				if ( !useRope )
 					return;
 
 				var rope = Particles.Create( "particles/rope.vpcf" );
-				rope.SetEntity( 0, light, Vector3.Down * 6.5f ); // Should be an attachment point
+				rope.SetEntity( 0, ent );
 
 				var attachEnt = tr.Body.IsValid() ? tr.Body.Entity : tr.Entity;
 				var attachLocalPos = tr.Body.Transform.PointToLocal( tr.EndPos ) * (1.0f / tr.Entity.Scale);
@@ -95,11 +101,11 @@
 				}
 
 				var spring = PhysicsJoint.Spring
-					.From( light.PhysicsBody, Vector3.Down * 6.5f )
+					.From( ent.PhysicsBody )
 					.To( tr.Body, tr.Body.Transform.PointToLocal( tr.EndPos ) )
 					.WithFrequency( 5.0f )
 					.WithDampingRatio( 0.7f )
-					.WithReferenceMass( light.PhysicsBody.Mass )
+					.WithReferenceMass( ent.PhysicsBody.Mass )
 					.WithMinRestLength( 0 )
 					.WithMaxRestLength( 100 )
 					.WithCollisionsEnabled()

@@ -14,7 +14,9 @@ partial class BaseFloodWeapon : BaseWeapon, IRespawnableEntity
 	public virtual float ReloadTime => 3.0f;
 	public virtual int Bucket => 1;
 	public virtual int BucketWeight => 100;
-	public virtual int Cost => 1;
+
+	public virtual int Cost => 0;
+
 
 	[Net, Predicted]
 	public int AmmoClip { get; set; }
@@ -44,6 +46,8 @@ partial class BaseFloodWeapon : BaseWeapon, IRespawnableEntity
 		base.ActiveStart( ent );
 
 		TimeSinceDeployed = 0;
+
+		IsReloading = false;
 	}
 
 	public override string ViewModelPath => "weapons/rust_pistol/v_rust_pistol.vmdl";
@@ -73,13 +77,11 @@ partial class BaseFloodWeapon : BaseWeapon, IRespawnableEntity
 		{
 			if ( player.AmmoCount( AmmoType ) <= 0 )
 				return;
-
-			StartReloadEffects();
 		}
 
 		IsReloading = true;
 
-		(Owner as AnimEntity).SetAnimParam( "b_reload", true );
+		(Owner as AnimEntity).SetAnimBool( "b_reload", true );
 
 		StartReloadEffects();
 	}
@@ -117,7 +119,7 @@ partial class BaseFloodWeapon : BaseWeapon, IRespawnableEntity
 	[ClientRpc]
 	public virtual void StartReloadEffects()
 	{
-		ViewModelEntity?.SetAnimParam( "reload", true );
+		ViewModelEntity?.SetAnimBool( "reload", true );
 
 		// TODO - player third person model reload
 	}
@@ -170,8 +172,8 @@ partial class BaseFloodWeapon : BaseWeapon, IRespawnableEntity
 			new Sandbox.ScreenShake.Perlin();
 		}
 
-		ViewModelEntity?.SetAnimParam( "fire", true );
-		CrosshairPanel?.OnEvent( "fire" );
+		ViewModelEntity?.SetAnimBool( "fire", true );
+		CrosshairPanel?.CreateEvent( "fire" );
 	}
 
 	/// <summary>
@@ -265,13 +267,12 @@ partial class BaseFloodWeapon : BaseWeapon, IRespawnableEntity
 
 	public override void OnCarryDrop( Entity dropper )
 	{
-		if ( IsClient ) return;
+		base.OnCarryDrop( dropper );
 
-		SetParent( null );
-		Owner = null;
-		//MoveType = MoveType.Physics;
-		EnableDrawing = false;
-		EnableAllCollisions = false;
+		if ( PickupTrigger.IsValid() )
+		{
+			PickupTrigger.EnableTouch = true;
+		}
 	}
 
 }

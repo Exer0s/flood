@@ -1,8 +1,8 @@
 ﻿using Sandbox;
 using System;
 
-[Library( "ent_drone" , Title = "Drone", Spawnable = true )]
-public partial class DroneEntity : Prop, IPhysicsUpdate
+[Library( "ent_drone", Title = "Drone", Spawnable = true )]
+public partial class DroneEntity : Prop
 {
 	public virtual float altitudeAcceleration => 2000;
 	public virtual float movementAcceleration => 5000;
@@ -37,7 +37,8 @@ public partial class DroneEntity : Prop, IPhysicsUpdate
 		SetupPhysicsFromModel( PhysicsMotionType.Dynamic, false );
 	}
 
-	public void OnPostPhysicsStep( float dt )
+	[Event.Physics.PostStep]
+	protected void ApplyForces()
 	{
 		if ( !PhysicsBody.IsValid() )
 		{
@@ -85,7 +86,7 @@ public partial class DroneEntity : Prop, IPhysicsUpdate
 			var uprightTorque = Vector3.Cross( currentUp, targetUp ) * uprightSpeed;
 			var uprightAlignment = alignment < uprightDot ? 0 : alignment;
 			var totalTorque = spinTorque * alignment + uprightTorque * uprightAlignment;
-			body.ApplyTorque( ( totalTorque * alignment ) * body.Mass );
+			body.ApplyTorque( (totalTorque * alignment) * body.Mass );
 		}
 	}
 
@@ -96,14 +97,12 @@ public partial class DroneEntity : Prop, IPhysicsUpdate
 
 		using ( Prediction.Off() )
 		{
-			var input = owner.Input;
-
 			currentInput.Reset();
-			var x = (input.Down( InputButton.Forward ) ? -1 : 0) + (input.Down( InputButton.Back ) ? 1 : 0);
-			var y = (input.Down( InputButton.Right ) ? 1 : 0) + (input.Down( InputButton.Left ) ? -1 : 0);
+			var x = (Input.Down( InputButton.Forward ) ? -1 : 0) + (Input.Down( InputButton.Back ) ? 1 : 0);
+			var y = (Input.Down( InputButton.Right ) ? 1 : 0) + (Input.Down( InputButton.Left ) ? -1 : 0);
 			currentInput.movement = new Vector3( x, y, 0 ).Normal;
-			currentInput.throttle = (input.Down( InputButton.Run ) ? 1 : 0) + (input.Down( InputButton.Duck ) ? -1 : 0);
-			currentInput.yaw = -input.MouseDelta.x;
+			currentInput.throttle = (Input.Down( InputButton.Run ) ? 1 : 0) + (Input.Down( InputButton.Duck ) ? -1 : 0);
+			currentInput.yaw = -Input.MouseDelta.x;
 		}
 	}
 
@@ -122,7 +121,7 @@ public partial class DroneEntity : Prop, IPhysicsUpdate
 
 	public override void OnNewModel( Model model )
 	{
-		base.OnNewModel(model);
+		base.OnNewModel( model );
 
 		if ( IsClient )
 		{
@@ -131,7 +130,7 @@ public partial class DroneEntity : Prop, IPhysicsUpdate
 
 	private float spinAngle;
 
-	[Event( "frame" )]
+	[Event.Frame]
 	public void OnFrame()
 	{
 		spinAngle += 10000.0f * Time.Delta;

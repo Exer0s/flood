@@ -1,7 +1,7 @@
 ﻿using Sandbox;
 
 [Library( "ent_thruster" )]
-public partial class ThrusterEntity : Prop, IPhysicsUpdate, IUse
+public partial class ThrusterEntity : Prop, IUse
 {
 	public float Force = 1000.0f;
 	public bool Massless = false;
@@ -10,7 +10,8 @@ public partial class ThrusterEntity : Prop, IPhysicsUpdate, IUse
 	[Net]
 	public bool Enabled { get; set; } = true;
 
-	public virtual void OnPostPhysicsStep( float dt )
+	[Event.Physics.PostStep]
+	protected void ApplyForces()
 	{
 		if ( IsServer && Enabled )
 		{

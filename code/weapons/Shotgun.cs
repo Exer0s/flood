@@ -2,6 +2,7 @@
 
 
 [Library( "dm_shotgun", Title = "Shotgun" )]
+[Hammer.EditorModel( "weapons/rust_pumpshotgun/rust_pumpshotgun.vmdl" )]
 partial class Shotgun : BaseFloodWeapon
 { 
 	public override string ViewModelPath => "weapons/rust_pumpshotgun/v_rust_pumpshotgun.vmdl";
@@ -11,8 +12,8 @@ partial class Shotgun : BaseFloodWeapon
 	public override int ClipSize => 8;
 	public override float ReloadTime => 0.5f;
 	public override int Bucket => 2;
-	public override int Cost => 10;
 
+	public override int Cost => 20;
 	public override void Spawn()
 	{
 		base.Spawn();
@@ -33,7 +34,7 @@ partial class Shotgun : BaseFloodWeapon
 			return;
 		}
 
-		(Owner as AnimEntity).SetAnimParam( "b_attack", true );
+		(Owner as AnimEntity).SetAnimBool( "b_attack", true );
 
 		//
 		// Tell the clients to play the shoot effects
@@ -44,6 +45,7 @@ partial class Shotgun : BaseFloodWeapon
 		//
 		// Shoot the bullets
 		//
+		Rand.SetSeed( Time.Tick );
 		for ( int i = 0; i < 10; i++ )
 		{
 			ShootBullet( 0.15f, 0.3f, 9.0f, 3.0f );
@@ -61,7 +63,7 @@ partial class Shotgun : BaseFloodWeapon
 			return;
 		}
 
-		(Owner as AnimEntity).SetAnimParam( "b_attack", true );
+		(Owner as AnimEntity).SetAnimBool( "b_attack", true );
 
 		//
 		// Tell the clients to play the shoot effects
@@ -72,6 +74,7 @@ partial class Shotgun : BaseFloodWeapon
 		//
 		// Shoot the bullets
 		//
+		Rand.SetSeed( Time.Tick );
 		for ( int i = 0; i < 20; i++ )
 		{
 			ShootBullet( 0.4f, 0.3f, 8.0f, 3.0f );
@@ -86,14 +89,14 @@ partial class Shotgun : BaseFloodWeapon
 		Particles.Create( "particles/pistol_muzzleflash.vpcf", EffectEntity, "muzzle" );
 		Particles.Create( "particles/pistol_ejectbrass.vpcf", EffectEntity, "ejection_point" );
 
-		ViewModelEntity?.SetAnimParam( "fire", true );
+		ViewModelEntity?.SetAnimBool( "fire", true );
 
 		if ( IsLocalPawn )
 		{
 			new Sandbox.ScreenShake.Perlin(1.0f, 1.5f, 2.0f);
 		}
 
-		CrosshairPanel?.OnEvent( "fire" );
+		CrosshairPanel?.CreateEvent( "fire" );
 	}
 
 	[ClientRpc]
@@ -103,8 +106,8 @@ partial class Shotgun : BaseFloodWeapon
 
 		Particles.Create( "particles/pistol_muzzleflash.vpcf", EffectEntity, "muzzle" );
 
-		ViewModelEntity?.SetAnimParam( "fire_double", true );
-		CrosshairPanel?.OnEvent( "fire" );
+		ViewModelEntity?.SetAnimBool( "fire_double", true );
+		CrosshairPanel?.CreateEvent( "fire" );
 
 		if ( IsLocalPawn )
 		{
@@ -144,7 +147,7 @@ partial class Shotgun : BaseFloodWeapon
 	[ClientRpc]
 	protected virtual void FinishReload()
 	{
-		ViewModelEntity?.SetAnimParam( "reload_finished", true );
+		ViewModelEntity?.SetAnimBool( "reload_finished", true );
 	}
 
 	public override void SimulateAnimator( PawnAnimator anim )

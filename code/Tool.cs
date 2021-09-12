@@ -1,10 +1,10 @@
 ﻿using Sandbox;
 using Sandbox.Tools;
 
-[Library( "weapon_tool" )]
+[Library( "weapon_tool", Title = "Toolgun" )]
 partial class Tool : Carriable
 {
-	[UserVar( "tool_current" )]
+	[ConVar.ClientData( "tool_current" )]
 	public static string UserToolCurrent { get; set; } = "tool_boxgun";
 
 	public override string ViewModelPath => "weapons/rust_pistol/v_rust_pistol.vmdl";
@@ -28,7 +28,7 @@ partial class Tool : Carriable
 
 	private void UpdateCurrentTool( Client owner )
 	{
-		var toolName = owner.GetUserString( "tool_current", "tool_boxgun" );
+		var toolName = owner.GetClientData<string>( "tool_current", "tool_boxgun" );
 		if ( toolName == null )
 			return;
 
@@ -76,27 +76,27 @@ partial class Tool : Carriable
 
 	public override void OnCarryDrop( Entity dropper )
 	{
-		if ( IsClient ) return;
-
-		SetParent( null );
-		Owner = null;
-		//MoveType = MoveType.Physics;
-		EnableDrawing = false;
-		EnableAllCollisions = false;
 	}
 
-	[Event( "frame" )]
+	[Event.Frame]
 	public void OnFrame()
 	{
 		if ( !IsActiveChild() ) return;
 
 		CurrentTool?.OnFrame();
 	}
+
+	public override void SimulateAnimator( PawnAnimator anim )
+	{
+		anim.SetParam( "holdtype", 1 );
+		anim.SetParam( "aimat_weight", 1.0f );
+		anim.SetParam( "holdtype_handedness", 1 );
+	}
 }
 
 namespace Sandbox.Tools
 {
-	public partial class BaseTool : NetworkClass
+	public partial class BaseTool : NetworkComponent
 	{
 		public Tool Parent { get; set; }
 		public Player Owner { get; set; }

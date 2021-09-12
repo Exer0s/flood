@@ -35,9 +35,7 @@
 
 			using ( Prediction.Off() )
 			{
-				var input = Owner.Input;
-
-				if ( !input.Pressed( InputButton.Attack1 ) )
+				if ( !Input.Pressed( InputButton.Attack1 ) )
 					return;
 
 				var startPos = Owner.EyePos;
@@ -73,7 +71,8 @@
 					OuterConeAngle = 45,
 					Brightness = 10,
 					Color = Color.Random,
-					Rotation = Rotation.Identity
+					Rotation = Rotation.Identity,
+					LightCookie = Texture.Load( "materials/effects/lightcookie.vtex" )
 				};
 
 				lamp.SetModel( Model );

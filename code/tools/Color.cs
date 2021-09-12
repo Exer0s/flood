@@ -12,11 +12,10 @@ namespace Sandbox.Tools
 
 			using ( Prediction.Off() )
 			{
-				var input = Owner.Input;
 				var startPos = Owner.EyePos;
 				var dir = Owner.EyeRot.Forward;
 
-				if ( !input.Pressed( InputButton.Attack1 ) ) return;
+				if ( !Input.Pressed( InputButton.Attack1 ) ) return;
 
 				var tr = Trace.Ray( startPos, startPos + dir * MaxTraceDistance )
 				   .Ignore( Owner )
@@ -30,7 +29,7 @@ namespace Sandbox.Tools
 				if ( tr.Entity is not ModelEntity modelEnt )
 					return;
 
-				modelEnt.RenderColor = Color.Random.ToColor32();
+				modelEnt.RenderColor = Color.Random;
 
 				CreateHitEffects( tr.EndPos );
 			}

@@ -18,8 +18,8 @@ public class MoneyCounter : Panel
 
 		public override void Tick()
 		{
-			Parent.SetClass( "spawnmenuopen", Local.Client.Input.Down( InputButton.Menu ) );
-			var player = Local.Client.Pawn as FloodPlayer;
+		Parent.SetClass( "spawnmenuopen", Input.Down( InputButton.Menu ) );
+		var player = Local.Client.Pawn as FloodPlayer;
 			if ( player == null ) return;
 			moneyLabel.Text = "$" + player.Money.ToString();
 		}

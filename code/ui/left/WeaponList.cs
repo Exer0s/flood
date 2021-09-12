@@ -27,7 +27,7 @@ public partial class WeaponList : Panel
 			var cost = cell.Add.Label($"${weapon.Cost}", "weaponcost");
 			
 			btn.AddClass( "icon" );
-			btn.AddEvent( "onclick", () => {
+			btn.AddEventListener( "onclick", () => {
 
 				if ( localPlayer == null ) return;
 				//Buying weapons

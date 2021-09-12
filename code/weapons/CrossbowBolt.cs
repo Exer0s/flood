@@ -2,7 +2,8 @@
 
 
 [Library( "crossbow_bolt" )]
-partial class CrossbowBolt : ModelEntity, IPhysicsUpdate
+[Hammer.Skip]
+partial class CrossbowBolt : ModelEntity
 {
 	bool Stuck;
 
@@ -14,21 +15,20 @@ partial class CrossbowBolt : ModelEntity, IPhysicsUpdate
 	}
 
 
-	public virtual void OnPostPhysicsStep( float dt )
+	[Event.Tick.Server]
+	public virtual void Tick()
 	{
-		//DebugOverlay.Box( 0.1f, Position, -0.1f, 1.1f, Host.Color );
-
 		if ( !IsServer )
 			return;
 
 		if ( Stuck )
 			return;
 
-		float Speed = 100.0f;
+		float Speed = 10000.0f;
 		var velocity = Rotation.Forward * Speed;
 
 		var start = Position;
-		var end = start + velocity;
+		var end = start + velocity * Time.Delta;
 
 		var tr = Trace.Ray( start, end )
 				.UseHitboxes()
@@ -38,9 +38,6 @@ partial class CrossbowBolt : ModelEntity, IPhysicsUpdate
 				.Size( 1.0f )
 				.Run();
 
-		// DebugOverlay.Line( start, end, 10.0f );
-		// DebugOverlay.Box( 10.0f, Position, -1, 1, Color.Red );
-		// DebugOverlay.Box( 10.0f, tr.EndPos, -1, 1, Color.Red );
 
 		if ( tr.Hit )
 		{
@@ -72,23 +69,12 @@ partial class CrossbowBolt : ModelEntity, IPhysicsUpdate
 			tr.Surface.DoBulletImpact( tr );
 			velocity = default;
 
-			//
-			// BUG: without this the bolt stops short of the wall on the client.
-			//		need to make interp finish itself off even though it's not getting new positions?
-			//
-			ResetInterpolation();
-
-			// DebugOverlay.Box( 10.0f, Position, -1, 1, Color.Red );
-			// DebugOverlay.Box( 10.0f, tr.EndPos, -1, 1, Color.Yellow );
-
-			// delete self in 30 seconds
-			_ = DeleteAsync( 30.0f );
+			// delete self in 60 seconds
+			_ = DeleteAsync( 60.0f );
 		}
 		else
 		{
 			Position = end;
 		}
-
-		
 	}
 }
