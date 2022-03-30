@@ -12,8 +12,8 @@ namespace Sandbox.Tools
 
 			using ( Prediction.Off() )
 			{
-				var startPos = Owner.EyePos;
-				var dir = Owner.EyeRot.Forward;
+				var startPos = Owner.EyePosition;
+				var dir = Owner.EyeRotation.Forward;
 
 				if ( !Input.Pressed( InputButton.Attack1 ) ) return;
 
@@ -31,7 +31,7 @@ namespace Sandbox.Tools
 
 				modelEnt.RenderColor = Color.Random;
 
-				CreateHitEffects( tr.EndPos );
+				CreateHitEffects( tr.EndPosition );
 			}
 		}
 	}

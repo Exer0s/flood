@@ -1,24 +1,19 @@
 {
-		"name": "Flood",
-		"version": "1.0",
-		"sharedassets": "*.*",
-
-		"depends": 
-		[
-			"base",
-			"citizen",
-			"rust"
-		],
-
-		//
-		// Addons can contain multiple addons, describe them here
-		//
-		"gamemodes":
-		[
-				{
-						"name": "flood",
-						"title": "Flood",
-						"description": "Don't drown"
-				}
-		]
+  "Title": "flood",
+  "Type": "game",
+  "Org": "bluebitdev",
+  "Ident": "flood",
+  "Schema": 1,
+  "HasAssets": true,
+  "AssetsPath": "",
+  "ResourcePaths": null,
+  "HasCode": true,
+  "CodePath": "/code/",
+  "RootNamespace": "Sandbox",
+  "Metadata": {
+    "MapList": [
+      "bluebitdev.floodgate2"
+    ],
+    "MapSelect": 2
+  }
 }

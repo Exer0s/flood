@@ -4,55 +4,50 @@ using System.Linq;
 
 partial class Inventory : BaseInventory
 {
-    public Inventory( Player player ) : base( player )
-    {
-    }
+	public Inventory( Player player ) : base( player )
+	{
+	}
 
-    public override bool CanAdd( Entity entity )
-    {
-        if ( !entity.IsValid() )
-            return false;
+	public override bool CanAdd( Entity entity )
+	{
+		if ( !entity.IsValid() )
+			return false;
 
-        if ( !base.CanAdd( entity ) )
-            return false;
+		if ( !base.CanAdd( entity ) )
+			return false;
 
-        return !IsCarryingType( entity.GetType() );
-    }
+		return !IsCarryingType( entity.GetType() );
+	}
 
-    public override bool Add( Entity entity, bool makeActive = false )
-    {
-        if ( !entity.IsValid() )
-            return false;
+	public override bool Add( Entity entity, bool makeActive = false )
+	{
+		if ( !entity.IsValid() )
+			return false;
 
-        if ( IsCarryingType( entity.GetType() ) )
-            return false;
+		if ( IsCarryingType( entity.GetType() ) )
+			return false;
 
-        return base.Add( entity, makeActive );
-    }
+		return base.Add( entity, makeActive );
+	}
 
-    public bool IsCarryingType( Type t )
-    {
-        return List.Any( x => x?.GetType() == t );
-    }
+	public bool IsCarryingType( Type t )
+	{
+		return List.Any( x => x?.GetType() == t );
+	}
 
-    public override bool Drop( Entity ent )
-    {
-		bool isWeapon = false;
-        if ( !Host.IsServer )
-            return false;
-		if (ent is BaseFloodWeapon weapon)
-        {
-			weapon.OnCarryDrop( Owner );
-			isWeapon = true;
-        }
-        
-        
-        if ( ent is Carriable && !isWeapon)
-        {
-			ent.OnCarryDrop( Owner );
-        }
+	public override bool Drop( Entity ent )
+	{
+		if ( !Host.IsServer )
+			return false;
+
+		if ( !Contains( ent ) )
+			return false;
+
+		if ( ent is BaseCarriable bc )
+		{
+			bc.OnCarryDrop( Owner );
+		}
 
 		return ent.Parent == null;
-
-    }
+	}
 }

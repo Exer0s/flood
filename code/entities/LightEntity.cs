@@ -27,7 +27,6 @@ public partial class LightEntity : PointLightEntity, IUse
 
 	public void Remove()
 	{
-		PhysicsGroup?.Wake();
 		Delete();
 	}
 }

@@ -32,16 +32,12 @@ public partial class DirectionalGravity : Prop
 	{
 		base.OnDestroy();
 
-		if ( IsServer )
-		{
-			PhysicsWorld.UseDefaultGravity();
-			PhysicsWorld.WakeAllBodies();
-		}
+		Map.Physics.Gravity = Vector3.Down * 800.0f;
 
 		enabled = false;
 	}
 
-	[Event.Physics.PostStep]
+	[Event.Tick]
 	protected void UpdateGravity()
 	{
 		if ( !IsServer )
@@ -53,12 +49,6 @@ public partial class DirectionalGravity : Prop
 		if ( !this.IsValid() )
 			return;
 
-		var gravity = Rotation.Down * 800.0f;
-
-		if ( gravity != PhysicsWorld.Gravity )
-		{
-			PhysicsWorld.Gravity = gravity;
-			PhysicsWorld.WakeAllBodies();
-		}
+		Map.Physics.Gravity = Rotation.Down * 800.0f;
 	}
 }

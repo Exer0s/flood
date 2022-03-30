@@ -81,22 +81,23 @@ partial class Tool : Carriable
 	[Event.Frame]
 	public void OnFrame()
 	{
-		if ( !IsActiveChild() ) return;
+		if ( Owner is Player player && player.ActiveChild != this )
+			return;
 
 		CurrentTool?.OnFrame();
 	}
 
 	public override void SimulateAnimator( PawnAnimator anim )
 	{
-		anim.SetParam( "holdtype", 1 );
-		anim.SetParam( "aimat_weight", 1.0f );
-		anim.SetParam( "holdtype_handedness", 1 );
+		anim.SetAnimParameter( "holdtype", 1 );
+		anim.SetAnimParameter( "aim_body_weight", 1.0f );
+		anim.SetAnimParameter( "holdtype_handedness", 1 );
 	}
 }
 
 namespace Sandbox.Tools
 {
-	public partial class BaseTool : NetworkComponent
+	public partial class BaseTool : BaseNetworkable
 	{
 		public Tool Parent { get; set; }
 		public Player Owner { get; set; }
