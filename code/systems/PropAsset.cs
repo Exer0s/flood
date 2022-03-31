@@ -16,6 +16,7 @@ public partial class PropAsset : Asset
 	[ResourceType( "png" )]
 	public string Icon { get; set; }
 	public int Cost { get; set; }
+	public float Health { get; set; }
 	public static IReadOnlyList<PropAsset> All => _all;
 	internal static List<PropAsset> _all = new();
 

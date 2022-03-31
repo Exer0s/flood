@@ -40,7 +40,7 @@ partial class FloodGame : Game
 	}
 
 	[ServerCmd( "spawn" )]
-	public static void Spawn( string modelname )
+	public static void Spawn( string modelname, float health )
 	{
 		var owner = ConsoleSystem.Caller?.Pawn;
 
@@ -67,7 +67,7 @@ partial class FloodGame : Game
 
 		// Let's make sure physics are ready to go instead of waiting
 		ent.SetupPhysicsFromModel( PhysicsMotionType.Dynamic );
-
+		ent.Health = health;
 		// If there's no physics model, create a simple OBB
 		if ( !ent.PhysicsBody.IsValid() )
 		{
