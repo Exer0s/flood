@@ -1,0 +1,11 @@
+//
+// PropAsset
+//
+@BaseClass = props : ""
+[
+	title(string) : "Title" :  : ""
+	model(resource:vmdl) : "Model" :  : ""
+	icon(string) : "Icon" :  : ""
+	cost(integer) : "Cost" : 0 : ""
+]
+

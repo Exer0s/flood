@@ -1,7 +1,7 @@
 {
   "Title": "flood",
   "Type": "game",
-  "Org": "bluebitdev",
+  "Org": "bluebit",
   "Ident": "flood",
   "Schema": 1,
   "HasAssets": true,
@@ -12,7 +12,7 @@
   "RootNamespace": "Sandbox",
   "Metadata": {
     "MapList": [
-      "bluebitdev.floodgate2"
+      "bluebit.floodgate2"
     ],
     "MapSelect": 2
   }

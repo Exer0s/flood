@@ -19,13 +19,6 @@ partial class FloodGame : Game
 
 	public override void PostLevelLoaded()
 	{
-		if (IsServer)
-		{
-			foreach ( var water in All.OfType<WaterFunc>() )
-			{
-				if ( water != null ) Log.Info( "bruh" );
-			}
-		}
 		
 		base.PostLevelLoaded();
 	}
