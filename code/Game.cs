@@ -10,7 +10,7 @@ partial class FloodGame : Game
 		{
 			// Create the HUD
 			_ = new FloodHUD();
-
+			StartRoundSystem();
 		}
 	}
 
