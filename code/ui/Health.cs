@@ -8,6 +8,7 @@ public class Health : Panel
 
 	public Health()
 	{
+		StyleSheet.Load( "ui/Health.scss" );
 		Label = Add.Label( "100", "value" );
 	}
 

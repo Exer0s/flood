@@ -14,16 +14,6 @@
 ]
 
 //
-// Tool
-//
-@PointClass base(BaseProperties_bluebit_flood) = weapon_tool : ""
-[
-	enable_shadows(boolean) { group = "Rendering" } : "Shadow Casting" : 1 : "Whether this entity should cast shadows or not"
-
-	input SetColor(string) : "Sets the color of this entity. Format is '255 255 255 255'."
-]
-
-//
 // BalloonEntity
 //
 @PointClass base(BaseProperties_bluebit_flood, BasePhysicsSimulated) tags( Physics ) model() = ent_balloon : ""
@@ -409,19 +399,9 @@
 ]
 
 //
-// Fists
+// Tool
 //
-@PointClass base(BaseProperties_bluebit_flood) = weapon_fists : ""
-[
-	enable_shadows(boolean) { group = "Rendering" } : "Shadow Casting" : 1 : "Whether this entity should cast shadows or not"
-
-	input SetColor(string) : "Sets the color of this entity. Format is '255 255 255 255'."
-]
-
-//
-// Flashlight
-//
-@PointClass base(BaseProperties_bluebit_flood) = weapon_flashlight : ""
+@PointClass base(BaseProperties_bluebit_flood) = weapon_tool : ""
 [
 	enable_shadows(boolean) { group = "Rendering" } : "Shadow Casting" : 1 : "Whether this entity should cast shadows or not"
 

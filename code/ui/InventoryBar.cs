@@ -8,6 +8,7 @@ public class InventoryBar : Panel
 
 	public InventoryBar()
 	{
+		StyleSheet.Load( "ui/InventoryBar.scss" );
 		for ( int i = 0; i < 9; i++ )
 		{
 			var icon = new InventoryIcon( i + 1, this );

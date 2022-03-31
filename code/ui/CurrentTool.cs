@@ -10,6 +10,7 @@ public class CurrentTool : Panel
 
 	public CurrentTool()
 	{
+		StyleSheet.Load( "ui/CurrentTool.scss" );
 		Title = Add.Label( "Tool", "title" );
 		Description = Add.Label( "This is a tool", "description" );
 	}

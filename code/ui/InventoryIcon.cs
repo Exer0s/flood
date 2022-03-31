@@ -11,6 +11,7 @@ public class InventoryIcon : Panel
 
 	public InventoryIcon( int i, Panel parent )
 	{
+		StyleSheet.Load( "ui/InventoryIcon.scss" );
 		Parent = parent;
 		Label = Add.Label( "empty", "item-name" );
 		Number = Add.Label( $"{i}", "slot-number" );
