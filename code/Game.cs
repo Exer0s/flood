@@ -19,15 +19,9 @@ partial class FloodGame : Game
 
 	public override void PostLevelLoaded()
 	{
-		InitSpawnList();
 		base.PostLevelLoaded();
 	}
 
-	[ClientRpc]
-	public void InitSpawnList()
-	{
-		SpawnList.Instance.InitializeSpawnList();
-	}
 
 	public override void ClientJoined( Client cl )
 	{

@@ -36,9 +36,4 @@ public partial class SpawnList : Panel
 		}
 	}
 
-	public void InitializeSpawnList()
-	{
-
-	}
-
 }
