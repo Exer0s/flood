@@ -77,29 +77,9 @@ partial class FloodGame
 		GameRound.OnRoundEnd();
 		GameRound = GameRounds[GameRound.NextRound];
 		GameRound.OnRoundStart();
-		GiveRoundWeapons();
 		SetRoundNameUI();
 		OnSecond();
 		Log.Info( "Progressed Round to " + GameRound.RoundName );
-	}
-
-	public void GiveRoundWeapons()
-	{
-		if (IsServer)
-		{
-			foreach ( var player in All.OfType<FloodPlayer>().ToArray() )
-			{
-				player.Inventory.DeleteContents();
-				if (GameRound.Weapons.Count() > 0)
-				{
-					foreach ( var weapon in GameRound.Weapons )
-					{
-						player.Inventory.Add( Library.Create<Carriable>(weapon), true );
-					}
-				}
-			}
-
-		}
 	}
 
 

@@ -7,6 +7,11 @@ partial class Inventory : BaseInventory
 	public Inventory( Player player ) : base( player )
 	{
 	}
+	
+	public override void DeleteContents()
+	{
+		base.DeleteContents();
+	}
 
 	public override bool CanAdd( Entity entity )
 	{

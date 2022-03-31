@@ -90,7 +90,8 @@ partial class FloodGame : Game
 			else player.Money -= weapon.Cost;
 
 			Log.Info( $"Purchased {weapon.Title} for {weapon.Cost} balance: {player.Money}" );
-			player.Inventory.Add(Library.Create<Weapon>(weaponname), true);
+			player.PurchasedWeapons.Add( weaponname );
+			player.Inventory.Add( Library.Create<Weapon>(weaponname), true);
 		}
 	}
 

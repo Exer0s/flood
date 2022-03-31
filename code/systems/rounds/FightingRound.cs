@@ -13,6 +13,13 @@ public class FightingRound : GameRound
 
 	public override void OnRoundStart()
 	{
+		foreach ( var player in Entity.All.OfType<FloodPlayer>() )
+		{
+			foreach ( var weaponname in player.PurchasedWeapons )
+			{
+				player.Inventory.Add( Library.Create<Weapon>( weaponname ), true );
+			}
+		}
 		base.OnRoundStart();
 	}
 

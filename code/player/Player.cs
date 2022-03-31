@@ -1,4 +1,6 @@
 ﻿using Sandbox;
+using System.Collections.Generic;
+
 
 partial class FloodPlayer : Player
 {
@@ -11,6 +13,9 @@ partial class FloodPlayer : Player
 
 	private DamageInfo lastDamage;
 
+	[Net] public IList<string> PurchasedWeapons { get; set; } = new List<string>();
+
+
 	/// <summary>
 	/// The clothing container is what dresses the citizen
 	/// </summary>
@@ -22,6 +27,7 @@ partial class FloodPlayer : Player
 	public FloodPlayer()
 	{
 		Inventory = new Inventory( this );
+		
 	}
 
 	/// <summary>
@@ -53,7 +59,8 @@ partial class FloodPlayer : Player
 		Clothing.DressEntity( this );
 
 		CameraMode = new FirstPersonCamera();
-
+		Inventory.Add( new PhysGun(), true );
+		Inventory.Add( new Tool(), false );
 		base.Respawn();
 	}
 

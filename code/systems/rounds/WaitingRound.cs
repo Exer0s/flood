@@ -18,6 +18,7 @@ public class WaitingRound : GameRound
 
 	public override void OnRoundEnd()
 	{
+
 		base.OnRoundEnd();
 	}
 
