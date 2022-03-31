@@ -5,11 +5,11 @@ using Sandbox.UI.Tests;
 using System.Linq;
 
 [Library]
-public partial class EntityList : Panel
+public partial class WeaponList : Panel
 {
 	VirtualScrollPanel Canvas;
 
-	public EntityList()
+	public WeaponList()
 	{
 		AddClass( "spawnpage" );
 		AddChild( out Canvas, "canvas" );

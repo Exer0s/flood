@@ -112,7 +112,6 @@ public partial class PhysGun : Carriable
 	{
 		// There for sure is a better way to deal with this
 		if ( All.OfType<PhysGun>().Any( x => x?.HeldBody?.PhysicsGroup == body?.PhysicsGroup ) ) return true;
-		if ( All.OfType<GravGun>().Any( x => x?.HeldBody?.PhysicsGroup == body?.PhysicsGroup ) ) return true;
 
 		return false;
 	}
