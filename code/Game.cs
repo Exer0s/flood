@@ -4,8 +4,12 @@ using System.Threading.Tasks;
 
 partial class FloodGame : Game
 {
+
+	public static FloodGame Instance;
+
 	public FloodGame()
 	{
+		Instance = this;
 		if ( IsServer )
 		{
 			// Create the HUD

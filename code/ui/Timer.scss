@@ -1,0 +1,26 @@
+﻿Timer {
+    width: 200px;
+    height: 100px;
+    background-color: rgba(black, 0.3);
+    border: 1px, white;
+    border-radius: 10px;
+    top: 20px;
+    left: 80%;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+
+    .roundname {
+        color: white;
+        font-family: Poppins;
+        font-weight: bolder;
+        font-size: 25px;
+    } 
+    .gametime {
+        color: white;
+        font-family: Poppins;
+        font-weight: bolder;
+        font-size: 25px;
+    }
+}

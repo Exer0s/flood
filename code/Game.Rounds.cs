@@ -8,7 +8,7 @@ using Sandbox;
 partial class FloodGame
 {
 
-	[Net] public static GameRound GameRound { get; set; }
+	[Net] public GameRound GameRound { get; set; }
 	[Net] public string GameTime { get; set; }
 	[Net] public float TimeOffset { get; set; } = 0f;
 
@@ -18,8 +18,9 @@ partial class FloodGame
 	{
 		_ = StartSecondTimer();
 		GameRounds.Add( "Waiting...", new WaitingRound());
-		GameRounds.Add( "Building", new WaitingRound());
+		GameRounds.Add( "Building", new BuildingRound());
 		GameRound = GameRounds["Waiting..."];
+		GameRound.OnRoundStart(false);
 	}
 
 
@@ -47,15 +48,23 @@ partial class FloodGame
 			}
 
 		}
+
 	}
 
 	public void ProgressRound()
 	{
+		TimeOffset = Time.Now;
 		GameRound.OnRoundEnd();
 		GameRound = GameRounds[GameRound.NextRound];
-		GameRound.OnRoundStart();
+		GameRound.OnRoundStart(false);
+		SetRoundNameUI();
 	}
 
 
+	[ClientRpc]
+	public void SetRoundNameUI()
+	{
+		Timer.Instance.RoundName.Text = GameRound.RoundName;
+	}
 
 }

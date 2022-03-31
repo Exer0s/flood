@@ -11,11 +11,17 @@ public class BuildingRound : GameRound
 	public override float RoundDuration => 300f;
 	public override string NextRound => "Fight!";
 
-	public override void OnRoundStart()
+	public override string[] Weapons => new string[]
 	{
-		base.OnRoundStart();
-	}
+		"physgun",
+		"weapon_tool",
+	};
 
+	public override void OnRoundStart(bool startup)
+	{
+		base.OnRoundStart(startup);
+	}
+	
 	public override void OnRoundEnd()
 	{
 		base.OnRoundEnd();
