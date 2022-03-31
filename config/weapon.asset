@@ -1,0 +1,11 @@
+//
+// WeaponAsset
+//
+@BaseClass = weapon : ""
+[
+	title(string) : "Title" :  : ""
+	weapon(string) : "Weapon" :  : ""
+	icon(string) { editor = "AssetBrowse(png)" } : "Icon" :  : ""
+	cost(integer) : "Cost" : 0 : ""
+]
+

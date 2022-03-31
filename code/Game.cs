@@ -75,6 +75,25 @@ partial class FloodGame : Game
 		}
 	}
 
+	[ServerCmd( "spawn_weapon" )]
+	public static void SpawnWeapon( string weaponname )
+	{
+		var owner = ConsoleSystem.Caller?.Pawn;
+
+		if ( ConsoleSystem.Caller == null )
+			return;
+
+		if (owner is FloodPlayer player)
+		{
+			var weapon = WeaponAsset.All.Where(x => x.Weapon == weaponname).FirstOrDefault();
+			if ( player.Money <= weapon.Cost ) return;
+			else player.Money -= weapon.Cost;
+
+			Log.Info( $"Purchased {weapon.Title} for {weapon.Cost} balance: {player.Money}" );
+			player.Inventory.Add(Library.Create<Weapon>(weaponname), true);
+		}
+	}
+
 	public override void DoPlayerNoclip( Client player )
 	{
 		if ( player.Pawn is Player basePlayer )

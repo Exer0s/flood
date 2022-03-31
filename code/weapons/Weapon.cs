@@ -15,6 +15,12 @@ public partial class Weapon : BaseWeapon, IUse
 	[Net, Predicted]
 	public TimeSince TimeSinceDeployed { get; set; }
 
+	[Net]
+	public int CurrentClip { get; set; }
+
+	public virtual int ClipSize { get; set; }
+
+
 	public override void Spawn()
 	{
 		base.Spawn();
@@ -28,6 +34,21 @@ public partial class Weapon : BaseWeapon, IUse
 		};
 
 		PickupTrigger.PhysicsBody.AutoSleep = false;
+
+		CurrentClip = ClipSize;
+
+	}
+
+	public override bool CanPrimaryAttack()
+	{
+		if ( CurrentClip <= 0 ) return false;
+		return base.CanPrimaryAttack();
+	}
+
+	public override void AttackPrimary()
+	{
+		CurrentClip--;
+		base.AttackPrimary();
 	}
 
 	public override void ActiveStart( Entity ent )
@@ -69,6 +90,7 @@ public partial class Weapon : BaseWeapon, IUse
 	public virtual void OnReloadFinish()
 	{
 		IsReloading = false;
+		CurrentClip = ClipSize;
 	}
 
 	[ClientRpc]
@@ -130,6 +152,7 @@ public partial class Weapon : BaseWeapon, IUse
 	[ClientRpc]
 	protected virtual void ShootEffects()
 	{
+		if ( CurrentClip <= 0 ) return;
 		Host.AssertClient();
 
 		Particles.Create( "particles/pistol_muzzleflash.vpcf", EffectEntity, "muzzle" );
@@ -148,6 +171,7 @@ public partial class Weapon : BaseWeapon, IUse
 	/// </summary>
 	public virtual void ShootBullet( Vector3 pos, Vector3 dir, float spread, float force, float damage, float bulletSize )
 	{
+		if ( CurrentClip <= 0 ) return;
 		var forward = dir;
 		forward += (Vector3.Random + Vector3.Random + Vector3.Random + Vector3.Random) * spread * 0.25f;
 		forward = forward.Normal;
@@ -183,6 +207,7 @@ public partial class Weapon : BaseWeapon, IUse
 	/// </summary>
 	public virtual void ShootBullet( float spread, float force, float damage, float bulletSize )
 	{
+		if ( CurrentClip <= 0 ) return;
 		ShootBullet( Owner.EyePosition, Owner.EyeRotation.Forward, spread, force, damage, bulletSize );
 	}
 
@@ -191,6 +216,7 @@ public partial class Weapon : BaseWeapon, IUse
 	/// </summary>
 	public virtual void ShootBullets( int numBullets, float spread, float force, float damage, float bulletSize )
 	{
+		if ( CurrentClip <= 0 ) return;
 		var pos = Owner.EyePosition;
 		var dir = Owner.EyeRotation.Forward;
 

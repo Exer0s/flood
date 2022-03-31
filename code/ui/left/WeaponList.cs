@@ -19,18 +19,18 @@ public partial class WeaponList : Panel
 		Canvas.Layout.ItemHeight = 100;
 		Canvas.OnCreateCell = ( cell, data ) =>
 		{
-			var entry = (LibraryAttribute)data;
-			var btn = cell.Add.Button( entry.Title );
+			var weapon = (WeaponAsset)data;
+			var btn = cell.Add.Button( weapon.Title );
 			btn.AddClass( "icon" );
-			btn.AddEventListener( "onclick", () => ConsoleSystem.Run( "spawn_entity", entry.Name ) );
-			btn.Style.BackgroundImage = Texture.Load( FileSystem.Mounted, $"/entity/{entry.Name}.png", false );
+			btn.AddEventListener( "onclick", () => ConsoleSystem.Run( "spawn_weapon", weapon.Weapon ) );
+			//btn.Style.BackgroundImage = Texture.Load( FileSystem.Mounted, weapon.Icon, false );
 		};
 
-		var ents = Library.GetAllAttributes<Entity>().Where( x => x.Spawnable ).OrderBy( x => x.Title ).ToArray();
+		var weapons = WeaponAsset.All.OrderBy( x => x.Title ).ToArray();
 
-		foreach ( var entry in ents )
+		foreach ( var weapon in weapons )
 		{
-			Canvas.AddItem( entry );
+			Canvas.AddItem( weapon );
 		}
 	}
 }

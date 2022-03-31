@@ -9,6 +9,8 @@ partial class SMG : Weapon
 	public override float SecondaryRate => 1.0f;
 	public override float ReloadTime => 5.0f;
 
+	public override int ClipSize => 25;
+
 	public override void Spawn()
 	{
 		base.Spawn();
@@ -18,6 +20,7 @@ partial class SMG : Weapon
 
 	public override void AttackPrimary()
 	{
+		base.AttackPrimary();
 		TimeSincePrimaryAttack = 0;
 		TimeSinceSecondaryAttack = 0;
 

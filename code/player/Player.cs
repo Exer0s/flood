@@ -2,6 +2,10 @@
 
 partial class FloodPlayer : Player
 {
+	[Net]
+	public float Money { get; set; } = 250f;
+
+
 	private TimeSince timeSinceDropped;
 	private TimeSince timeSinceJumpReleased;
 
