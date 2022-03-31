@@ -28,6 +28,7 @@ public partial class SpawnList : Panel
 			panel.AddEventListener( "onclick", () => ConsoleSystem.Run( "spawn", prop.Model ) );
 			panel.Style.BackgroundImage = Texture.Load( FileSystem.Mounted, prop.Icon, false );
 		};
+		Log.Info( PropAsset.All.Count );
 		foreach ( var prop in PropAsset.All )
 		{
 			Log.Info( prop.Name );

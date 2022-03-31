@@ -10,13 +10,13 @@ public partial class GameRound : BaseNetworkable
 	public virtual string RoundName { get; set; }
 	public virtual float RoundDuration { get; set; }
 	public virtual string NextRound { get; set; }
-	public virtual float RoundEndTime { get; set; }
 
 	public virtual string[] Weapons { get; set; } = new string[5];
 
-	public virtual void OnRoundStart()
+	public virtual void OnRoundStart(bool startup)
 	{
-		RoundEndTime = Time.Now + RoundDuration;
+		if (!startup) 
+		GiveWeapons();
 		Log.Info( $"Starting Round {RoundName}" );
 	}
 
@@ -25,9 +25,21 @@ public partial class GameRound : BaseNetworkable
 		Log.Info( $"Ending Round {RoundName}" );
 	}
 
-	public virtual void RoundTick()
+	private void GiveWeapons()
 	{
-
+		if ( Entity.All.OfType<FloodPlayer>().Count() <= 0 ) return;
+		foreach ( var player in Entity.All.OfType<FloodPlayer>() )
+		{
+			if ( player.Inventory != null )
+			{
+				player.Inventory.DeleteContents();
+				foreach ( var weapon in Weapons )
+				{
+					if ( weapon == null ) return;
+					player.Inventory.Add( Library.Create<Carriable>( weapon ) );
+				}
+			}
+		}
 	}
 
 
