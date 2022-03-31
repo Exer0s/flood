@@ -56,29 +56,6 @@ CurrentTool
 	}
 }
 
-.spawnmenuopen CurrentTool
-{
-	opacity: 0.01;
-}
-
-rootpanel
-{
-	background-color: rgba( #333, 0 );
-	transition: background-color 0.2s ease-in;
-
-	&.spawnmenuopen
-	{
-		transition: background-color 0.3s ease-out;
-		background-color: rgba( #333, 0.9 );
-	}
-
-
-	&.devcamera
-	{
-		display: none;
-	}
-}
-
 
 InventoryBar
 {

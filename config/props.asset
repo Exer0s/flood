@@ -5,7 +5,7 @@
 [
 	title(string) : "Title" :  : ""
 	model(resource:vmdl) : "Model" :  : ""
-	icon(string) : "Icon" :  : ""
+	icon(string) { editor = "AssetBrowse(png)" } : "Icon" :  : ""
 	cost(integer) : "Cost" : 0 : ""
 ]
 

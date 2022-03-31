@@ -7,8 +7,13 @@ public partial class SpawnList : Panel
 {
 	VirtualScrollPanel Canvas;
 
+	public static SpawnList Instance;
+
 	public SpawnList()
 	{
+
+		Instance = this;
+
 		AddClass( "spawnpage" );
 		AddChild( out Canvas, "canvas" );
 
@@ -18,19 +23,22 @@ public partial class SpawnList : Panel
 
 		Canvas.OnCreateCell = ( cell, data ) =>
 		{
-			var file = (string)data;
+			var prop = (PropAsset)data;
 			var panel = cell.Add.Panel( "icon" );
-			panel.AddEventListener( "onclick", () => ConsoleSystem.Run( "spawn", "models/" + file ) );
-			//panel.Style.BackgroundImage = Texture.Load( FileSystem.Mounted, $"/models/{file}_c.png", false );
+			panel.AddEventListener( "onclick", () => ConsoleSystem.Run( "spawn", prop.Model ) );
+			panel.Style.BackgroundImage = Texture.Load( FileSystem.Mounted, prop.Icon, false );
 		};
-
-		foreach ( var file in FileSystem.Mounted.FindFile( "models", "*.vmdl_c", true ) )
+		Log.Info( PropAsset.All.Count );
+		foreach ( var prop in PropAsset.All )
 		{
-			if ( string.IsNullOrWhiteSpace( file ) ) continue;
-			if ( file.Contains( "_lod0" ) ) continue;
-			if ( file.Contains( "clothes" ) ) continue;
-
-			Canvas.AddItem( file.Remove( file.Length - 6 ) );
+			Log.Info( prop.Name );
+			Canvas.AddItem(prop);
 		}
 	}
+
+	public void InitializeSpawnList()
+	{
+
+	}
+
 }

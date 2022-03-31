@@ -13,6 +13,7 @@ public partial class PropAsset : Asset
 
 	[ResourceType( "vmdl" )]
 	public string Model { get; set; }
+	[ResourceType( "png" )]
 	public string Icon { get; set; }
 	public int Cost { get; set; }
 	public static IReadOnlyList<PropAsset> All => _all;
@@ -21,7 +22,6 @@ public partial class PropAsset : Asset
 	protected override void PostLoad()
 	{
 		base.PostLoad();
-
 		if ( !_all.Contains( this ) )
 			_all.Add( this );
 	}
