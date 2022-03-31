@@ -30,6 +30,13 @@ public partial class RisingRound : GameRound
 			water.Position += Vector3.Up * 0.2f;
 		}
 
+		foreach ( var prop in Entity.All.OfType<Prop>() )
+		{
+			if (prop.Root == prop)
+			prop.Position += Vector3.Up * 0.2f;
+		}
+
+
 	}
 
 
