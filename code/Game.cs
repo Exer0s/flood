@@ -14,7 +14,7 @@ partial class FloodGame : Game
 		{
 			// Create the HUD
 			_ = new FloodHUD();
-			StartRoundSystem();
+			
 		}
 	}
 
@@ -23,6 +23,7 @@ partial class FloodGame : Game
 
 	public override void PostLevelLoaded()
 	{
+		StartRoundSystem();
 		base.PostLevelLoaded();
 	}
 

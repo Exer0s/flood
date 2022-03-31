@@ -9,7 +9,7 @@ public class BuildingRound : GameRound
 {
 	public override string RoundName => "Building";
 	public override float RoundDuration => 300f;
-	public override string NextRound => "Fight!";
+	public override string NextRound => "Prepare";
 
 	public override string[] Weapons => new string[]
 	{
@@ -17,9 +17,9 @@ public class BuildingRound : GameRound
 		"weapon_tool",
 	};
 
-	public override void OnRoundStart(bool startup)
+	public override void OnRoundStart()
 	{
-		base.OnRoundStart(startup);
+		base.OnRoundStart();
 	}
 	
 	public override void OnRoundEnd()

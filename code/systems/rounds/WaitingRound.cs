@@ -11,9 +11,9 @@ public class WaitingRound : GameRound
 	public override float RoundDuration => 0f;
 	public override string NextRound => "Building";
 
-	public override void OnRoundStart(bool startup)
+	public override void OnRoundStart()
 	{
-		base.OnRoundStart(startup);
+		base.OnRoundStart();
 	}
 
 	public override void OnRoundEnd()

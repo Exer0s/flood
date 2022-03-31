@@ -16,11 +16,14 @@ partial class FloodGame
 
 	public void StartRoundSystem()
 	{
-		_ = StartSecondTimer();
 		GameRounds.Add( "Waiting...", new WaitingRound());
 		GameRounds.Add( "Building", new BuildingRound());
+		GameRounds.Add( "Prepare", new RisingRound());
+		GameRounds.Add( "Fight!", new FightingRound());
+		GameRounds.Add( "Post Game", new PostRound());
 		GameRound = GameRounds["Waiting..."];
-		GameRound.OnRoundStart(false);
+		GameRound.OnRoundStart();
+		_ = StartSecondTimer();
 	}
 
 
@@ -33,18 +36,33 @@ partial class FloodGame
 		}
 	}
 
+	[Event.Tick.Server]
+	public void DoRoundTick()
+	{
+		if ( GameRound != null ) GameRound.RoundTick();
+	}
+
 	public virtual void OnSecond()
 	{
-		if ( Host.IsServer )
+		if ( IsServer )
 		{
-			GameTime = TimeSpan.FromSeconds( Time.Now - TimeOffset ).ToString( @"mm\:ss" );
-
+			if ( GameRound == null ) return;
+			if ( GameRound.RoundDuration != 0f)
+			{
+				GameTime = TimeSpan.FromSeconds( GameRound.RoundEndTime - Time.Now ).ToString(@"mm\:ss"); //Countdown
+			} else
+			{
+				GameTime = TimeSpan.FromSeconds( Time.Now - TimeOffset ).ToString( @"mm\:ss" ); //Count up
+			}
 			if (GameRound is WaitingRound)
 			{
 				if (Client.All.Count >= 2)
 				{
 					ProgressRound();
 				}
+			} else
+			{
+				if (GameRound.RoundEndTime - Time.Now <= 1) ProgressRound();
 			}
 
 		}
@@ -53,11 +71,34 @@ partial class FloodGame
 
 	public void ProgressRound()
 	{
+		if ( !IsServer ) return;
 		TimeOffset = Time.Now;
 		GameRound.OnRoundEnd();
 		GameRound = GameRounds[GameRound.NextRound];
-		GameRound.OnRoundStart(false);
+		GameRound.OnRoundStart();
+		GiveRoundWeapons();
 		SetRoundNameUI();
+		OnSecond();
+		Log.Info( "Progressed Round to " + GameRound.RoundName );
+	}
+
+	public void GiveRoundWeapons()
+	{
+		if (IsServer)
+		{
+			foreach ( var player in All.OfType<FloodPlayer>().ToArray() )
+			{
+				player.Inventory.DeleteContents();
+				if (GameRound.Weapons.Count() > 0)
+				{
+					foreach ( var weapon in GameRound.Weapons )
+					{
+						player.Inventory.Add( Library.Create<Carriable>(weapon), true );
+					}
+				}
+			}
+
+		}
 	}
 
 
@@ -65,6 +106,7 @@ partial class FloodGame
 	public void SetRoundNameUI()
 	{
 		Timer.Instance.RoundName.Text = GameRound.RoundName;
+		Timer.Instance.GameTime.Text = GameTime;
 	}
 
 }
