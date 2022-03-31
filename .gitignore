@@ -1,0 +1,12 @@
+.codegen/
+obj/
+code/accesslist.txt
+Properties
+codegen-*
+sbox-hover.csproj
+.intermediate
+*bakeresourcecache*
+tools_*_*.bin
+release.zip
+*.los
+.vs
