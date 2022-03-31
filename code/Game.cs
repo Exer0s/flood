@@ -79,7 +79,7 @@ partial class FloodGame : Game
 	public static void SpawnWeapon( string weaponname )
 	{
 		var owner = ConsoleSystem.Caller?.Pawn;
-		if ( Instance.GameRound != Instance.GameRounds["Building"] ) return;
+		if ( Instance.GameRound != Instance.GameRounds["Build!"] ) return;
 		if ( ConsoleSystem.Caller == null )
 			return;
 

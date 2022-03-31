@@ -203,4 +203,9 @@ partial class FloodPlayer : Player
 		}
 	}
 
+	public void DoKnockback( Vector3 dir, float amount )
+	{
+
+	}
+
 }

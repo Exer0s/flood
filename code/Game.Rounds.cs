@@ -18,7 +18,7 @@ partial class FloodGame
 	public void StartRoundSystem()
 	{
 		GameRounds.Add( "Waiting...", new WaitingRound());
-		GameRounds.Add( "Building", new BuildingRound());
+		GameRounds.Add( "Build!", new BuildingRound());
 		GameRounds.Add( "Prepare", new RisingRound());
 		GameRounds.Add( "Fight!", new FightingRound());
 		GameRounds.Add( "Post Game", new PostRound());

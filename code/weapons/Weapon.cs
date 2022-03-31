@@ -196,7 +196,10 @@ public partial class Weapon : BaseWeapon, IUse
 					.UsingTraceResult( tr )
 					.WithAttacker( Owner )
 					.WithWeapon( this );
-
+				if (tr.Entity is FloodPlayer player)
+				{
+					//player.DoKnockback();
+				} else 
 				tr.Entity.TakeDamage( damageInfo );
 			}
 		}
