@@ -24,11 +24,14 @@ public partial class SpawnMenu : Panel
 			var body = left.Add.Panel( "body" );
 
 			{
-				var props = body.AddChild<SpawnList>();
+				var props = body.AddChild<PropList>();
 				tabs.SelectedButton = tabs.AddButtonActive( "Props", ( b ) => props.SetClass( "active", b ) );
 
-				var ents = body.AddChild<WeaponList>();
-				tabs.AddButtonActive( "Weapons", ( b ) => ents.SetClass( "active", b ) );
+				var weapons = body.AddChild<WeaponList>();
+				tabs.AddButtonActive( "Weapons", ( b ) => weapons.SetClass( "active", b ) );
+
+				var teams = body.AddChild<TeamsTab>();
+				tabs.AddButtonActive( "Teams", ( b ) => teams.SetClass( "active", b ) );
 			}
 		}
 
@@ -37,7 +40,7 @@ public partial class SpawnMenu : Panel
 			var tabs = right.Add.Panel( "tabs" );
 			{
 				tabs.Add.Button( "Tools" ).AddClass( "active" );
-				tabs.Add.Button( "Teams" );
+				tabs.Add.Button( "Voting" );
 			}
 			var body = right.Add.Panel( "body" );
 			{
@@ -77,7 +80,6 @@ public partial class SpawnMenu : Panel
 	public override void Tick()
 	{
 		base.Tick();
-
 		Parent.SetClass( "spawnmenuopen", Input.Down( InputButton.Menu ) );
 
 		UpdateActiveTool();

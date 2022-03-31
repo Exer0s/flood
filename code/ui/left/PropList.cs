@@ -1,20 +1,20 @@
 ﻿using Sandbox;
 using Sandbox.UI;
+using Sandbox.UI.Construct;
 using Sandbox.UI.Tests;
 
 [Library]
-public partial class SpawnList : Panel
+public partial class PropList : Panel
 {
 	VirtualScrollPanel Canvas;
 
-	public static SpawnList Instance;
+	public static PropList Instance;
 
-	public SpawnList()
+	public PropList()
 	{
-
+		StyleSheet.Load( "ui/left/PropList.scss" );
 		Instance = this;
 
-		AddClass( "spawnpage" );
 		AddChild( out Canvas, "canvas" );
 
 		Canvas.Layout.AutoColumns = true;

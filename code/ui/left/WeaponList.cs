@@ -11,6 +11,7 @@ public partial class WeaponList : Panel
 
 	public WeaponList()
 	{
+		StyleSheet.Load( "ui/left/WeaponList.scss" );
 		AddClass( "spawnpage" );
 		AddChild( out Canvas, "canvas" );
 

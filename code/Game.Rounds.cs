@@ -12,7 +12,8 @@ partial class FloodGame
 	[Net] public string GameTime { get; set; }
 	[Net] public float TimeOffset { get; set; } = 0f;
 
-	public Dictionary<string, GameRound> GameRounds = new Dictionary<string, GameRound>();
+	[Net]
+	public Dictionary<string, GameRound> GameRounds { get; set; } = new Dictionary<string, GameRound>();
 
 	public void StartRoundSystem()
 	{
