@@ -18,7 +18,7 @@ public class WaitingRound : GameRound
 
 	public override void OnRoundEnd()
 	{
-
+		Map.Reset( FloodGame.DefaultCleanupFilter );
 		base.OnRoundEnd();
 	}
 

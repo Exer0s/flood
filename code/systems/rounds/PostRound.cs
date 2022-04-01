@@ -18,6 +18,7 @@ public class PostRound : GameRound
 
 	public override void OnRoundEnd()
 	{
+		Map.Reset( FloodGame.DefaultCleanupFilter );
 		foreach ( var player in Players )
 		{
 			player.OnKilled();
