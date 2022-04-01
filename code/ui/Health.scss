@@ -11,10 +11,21 @@
     justify-content: center;
     align-items: center;
 
+    .heart {
+        z-index: 5;
+        top: 5px;
+        left: 150px;
+        width: 64px;
+        height: 64px;
+        color: white;
+        font-family: Material Icons;
+        font-size: 20px;
+    }
+
     .money {
         width: 50px;
         top: 20px;
-        right: 15px;
+        right: 27px;
         height: 15px;
         color: white;
         font-size: 20px;
@@ -46,6 +57,7 @@
         //position: absolute;
         font-family: poppins;
         font-weight: bold;
+        font-size: 20px;
         color: white;
         left: 110px;
         bottom: 9%;

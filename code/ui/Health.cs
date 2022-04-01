@@ -10,12 +10,14 @@ public class Health : Panel
 	Panel backBar;
 	Label healthLabel;
 	Label Money;
+	Label Heart;
 	Image Avatar;
 
 	public Health()
 	{
 		StyleSheet.Load( "ui/Health.scss" );
 		backBar = Add.Panel( "backBar" );
+		Heart = backBar.Add.Label( "favorite", "heart" );
 		healthLabel = Add.Label( "0 / 0", "healthLabel" );
 		whiteBar = backBar.Add.Panel( "whiteBar" );
 		healthBar = backBar.Add.Panel( "healthBar" );
