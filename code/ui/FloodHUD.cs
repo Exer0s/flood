@@ -10,7 +10,19 @@ public partial class FloodHUD : HudEntity<RootPanel>
 			return;
 
 		RootPanel.StyleSheet.Load( "/ui/FloodHUD.scss" );
+		AddPanels();
+	}
 
+	[Event.Hotload]
+	public void HotLoadUI()
+	{
+		if ( !IsClient ) return;
+		DeletePanels();
+		AddPanels();
+	}
+
+	public void AddPanels()
+	{
 		RootPanel.AddChild<NameTags>();
 		RootPanel.AddChild<CrosshairCanvas>();
 		RootPanel.AddChild<ChatBox>();
@@ -23,4 +35,11 @@ public partial class FloodHUD : HudEntity<RootPanel>
 		RootPanel.AddChild<SpawnMenu>();
 		RootPanel.AddChild<Timer>();
 	}
+
+	public void DeletePanels()
+	{
+		RootPanel.DeleteChildren();
+	}
+
+
 }
