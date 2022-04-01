@@ -4,19 +4,31 @@ using Sandbox.UI.Construct;
 
 public class Health : Panel
 {
-	public Label Label;
+
+	Panel healthBar;
+	Panel whiteBar;
+	Panel backBar;
+	Label healthLabel;
 
 	public Health()
 	{
 		StyleSheet.Load( "ui/Health.scss" );
-		Label = Add.Label( "100", "value" );
+		backBar = Add.Panel( "backBar" );
+		healthLabel = Add.Label( "0 / 0", "healthLabel" );
+		whiteBar = backBar.Add.Panel( "whiteBar" );
+		healthBar = backBar.Add.Panel( "healthBar" );
 	}
 
 	public override void Tick()
 	{
-		var player = Local.Pawn;
-		if ( player == null ) return;
-
-		Label.Text = $"{player.Health.CeilToInt()}";
+		var p = Local.Pawn as FloodPlayer;
+		if ( p == null ) return;
+		var health = Length.Percent( (p.Health / p.maxHealth) * 100 );
+		healthLabel.Text = $"{p.Health} / {p.maxHealth}";
+		healthBar.Style.Width = health;
+		whiteBar.Style.Width = health;
+		//Log.Info( p.Health / 100 );
+		base.Tick();
 	}
+
 }

@@ -6,7 +6,8 @@ public partial class FloodPlayer : Player
 {
 	[Net]
 	public float Money { get; set; } = 250f;
-
+	[Net]
+	public float maxHealth { get; set; } = 100f;
 
 	private TimeSince timeSinceDropped;
 	private TimeSince timeSinceJumpReleased;
