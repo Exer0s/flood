@@ -1,0 +1,16 @@
+﻿AmmoCounter {
+    left: 1510px;
+    top: 900px;
+    height: 50px;
+    width: 200px;
+    color: rgb(255, 128, 0);
+    text-stroke: 2px, white;
+    font-size: 27px;
+    font-family: Poppins;
+    font-weight: bolder;
+    transition: all 0.2s none;
+
+    &.disable {
+        opacity: 0;
+    }
+}

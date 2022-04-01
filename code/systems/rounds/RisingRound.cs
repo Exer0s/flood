@@ -7,7 +7,7 @@ using Sandbox;
 
 public partial class RisingRound : GameRound
 {
-	public override string RoundName => "Prepare";
+	public override string RoundName => "Flood";
 	public override float RoundDuration => 15f;
 	public override string NextRound => "Fight!";
 

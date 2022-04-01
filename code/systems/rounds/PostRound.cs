@@ -7,7 +7,7 @@ using Sandbox;
 
 public class PostRound : GameRound
 {
-	public override string RoundName => "Post Game";
+	public override string RoundName => "Draining";
 	public override float RoundDuration => 15f;
 	public override string NextRound => "Build!";
 

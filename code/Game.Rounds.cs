@@ -19,9 +19,9 @@ partial class FloodGame
 	{
 		GameRounds.Add( "Waiting...", new WaitingRound());
 		GameRounds.Add( "Build!", new BuildingRound());
-		GameRounds.Add( "Prepare", new RisingRound());
+		GameRounds.Add( "Flood", new RisingRound());
 		GameRounds.Add( "Fight!", new FightingRound());
-		GameRounds.Add( "Post Game", new PostRound());
+		GameRounds.Add( "Draining", new PostRound());
 		GameRound = GameRounds["Waiting..."];
 		GameRound.OnRoundStart();
 		_ = StartSecondTimer();

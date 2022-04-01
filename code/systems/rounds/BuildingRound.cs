@@ -9,7 +9,7 @@ public class BuildingRound : GameRound
 {
 	public override string RoundName => "Build!";
 	public override float RoundDuration => 5f;
-	public override string NextRound => "Prepare";
+	public override string NextRound => "Flood";
 
 	public override bool Tools => true;
 
