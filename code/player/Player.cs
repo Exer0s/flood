@@ -16,6 +16,7 @@ public partial class FloodPlayer : Player
 	[Net] public IList<string> PurchasedWeapons { get; set; } = new List<string>();
 
 	[Net] public BaseTeam Team { get; set; }
+	[Net] public BaseTeam LocalTeam { get; set; }
 
 	/// <summary>
 	/// The clothing container is what dresses the citizen
@@ -40,6 +41,7 @@ public partial class FloodPlayer : Player
 		var team = new BaseTeam();
 		team.InitTeam( this, cl );
 		Team = team;
+		LocalTeam = team;
 	}
 
 	public override void Respawn()
