@@ -15,6 +15,7 @@ public partial class FloodPlayer : Player
 
 	[Net] public IList<string> PurchasedWeapons { get; set; } = new List<string>();
 
+	[Net] public BaseTeam Team { get; set; }
 
 	/// <summary>
 	/// The clothing container is what dresses the citizen
@@ -27,7 +28,6 @@ public partial class FloodPlayer : Player
 	public FloodPlayer()
 	{
 		Inventory = new Inventory( this );
-		
 	}
 
 	/// <summary>
@@ -37,6 +37,9 @@ public partial class FloodPlayer : Player
 	{
 		// Load clothing from client data
 		Clothing.LoadFromClient( cl );
+		var team = new BaseTeam();
+		team.InitTeam( this, cl );
+		Team = team;
 	}
 
 	public override void Respawn()
