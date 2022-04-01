@@ -13,14 +13,16 @@ public partial class GameRound : BaseNetworkable
 	public virtual float RoundEndTime { get; set; }
 
 	public virtual bool Tools { get; set; } = false;
+	public virtual bool GiveWeapons { get; set; } = false;
+
+	public List<FloodPlayer> Players { get; set; } = new List<FloodPlayer> { };
 
 	public virtual void OnRoundStart()
 	{
-
 		RoundEndTime = Time.Now + RoundDuration;
 		Log.Info( $"Starting Round {RoundName}" );
 
-		foreach ( var player in Entity.All.OfType<FloodPlayer>().ToArray() )
+		foreach ( var player in Players )
 		{
 			if ( Tools )
 			{
@@ -34,9 +36,9 @@ public partial class GameRound : BaseNetworkable
 	{
 		if (Tools)
 		{
-			foreach ( var player in Entity.All.OfType<FloodPlayer>().ToArray() )
+			foreach ( var player in Players )
 			{
-				player.Inventory.DeleteContents();
+				player.RemoveWeapons();
 			}
 		}
 		

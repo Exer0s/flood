@@ -76,7 +76,13 @@ partial class FloodGame
 		TimeOffset = Time.Now;
 		GameRound.OnRoundEnd();
 		GameRound = GameRounds[GameRound.NextRound];
+		GameRound.Players.Clear();
+		foreach ( var player in All.OfType<FloodPlayer>() )
+		{
+			GameRound.Players.Add( player );
+		}
 		GameRound.OnRoundStart();
+
 		SetRoundNameUI();
 		OnSecond();
 		Log.Info( "Progressed Round to " + GameRound.RoundName );

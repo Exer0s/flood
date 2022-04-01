@@ -18,6 +18,10 @@ public class PostRound : GameRound
 
 	public override void OnRoundEnd()
 	{
+		foreach ( var player in Players )
+		{
+			player.OnKilled();
+		}
 		base.OnRoundEnd();
 	}
 

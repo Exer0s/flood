@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 
 
-partial class FloodPlayer : Player
+public partial class FloodPlayer : Player
 {
 	[Net]
 	public float Money { get; set; } = 250f;
@@ -209,10 +209,18 @@ partial class FloodPlayer : Player
 			break;
 		}
 	}
-
-	public void DoKnockback( Vector3 dir, float amount )
+	[ServerCmd]
+	public void GivePurchasedWeapons()
 	{
-
+		foreach ( var weapon in PurchasedWeapons )
+		{
+			Inventory.Add(Library.Create<Weapon>(weapon), true);
+		}
+	}
+	[ServerCmd]
+	public void RemoveWeapons()
+	{
+		Inventory.DeleteContents();
 	}
 
 }

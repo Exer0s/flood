@@ -20,6 +20,8 @@ public class BuildingRound : GameRound
 	
 	public override void OnRoundEnd()
 	{
+		Log.Info( Players.Count );
+		foreach ( var player in Players ) player.RemoveWeapons();
 		base.OnRoundEnd();
 	}
 
