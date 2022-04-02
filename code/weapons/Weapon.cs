@@ -3,6 +3,7 @@
 public partial class Weapon : BaseWeapon, IUse
 {
 	public virtual float ReloadTime => 3.0f;
+	public virtual string Icon { get; set; }
 
 	public PickupTrigger PickupTrigger { get; protected set; }
 

@@ -2,6 +2,9 @@
 
 public partial class Carriable : BaseCarriable, IUse
 {
+
+	public virtual string Icon { get; set; }
+
 	public override void CreateViewModel()
 	{
 		Host.AssertClient();

@@ -8,7 +8,7 @@ using Sandbox;
 public class FightingRound : GameRound
 {
 	public override string RoundName => "Fight!";
-	public override float RoundDuration => 5f;
+	public override float RoundDuration => 60f;
 	public override string NextRound => "Draining";
 
 	public override void OnRoundStart()

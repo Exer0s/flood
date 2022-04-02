@@ -6,6 +6,7 @@ using System.Linq;
 public partial class PhysGun : Carriable
 {
 	public override string ViewModelPath => "weapons/rust_pistol/v_rust_pistol.vmdl";
+	public override string Icon => "ui/hud/physgun.png";
 
 	protected PhysicsBody holdBody;
 	protected PhysicsBody velBody;

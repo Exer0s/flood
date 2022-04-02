@@ -34,11 +34,25 @@ public class InventoryBar : Panel
 	{
 		var player = Local.Pawn as Player;
 
+
 		if ( ent == null )
 		{
 			inventoryIcon.Clear();
 			return;
 		}
+
+		if (ent is Carriable tool && ent is not Weapon)
+		{
+			inventoryIcon.Icon.Style.BackgroundImage = Texture.Load(FileSystem.Mounted, tool.Icon);
+			inventoryIcon.Icon.SetClass( "disabled", false );
+		}
+
+		if ( ent is Weapon weapon )
+		{
+			inventoryIcon.Icon.Style.BackgroundImage = Texture.Load( FileSystem.Mounted, weapon.Icon );
+			inventoryIcon.Icon.SetClass( "disabled", false );
+		}
+
 
 		inventoryIcon.TargetEnt = ent;
 		inventoryIcon.Label.Text = ent.ClassInfo.Title;

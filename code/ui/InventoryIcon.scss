@@ -10,6 +10,15 @@
     backdrop-filter: blur( 50px );
     border-radius: 10px;
 
+    .item-icon {
+        top: 10%;
+        left: 10%;
+        width: 80%;
+        height: 80%;
+        background-size: contain;
+        background-repeat: no-repeat;
+    }
+
     .item-name {
         padding: 5px;
         color: white;
@@ -50,6 +59,11 @@
             opacity: 1;
             transition: all 0.1s ease-out;
             font-size: 13px;
+        }
+
+        .item-icon {
+            opacity: 1;
+            transition: all 0.1s ease-out;
         }
     }
 }
