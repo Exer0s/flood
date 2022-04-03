@@ -10,8 +10,48 @@ using Sandbox.UI.Construct;
 [Library]
 public class TeamsTab : Panel
 {
+	public Panel TeamTabs;
+	public Button YourTab;
+	public Button JoinTab;
+
+	public Panel YourTeamPanel;
+	public Panel JoinTeamPanel;
+
 	public TeamsTab()
 	{
 		StyleSheet.Load( "ui/left/TeamsTab.scss" );
+		TeamTabs = Add.Panel( "teamtabs" );
+		YourTab = TeamTabs.Add.Button( "Your Team", "teambutton", ShowYourPanel );
+		JoinTab = TeamTabs.Add.Button( "Join Team", "teambutton", ShowJoinPanel );
+		YourTeamPanel = Add.Panel( "yourteam" );
+		JoinTeamPanel = Add.Panel( "jointeam" );
 	}
+
+	private void ShowJoinPanel()
+	{
+
+		if (!YourTeamPanel.HasClass("active"))
+		{
+			JoinTeamPanel.SetClass( "active", true );
+			YourTeamPanel.SetClass( "active", false );
+		}
+	}
+
+	public void RefreshJoinPanel()
+	{
+		foreach ( var team in BaseTeam.AllTeams )
+		{
+			JoinTeamPanel.Add.Button( "", "team" );
+		}
+	}
+
+	private void ShowYourPanel()
+	{
+		if ( !YourTeamPanel.HasClass( "active" ) )
+		{
+			JoinTeamPanel.SetClass( "active", false );
+			YourTeamPanel.SetClass( "active", true );
+		}
+	}
+
 }
