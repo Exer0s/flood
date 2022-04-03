@@ -30,8 +30,9 @@ public class TeamsTab : Panel
 	private void ShowJoinPanel()
 	{
 
-		if (!YourTeamPanel.HasClass("active"))
+		if (!JoinTeamPanel.HasClass("active"))
 		{
+			RefreshJoinPanel();
 			JoinTeamPanel.SetClass( "active", true );
 			YourTeamPanel.SetClass( "active", false );
 		}
@@ -39,8 +40,10 @@ public class TeamsTab : Panel
 
 	public void RefreshJoinPanel()
 	{
+		Log.Info( BaseTeam.AllTeams.Count() );
 		foreach ( var team in BaseTeam.AllTeams )
 		{
+			
 			JoinTeamPanel.Add.Button( "", "team" );
 		}
 	}

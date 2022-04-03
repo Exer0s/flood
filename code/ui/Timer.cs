@@ -17,6 +17,8 @@ public class Timer : Panel
 	{
 		Instance = this;
 		StyleSheet.Load( "ui/Timer.scss" );
+		if ( FloodGame.Instance.GameRound.RoundName != null ) RoundName = Add.Label( FloodGame.Instance.GameRound.RoundName, "roundname" );
+
 		RoundName = Add.Label( "Waiting", "roundname" );
 		
 		GameTime = Add.Label( "00:00", "gametime" );
