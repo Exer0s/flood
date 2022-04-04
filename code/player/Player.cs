@@ -39,10 +39,6 @@ public partial class FloodPlayer : Player
 	{
 		// Load clothing from client data
 		Clothing.LoadFromClient( cl );
-		var team = new BaseTeam();
-		team.InitTeam( this, cl );
-		Team = team;
-		LocalTeam = team;
 	}
 
 	public override void Respawn()
@@ -128,6 +124,14 @@ public partial class FloodPlayer : Player
 	public override void Simulate( Client cl )
 	{
 		base.Simulate( cl );
+
+		if (LocalTeam == null && Client != null && IsServer)
+		{
+			var team = new BaseTeam();
+			team.InitTeam( this, Client );
+			Team = team;
+			LocalTeam = team;
+		}
 
 		if ( Input.ActiveChild != null )
 		{

@@ -5,10 +5,7 @@ using System.Threading.Tasks;
 
 partial class FloodGame : Game
 {
-
-	[Net] public List<BaseTeam> AllTeams { get; set; } = new List<BaseTeam> { };
-
-	public static FloodGame Instance;
+	public static FloodGame Instance { get; set; }
 
 	public FloodGame()
 	{
@@ -20,9 +17,6 @@ partial class FloodGame : Game
 			
 		}
 	}
-
-
-	public WaterFunc WaterObj;
 
 	public override void PostLevelLoaded()
 	{

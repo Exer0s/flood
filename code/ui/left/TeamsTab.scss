@@ -101,6 +101,11 @@
             width: 100%;
             border-radius: 10px;
 
+            &:hover {
+                cursor: pointer;
+                background-color: rgba(white, 0.4);
+            }
+
             .avatar {
             }
 

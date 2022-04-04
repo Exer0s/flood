@@ -5,13 +5,19 @@ using System.Text;
 using System.Threading.Tasks;
 using Sandbox;
 
-public class BaseTeam : BaseNetworkable
+public partial class BaseTeam : Entity
 {
-	public string TeamName { get; set; }
-	public FloodPlayer TeamOwner { get; set; }
-	public int PlayerAmount { get { return Members.Count(); } }
+	[Net] public string TeamName { get; set; }
+	[Net] public FloodPlayer TeamOwner { get; set; }
+	[Net] public int PlayerAmount { get { return Members.Count(); } }
 
-	public List<FloodPlayer> Members = new List<FloodPlayer>();
+	[Net] public IList<FloodPlayer> Members { get; set; } = new List<FloodPlayer>();
+
+	public override void Spawn()
+	{
+		base.Spawn();
+		Transmit = TransmitType.Always;
+	}
 
 	public void InitTeam(FloodPlayer owner, Client ownerclient)
 	{
@@ -19,7 +25,6 @@ public class BaseTeam : BaseNetworkable
 		TeamOwner = owner;
 		Members.Add( owner );
 		Log.Info( $"Initialized Team {TeamName}" );
-		FloodGame.Instance.AllTeams.Add( this );
 	}
 
 	public void JoinTeam(FloodPlayer player)
