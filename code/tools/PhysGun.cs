@@ -5,7 +5,7 @@ using System.Linq;
 [Library( "physgun" )]
 public partial class PhysGun : Carriable
 {
-	public override string ViewModelPath => "weapons/rust_pistol/v_rust_pistol.vmdl";
+	public override string ViewModelPath => "models/weapons/utilitygauntlet/utilitygauntlet.vmdl";
 	public override string Icon => "ui/hud/physgun.png";
 
 	protected PhysicsBody holdBody;
@@ -41,7 +41,8 @@ public partial class PhysGun : Carriable
 	{
 		base.Spawn();
 
-		SetModel( "weapons/rust_pistol/rust_pistol.vmdl" );
+		SetModel("models/weapons/utilitygauntlet/utilitygauntlet.vmdl");
+		
 
 		CollisionGroup = CollisionGroup.Weapon;
 		SetInteractsAs( CollisionLayer.Debris );
@@ -57,7 +58,7 @@ public partial class PhysGun : Carriable
 
 		if ( Input.Pressed( InputButton.Attack1 ) )
 		{
-			(Owner as AnimEntity)?.SetAnimParameter( "b_attack", true );
+			(Owner as AnimEntity)?.SetAnimParameter( "idle", true );
 
 			if ( !grabbing )
 				grabbing = true;
@@ -68,7 +69,7 @@ public partial class PhysGun : Carriable
 
 		if ( GrabbedEntity.IsValid() && wantsToFreeze )
 		{
-			(Owner as AnimEntity)?.SetAnimParameter( "b_attack", true );
+			(Owner as AnimEntity)?.SetAnimParameter( "phys", true );
 		}
 
 		BeamActive = grabEnabled;
