@@ -40,12 +40,13 @@ public class TeamsTab : Panel
 
 	public void RefreshJoinPanel()
 	{
+		if ( FloodGame.Instance == null ) return;
 		JoinTeamPanel.DeleteChildren();
-		Log.Info( FloodGame.Instance.AllTeams.Count() );
-		foreach ( var team in FloodGame.Instance.AllTeams )
+		//if ( FloodGame.Instance == null ) return;
+		foreach ( var team in Entity.All.OfType<BaseTeam>() )
 		{
-			
-			JoinTeamPanel.Add.Button( "", "team" );
+			if ( team.TeamOwner == Local.Pawn ) return;
+			Log.Info( team.TeamName );
 		}
 	}
 
