@@ -11,8 +11,6 @@ public class BaseTeam : BaseNetworkable
 	public FloodPlayer TeamOwner { get; set; }
 	public int PlayerAmount { get { return Members.Count(); } }
 
-	[Net] public static List<BaseTeam> AllTeams { get; set; } = new List<BaseTeam>();
-
 	public List<FloodPlayer> Members = new List<FloodPlayer>();
 
 	public void InitTeam(FloodPlayer owner, Client ownerclient)
@@ -21,7 +19,7 @@ public class BaseTeam : BaseNetworkable
 		TeamOwner = owner;
 		Members.Add( owner );
 		Log.Info( $"Initialized Team {TeamName}" );
-		AllTeams.Add( this );
+		FloodGame.Instance.AllTeams.Add( this );
 	}
 
 	public void JoinTeam(FloodPlayer player)

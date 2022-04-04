@@ -40,8 +40,9 @@ public class TeamsTab : Panel
 
 	public void RefreshJoinPanel()
 	{
-		Log.Info( BaseTeam.AllTeams.Count() );
-		foreach ( var team in BaseTeam.AllTeams )
+		JoinTeamPanel.DeleteChildren();
+		Log.Info( FloodGame.Instance.AllTeams.Count() );
+		foreach ( var team in FloodGame.Instance.AllTeams )
 		{
 			
 			JoinTeamPanel.Add.Button( "", "team" );

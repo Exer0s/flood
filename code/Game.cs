@@ -1,9 +1,12 @@
 ﻿using Sandbox;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
 partial class FloodGame : Game
 {
+
+	[Net] public List<BaseTeam> AllTeams { get; set; } = new List<BaseTeam> { };
 
 	public static FloodGame Instance;
 
