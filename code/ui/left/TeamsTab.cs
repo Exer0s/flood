@@ -29,10 +29,10 @@ public class TeamsTab : Panel
 
 	private void ShowJoinPanel()
 	{
-
+		RefreshJoinPanel();
 		if (!JoinTeamPanel.HasClass("active"))
 		{
-			RefreshJoinPanel();
+			
 			JoinTeamPanel.SetClass( "active", true );
 			YourTeamPanel.SetClass( "active", false );
 		}
@@ -46,6 +46,7 @@ public class TeamsTab : Panel
 		foreach ( var team in Entity.All.OfType<BaseTeam>() )
 		{
 			if ( team.TeamOwner == Local.Pawn ) return;
+			JoinTeamPanel.Add.Button( "", "team" );
 			Log.Info( team.TeamName );
 		}
 	}
