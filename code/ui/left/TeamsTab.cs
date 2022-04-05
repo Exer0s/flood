@@ -45,8 +45,6 @@ public class TeamsTab : Panel
 	{
 		if ( Local.Pawn == null ) return;
 		JoinTeamPanel.DeleteChildren();
-		Log.Info( "refreshing join panel" );
-		Log.Info( Entity.All.OfType<BaseTeam>().Count() );
 		foreach ( var team in Entity.All.OfType<BaseTeam>() )
 		{
 			if ( !team.Members.Contains( Local.Pawn ) )

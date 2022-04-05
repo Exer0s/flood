@@ -31,7 +31,7 @@ public class OtherTeam : Button
 	protected override void OnClick( MousePanelEvent e )
 	{
 		BaseTeam.JoinTeam( team.TeamName, Local.Pawn.Name );
-		TeamsTab.Instance.RefreshJoinPanel();
+		//TeamsTab.Instance.RefreshJoinPanel();
 		base.OnClick( e );
 	}
 

@@ -121,6 +121,13 @@ public partial class FloodPlayer : Player
 		return base.GetActiveController();
 	}
 
+	[ClientRpc]
+	public void RefreshTeamPanel()
+	{
+		TeamsTab.Instance.RefreshJoinPanel();
+	}
+
+
 	public override void Simulate( Client cl )
 	{
 		base.Simulate( cl );

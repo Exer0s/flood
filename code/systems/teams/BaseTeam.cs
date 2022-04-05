@@ -44,6 +44,7 @@ public partial class BaseTeam : Entity
 
 		player.Team = joiningteam;
 		player.Team.Members.Add( player );
+		player.RefreshTeamPanel();
 	}
 
 	public void LeaveTeam( FloodPlayer player )
