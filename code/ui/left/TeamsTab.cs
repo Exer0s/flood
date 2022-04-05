@@ -17,8 +17,11 @@ public class TeamsTab : Panel
 	public Panel YourTeamPanel;
 	public Panel JoinTeamPanel;
 
+	public static TeamsTab Instance;
+
 	public TeamsTab()
 	{
+		Instance = this;
 		StyleSheet.Load( "ui/left/TeamsTab.scss" );
 		TeamTabs = Add.Panel( "teamtabs" );
 		YourTab = TeamTabs.Add.Button( "Your Team", "teambutton", ShowYourPanel );
@@ -40,14 +43,18 @@ public class TeamsTab : Panel
 
 	public void RefreshJoinPanel()
 	{
-		if ( FloodGame.Instance == null ) return;
+		if ( Local.Pawn == null ) return;
 		JoinTeamPanel.DeleteChildren();
-		//if ( FloodGame.Instance == null ) return;
+		Log.Info( "refreshing join panel" );
+		Log.Info( Entity.All.OfType<BaseTeam>().Count() );
 		foreach ( var team in Entity.All.OfType<BaseTeam>() )
 		{
-			if ( team.TeamOwner == Local.Pawn ) return;
-			JoinTeamPanel.Add.Button( "", "team" );
-			Log.Info( team.TeamName );
+			if ( !team.Members.Contains( Local.Pawn ) )
+			{
+				var ot = JoinTeamPanel.AddChild<OtherTeam>();
+				ot.team = team;
+				ot.InitUI();
+			}
 		}
 	}
 

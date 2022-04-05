@@ -27,12 +27,23 @@ public partial class BaseTeam : Entity
 		Log.Info( $"Initialized Team {TeamName}" );
 	}
 
-	public void JoinTeam(FloodPlayer player)
+	[ServerCmd]
+	public static void JoinTeam(string teamname, string name)
 	{
-		player.Team.TeamOwner = null;
-		player.Team.Members.Clear();
-		player.Team = this;
-		Members.Add( player );
+		var joiningteam = All.OfType<BaseTeam>().Where( x => x.TeamName == teamname ).FirstOrDefault();
+		var player = All.OfType<FloodPlayer>().Where(x => x.Name == name).FirstOrDefault();
+		if (player.Team.Members.Count == 1)
+		{
+			player.Team.TeamOwner = null;
+			player.Team.Members.Clear();
+		} else
+		{
+			if (player.Team.TeamOwner == player) player.Team.TeamOwner = player.Team.Members.FirstOrDefault();
+			player.Team.Members.Remove( player );
+		}
+
+		player.Team = joiningteam;
+		player.Team.Members.Add( player );
 	}
 
 	public void LeaveTeam( FloodPlayer player )

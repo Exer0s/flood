@@ -93,28 +93,5 @@
         justify-content: flex-start;
         align-items: center;
         flex-direction: column;
-
-        .team {
-            top: 50px;
-            background-color: rgba(white, 0.2);
-            height: 5%;
-            width: 100%;
-            border-radius: 10px;
-
-            &:hover {
-                cursor: pointer;
-                background-color: rgba(white, 0.4);
-            }
-
-            .avatar {
-            }
-
-            .otherteamname {
-            }
-
-
-            .join button {
-            }
-        }
     }
 }
