@@ -28,9 +28,11 @@ public class TeamsTab : Panel
 		JoinTab = TeamTabs.Add.Button( "Join Team", "teambutton", ShowJoinPanel );
 		YourTeamPanel = Add.Panel( "yourteam" );
 		JoinTeamPanel = Add.Panel( "jointeam" );
+		JoinTeamPanel.SetClass( "active", false );
+		YourTeamPanel.SetClass( "active", true );
 	}
 
-	private void ShowJoinPanel()
+	public void ShowJoinPanel()
 	{
 		RefreshJoinPanel();
 		if (!JoinTeamPanel.HasClass("active"))
@@ -56,13 +58,56 @@ public class TeamsTab : Panel
 		}
 	}
 
-	private void ShowYourPanel()
+	public void ShowYourPanel()
 	{
+		RefreshTeamPanel();
 		if ( !YourTeamPanel.HasClass( "active" ) )
 		{
 			JoinTeamPanel.SetClass( "active", false );
 			YourTeamPanel.SetClass( "active", true );
 		}
+	}
+
+	public void RefreshTeamPanel()
+	{
+		var player = Local.Pawn as FloodPlayer;
+		YourTeamPanel.DeleteChildren();
+		var header = YourTeamPanel.Add.Panel( "teamheader" );
+		header.Add.Label( player.Team.TeamName, "teamname" );
+		if (player.Team.TeamOwner != player) 
+		header.Add.Button( "Leave", "leaveteam", LeaveTeam );
+		var mlist = YourTeamPanel.Add.Panel( "memberlist" );
+		foreach ( var member in player.Team.Members )
+		{
+			var teammember = mlist.Add.Panel( "teammember" );
+			teammember.Add.Image( $"avatar:{member.Client.PlayerId}", "avatar" );
+			teammember.Add.Label( member.Client.Name, "name" );
+			if (member != Local.Pawn)
+			{
+				teammember.Add.Button( "Donate", "givemoney" );
+			}
+
+			if (Local.Pawn == player.Team.TeamOwner && member != Local.Pawn)
+			{
+				var kick = teammember.Add.Button( "Kick", "kick");
+				kick.AddEventListener( "onclick", x =>
+				{
+					KickPlayer( member.Client.Name, member.Team.TeamName );
+				} );
+			}
+
+		}
+	}
+
+	public void LeaveTeam()
+	{
+		var player = Local.Pawn as FloodPlayer;
+		BaseTeam.LeaveTeam( player.Team.TeamName, player.Name );
+	}
+
+	public void KickPlayer(string name, string teamname)
+	{
+		BaseTeam.LeaveTeam( name, teamname );
 	}
 
 }

@@ -44,15 +44,19 @@ public partial class BaseTeam : Entity
 
 		player.Team = joiningteam;
 		player.Team.Members.Add( player );
-		player.RefreshTeamPanel();
+		player.ShowYourTeam();
 	}
 
-	public void LeaveTeam( FloodPlayer player )
+	[ServerCmd]
+	public static void LeaveTeam( string teamname, string name )
 	{
+		var leavingteam = All.OfType<BaseTeam>().Where( x => x.TeamName == teamname ).FirstOrDefault();
+		var player = All.OfType<FloodPlayer>().Where( x => x.Name == name ).FirstOrDefault();
 		player.Team = player.LocalTeam;
 		player.Team.TeamOwner = player;
 		player.Team.Members.Add(player);
-		Members.Remove( player );
+		leavingteam.Members.Remove( player );
+		player.ShowJoinTeams();
 	}
 
 	public void UpdateName(string name)

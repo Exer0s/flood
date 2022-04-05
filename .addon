@@ -16,6 +16,7 @@
     "MapList": [
       "bluebit.floodgate2"
     ],
-    "MapSelect": 2
+    "MapSelect": 2,
+    "MinPlayers": 1
   }
 }
