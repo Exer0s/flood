@@ -8,6 +8,7 @@ using Sandbox;
 public partial class BaseTeam : Entity
 {
 	[Net] public string TeamName { get; set; }
+	[Net] public bool TeamLocked { get; set; }
 	[Net] public FloodPlayer TeamOwner { get; set; }
 	[Net] public int PlayerAmount { get { return Members.Count(); } }
 
@@ -31,6 +32,7 @@ public partial class BaseTeam : Entity
 	public static void JoinTeam(string teamname, string name)
 	{
 		var joiningteam = All.OfType<BaseTeam>().Where( x => x.TeamName == teamname ).FirstOrDefault();
+		if ( joiningteam.TeamLocked ) return;
 		var player = All.OfType<FloodPlayer>().Where(x => x.Name == name).FirstOrDefault();
 		if (player.Team.Members.Count == 1)
 		{
@@ -57,6 +59,14 @@ public partial class BaseTeam : Entity
 		player.Team.Members.Add(player);
 		leavingteam.Members.Remove( player );
 		player.ShowJoinTeams();
+	}
+
+	[ServerCmd("util_lock_team")]
+	public static void LockTeam()
+	{
+		var player = ConsoleSystem.Caller.Pawn as FloodPlayer;
+		var team = player.Team;
+		if (player == team.TeamOwner) team.TeamLocked = !team.TeamLocked;
 	}
 
 	public void UpdateName(string name)

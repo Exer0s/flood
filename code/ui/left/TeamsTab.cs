@@ -68,14 +68,38 @@ public class TeamsTab : Panel
 		}
 	}
 
+	public Button LockButton;
+
 	public void RefreshTeamPanel()
 	{
 		var player = Local.Pawn as FloodPlayer;
 		YourTeamPanel.DeleteChildren();
 		var header = YourTeamPanel.Add.Panel( "teamheader" );
 		header.Add.Label( player.Team.TeamName, "teamname" );
-		if (player.Team.TeamOwner != player) 
-		header.Add.Button( "Leave", "leaveteam", LeaveTeam );
+
+		if ( player.Team.TeamOwner != player )
+		{
+			header.Add.Button( "Leave", "leaveteam", LeaveTeam );
+		} else
+		{
+			if (!player.Team.TeamLocked)
+			{
+				LockButton = header.Add.Button( "Open", "leaveteam" );
+				LockButton.Style.BackgroundColor = Color.Green;
+			} else
+			{
+				LockButton = header.Add.Button( "Locked", "leaveteam" );
+				LockButton.Style.BackgroundColor = Color.Red;
+			}
+			
+			LockButton.AddEventListener( "onclick", x =>
+			{
+				ConsoleSystem.Run( "util_lock_team" );
+				RefreshTeamPanel();
+			} );
+		}
+
+
 		var mlist = YourTeamPanel.Add.Panel( "memberlist" );
 		foreach ( var member in player.Team.Members )
 		{

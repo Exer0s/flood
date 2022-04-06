@@ -24,6 +24,7 @@ public class OtherTeam : Button
 			Delete();
 			return;
 		}
+		if ( team.TeamLocked ) Style.BackgroundColor = Color.Red;
 		Add.Image( $"avatar:{team.TeamOwner.Client.PlayerId}", "avatar" );
 		Add.Label( team.TeamName, "otherteamname" );
 	}
