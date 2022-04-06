@@ -96,4 +96,41 @@ partial class FloodGame
 		Timer.Instance.GameTime.Text = GameTime;
 	}
 
+
+	public List<FloodPlayer> PlayersSkipping { get; set; } = new List<FloodPlayer>();
+
+	[ServerCmd("skip_round")]
+	public static void SkipRound()
+	{
+		var player = ConsoleSystem.Caller.Pawn as FloodPlayer;
+		if ( Instance.PlayersSkipping.Contains( player ) ) return; // u already voted bro?!?!
+		if ( Instance.GameRound is WaitingRound ) return; // u cannot skip the lobby bruh
+
+		Instance.PlayersSkipping.Add(player);
+
+		var skipped = (float)Instance.PlayersSkipping.Count();
+		var all = (float)All.OfType<FloodPlayer>().Count();
+
+		var divided = skipped / all;
+		SystemMessage( $" {player.Client.Name} voted to skip the round! {Instance.PlayersSkipping.Count()} / {All.OfType<FloodPlayer>().Count()}" );
+
+
+		if ( divided < 0.75 ) return;
+		Instance.ProgressRound();
+		SystemMessage( $"Skipped {Instance.GameRound.RoundName} round" );
+	}
+
+	[AdminCmd( "force_skip" )]
+	public static void ForceSkip()
+	{
+		Instance.ProgressRound();
+	}
+
+	public static void SystemMessage( string message )
+	{
+		//Host.AssertServer();
+		FloodChat.AddChatEntry( To.Everyone, "Server", message, "/ui/system.png" );
+	}
+
+
 }
