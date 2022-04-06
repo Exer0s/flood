@@ -21,7 +21,7 @@ public class BuildingRound : GameRound
 	{
 		RoundEndTime = Time.Now + NewRoundDuration;
 		Log.Info( $"Starting Round {RoundName}" );
-
+		FloodGame.ClearSkipList();
 		foreach ( var player in Players )
 		{
 			if ( Tools )

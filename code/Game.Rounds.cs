@@ -104,7 +104,7 @@ partial class FloodGame
 	{
 		var player = ConsoleSystem.Caller.Pawn as FloodPlayer;
 		if ( Instance.PlayersSkipping.Contains( player ) ) return; // u already voted bro?!?!
-		if ( Instance.GameRound is WaitingRound ) return; // u cannot skip the lobby bruh
+		if ( Instance.GameRound is not BuildingRound ) return; // u cannot skip the lobby bruh
 
 		Instance.PlayersSkipping.Add(player);
 
@@ -119,6 +119,14 @@ partial class FloodGame
 		Instance.ProgressRound();
 		SystemMessage( $"Skipped {Instance.GameRound.RoundName} round" );
 	}
+
+	[ServerCmd]
+	public static void ClearSkipList()
+	{
+		Instance.PlayersSkipping.Clear();
+	}
+
+
 
 	[AdminCmd( "force_skip" )]
 	public static void ForceSkip()
