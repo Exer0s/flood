@@ -8,7 +8,7 @@ using Sandbox;
 public partial class BaseTeam : Entity
 {
 	[Net] public string TeamName { get; set; }
-	[Net] public bool TeamLocked { get; set; }
+	[Net] public bool TeamLocked { get; set; } = false;
 	[Net] public FloodPlayer TeamOwner { get; set; }
 	[Net] public int PlayerAmount { get { return Members.Count(); } }
 

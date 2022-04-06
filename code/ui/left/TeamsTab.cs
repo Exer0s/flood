@@ -94,8 +94,16 @@ public class TeamsTab : Panel
 			
 			LockButton.AddEventListener( "onclick", x =>
 			{
+				if (!player.Team.TeamLocked)
+				{
+					LockButton.Text = "Locked";
+					LockButton.Style.BackgroundColor = Color.Red;
+				} else
+				{
+					LockButton.Text = "Open";
+					LockButton.Style.BackgroundColor = Color.Green;
+				}
 				ConsoleSystem.Run( "util_lock_team" );
-				RefreshTeamPanel();
 			} );
 		}
 
