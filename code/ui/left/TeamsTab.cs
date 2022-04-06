@@ -17,22 +17,27 @@ public class TeamsTab : Panel
 	public Panel YourTeamPanel;
 	public Panel JoinTeamPanel;
 
+	public static TeamsTab Instance;
+
 	public TeamsTab()
 	{
+		Instance = this;
 		StyleSheet.Load( "ui/left/TeamsTab.scss" );
 		TeamTabs = Add.Panel( "teamtabs" );
 		YourTab = TeamTabs.Add.Button( "Your Team", "teambutton", ShowYourPanel );
 		JoinTab = TeamTabs.Add.Button( "Join Team", "teambutton", ShowJoinPanel );
 		YourTeamPanel = Add.Panel( "yourteam" );
 		JoinTeamPanel = Add.Panel( "jointeam" );
+		JoinTeamPanel.SetClass( "active", false );
+		YourTeamPanel.SetClass( "active", true );
 	}
 
-	private void ShowJoinPanel()
+	public void ShowJoinPanel()
 	{
-
+		RefreshJoinPanel();
 		if (!JoinTeamPanel.HasClass("active"))
 		{
-			RefreshJoinPanel();
+			
 			JoinTeamPanel.SetClass( "active", true );
 			YourTeamPanel.SetClass( "active", false );
 		}
@@ -40,23 +45,101 @@ public class TeamsTab : Panel
 
 	public void RefreshJoinPanel()
 	{
-		if ( FloodGame.Instance == null ) return;
+		if ( Local.Pawn == null ) return;
 		JoinTeamPanel.DeleteChildren();
-		//if ( FloodGame.Instance == null ) return;
 		foreach ( var team in Entity.All.OfType<BaseTeam>() )
 		{
-			if ( team.TeamOwner == Local.Pawn ) return;
-			Log.Info( team.TeamName );
+			if ( !team.Members.Contains( Local.Pawn ) )
+			{
+				var ot = JoinTeamPanel.AddChild<OtherTeam>();
+				ot.team = team;
+				ot.InitUI();
+			}
 		}
 	}
 
-	private void ShowYourPanel()
+	public void ShowYourPanel()
 	{
+		RefreshTeamPanel();
 		if ( !YourTeamPanel.HasClass( "active" ) )
 		{
 			JoinTeamPanel.SetClass( "active", false );
 			YourTeamPanel.SetClass( "active", true );
 		}
+	}
+
+	public Button LockButton;
+
+	public void RefreshTeamPanel()
+	{
+		var player = Local.Pawn as FloodPlayer;
+		YourTeamPanel.DeleteChildren();
+		var header = YourTeamPanel.Add.Panel( "teamheader" );
+		header.Add.Label( player.Team.TeamName, "teamname" );
+
+		if ( player.Team.TeamOwner != player )
+		{
+			header.Add.Button( "Leave", "leaveteam", LeaveTeam );
+		} else
+		{
+			if (!player.Team.TeamLocked)
+			{
+				LockButton = header.Add.Button( "Open", "leaveteam" );
+				LockButton.Style.BackgroundColor = Color.Green;
+			} else
+			{
+				LockButton = header.Add.Button( "Locked", "leaveteam" );
+				LockButton.Style.BackgroundColor = Color.Red;
+			}
+			
+			LockButton.AddEventListener( "onclick", x =>
+			{
+				if (!player.Team.TeamLocked)
+				{
+					LockButton.Text = "Locked";
+					LockButton.Style.BackgroundColor = Color.Red;
+				} else
+				{
+					LockButton.Text = "Open";
+					LockButton.Style.BackgroundColor = Color.Green;
+				}
+				ConsoleSystem.Run( "util_lock_team" );
+			} );
+		}
+
+
+		var mlist = YourTeamPanel.Add.Panel( "memberlist" );
+		foreach ( var member in player.Team.Members )
+		{
+			var teammember = mlist.Add.Panel( "teammember" );
+			teammember.Add.Image( $"avatar:{member.Client.PlayerId}", "avatar" );
+			teammember.Add.Label( member.Client.Name, "name" );
+			if (member != Local.Pawn)
+			{
+				teammember.Add.Button( "Donate", "givemoney" );
+			}
+
+			if (Local.Pawn == player.Team.TeamOwner && member != Local.Pawn)
+			{
+				var kick = teammember.Add.Button( "Kick", "kick");
+				kick.AddEventListener( "onclick", x =>
+				{
+					KickPlayer( member.Client.Name, member.Team.TeamName );
+				} );
+			}
+
+		}
+	}
+
+	public void LeaveTeam()
+	{
+		var player = Local.Pawn as FloodPlayer;
+		BaseTeam.LeaveTeam( player.Team.TeamName, player.Name );
+	}
+
+	public void KickPlayer(string name, string teamname)
+	{
+		BaseTeam.LeaveTeam( name, teamname );
 	}
 
 }

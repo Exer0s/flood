@@ -31,7 +31,11 @@ public partial class SpawnMenu : Panel
 				tabs.AddButtonActive( "Weapons", ( b ) => weapons.SetClass( "active", b ) );
 
 				var teams = body.AddChild<TeamsTab>();
-				tabs.AddButtonActive( "Teams", ( b ) => teams.SetClass( "active", b ) );
+				tabs.AddButtonActive( "Teams", ( b ) =>
+				{
+					teams.SetClass( "active", b );
+					teams.RefreshTeamPanel();
+				} );
 			}
 		}
 

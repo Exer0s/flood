@@ -8,6 +8,7 @@ using Sandbox;
 public partial class BaseTeam : Entity
 {
 	[Net] public string TeamName { get; set; }
+	[Net] public bool TeamLocked { get; set; } = false;
 	[Net] public FloodPlayer TeamOwner { get; set; }
 	[Net] public int PlayerAmount { get { return Members.Count(); } }
 
@@ -27,20 +28,45 @@ public partial class BaseTeam : Entity
 		Log.Info( $"Initialized Team {TeamName}" );
 	}
 
-	public void JoinTeam(FloodPlayer player)
+	[ServerCmd]
+	public static void JoinTeam(string teamname, string name)
 	{
-		player.Team.TeamOwner = null;
-		player.Team.Members.Clear();
-		player.Team = this;
-		Members.Add( player );
+		var joiningteam = All.OfType<BaseTeam>().Where( x => x.TeamName == teamname ).FirstOrDefault();
+		if ( joiningteam.TeamLocked ) return;
+		var player = All.OfType<FloodPlayer>().Where(x => x.Name == name).FirstOrDefault();
+		if (player.Team.Members.Count == 1)
+		{
+			player.Team.TeamOwner = null;
+			player.Team.Members.Clear();
+		} else
+		{
+			if (player.Team.TeamOwner == player) player.Team.TeamOwner = player.Team.Members.FirstOrDefault();
+			player.Team.Members.Remove( player );
+		}
+
+		player.Team = joiningteam;
+		player.Team.Members.Add( player );
+		player.ShowYourTeam();
 	}
 
-	public void LeaveTeam( FloodPlayer player )
+	[ServerCmd]
+	public static void LeaveTeam( string teamname, string name )
 	{
+		var leavingteam = All.OfType<BaseTeam>().Where( x => x.TeamName == teamname ).FirstOrDefault();
+		var player = All.OfType<FloodPlayer>().Where( x => x.Name == name ).FirstOrDefault();
 		player.Team = player.LocalTeam;
 		player.Team.TeamOwner = player;
 		player.Team.Members.Add(player);
-		Members.Remove( player );
+		leavingteam.Members.Remove( player );
+		player.ShowJoinTeams();
+	}
+
+	[ServerCmd("util_lock_team")]
+	public static void LockTeam()
+	{
+		var player = ConsoleSystem.Caller.Pawn as FloodPlayer;
+		var team = player.Team;
+		if (player == team.TeamOwner) team.TeamLocked = !team.TeamLocked;
 	}
 
 	public void UpdateName(string name)

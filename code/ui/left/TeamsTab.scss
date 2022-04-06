@@ -50,28 +50,143 @@
     }
 
     .yourteam {
+        display: none;
+        left: 72px;
+        top: 65px;
+        position: absolute;
+        width: 93%;
+        height: 85%;
+        //overflow: scroll;
+        //background-color: white;
+        align-items: center;
+        justify-content: center;
 
-        .teamname {
+        &.active {
+            display: flex;
+            opacity: 1;
         }
 
+        .teamheader {
+            bottom: 260px;
+            //background-color: white;
+            width: 80%;
+            height: 10%;
+            justify-content: center;
+            align-content: center;
+            flex-direction: row;
+
+            .teamname {
+                text-align: center;
+                font-family: poppins;
+                font-weight: bolder;
+                font-size: 20px;
+                color: white;
+                margin-right: 10px;
+            }
+
+            .leaveteam {
+                justify-content: center;
+                align-content: center;
+                margin-left: 10px;
+                height: 30px;
+                width: 80px;
+                border-radius: 15px;
+                background-color: red;
+
+                &:hover {
+                    cursor: pointer;
+                    background-color: #ff6262;
+                }
+
+                .label {
+                    color: white;
+                    font-size: 20px;
+                    font-weight: bolder;
+                    font-family: poppins;
+                }
+            }
+        }
+
+
         .memberlist {
+            position: absolute;
+            //background-color: white;
+            height: 75%;
+            width: 100%;
+            overflow: scroll;
+            align-items: center;
+            justify-content: flex-start;
+            flex-direction: column;
 
             .teammember {
+                margin-top: 10px;
+                border-radius: 15px;
+                background-color: rgba(white, 0.4);
+                width: 50%;
+                height: 10%;
+                align-items: center;
+                justify-content: center;
 
                 .avatar {
+                    //margin-left: 10px;
+                    height: 36px;
+                    width: 36px;
+                    border-radius: 100px;
                 }
 
                 .name {
+                    margin-left: 25px;
+                    color: white;
+                    font-size: 20px;
+                    font-weight: bolder;
+                    font-family: poppins;
                 }
 
                 .givemoney {
+                    margin-left: 100px;
+                    justify-content: center;
+                    align-content: center;
+                    margin-left: 10px;
+                    height: 30px;
+                    width: 80px;
+                    border-radius: 15px;
+                    background-color: green;
+
+                    &:hover {
+                        cursor: pointer;
+                        background-color: lawngreen;
+                    }
+
+                    .label {
+                        color: white;
+                        font-size: 20px;
+                        font-weight: bolder;
+                        font-family: poppins;
+                    }
                 }
 
                 .kick {
-                }
-            }
+                    margin-left: 100px;
+                    justify-content: center;
+                    align-content: center;
+                    margin-left: 10px;
+                    height: 30px;
+                    width: 80px;
+                    border-radius: 15px;
+                    background-color: red;
 
-            .leavebutton {
+                    &:hover {
+                        cursor: pointer;
+                        background-color: #ff6262;
+                    }
+
+                    .label {
+                        color: white;
+                        font-size: 20px;
+                        font-weight: bolder;
+                        font-family: poppins;
+                    }
+                }
             }
         }
     }
@@ -83,6 +198,7 @@
         position: absolute;
         width: 93%;
         height: 85%;
+        overflow: scroll;
         //background-color: white;
 
         &.active {
@@ -93,28 +209,5 @@
         justify-content: flex-start;
         align-items: center;
         flex-direction: column;
-
-        .team {
-            top: 50px;
-            background-color: rgba(white, 0.2);
-            height: 5%;
-            width: 100%;
-            border-radius: 10px;
-
-            &:hover {
-                cursor: pointer;
-                background-color: rgba(white, 0.4);
-            }
-
-            .avatar {
-            }
-
-            .otherteamname {
-            }
-
-
-            .join button {
-            }
-        }
     }
 }
