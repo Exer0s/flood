@@ -26,6 +26,7 @@ public class BuildingRound : GameRound
 		{
 			if ( Tools )
 			{
+				if ( player.Spectating ) return;
 				player.Inventory.Add( new PhysGun(), true );
 				player.Inventory.Add( new Tool(), false );
 			}

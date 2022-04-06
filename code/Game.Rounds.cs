@@ -8,7 +8,7 @@ using Sandbox;
 partial class FloodGame
 {
 
-	[Net] public GameRound GameRound { get; set; }
+	[Net] public GameRound GameRound { get; set; } = null;
 	[Net] public string GameTime { get; set; }
 	[Net] public float TimeOffset { get; set; } = 0f;
 

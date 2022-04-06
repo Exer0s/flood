@@ -41,8 +41,24 @@ public partial class FloodPlayer : Player
 		Clothing.LoadFromClient( cl );
 	}
 
+	[Net] public bool Spectating { get; set; }
+
+
 	public override void Respawn()
 	{
+		if ( FloodGame.Instance.GameRound is not WaitingRound && FloodGame.Instance.GameRound is not BuildingRound )
+		{
+			Controller = new FlyingController();
+			CameraMode = new FirstPersonCamera();
+			EnableAllCollisions = false;
+			EnableDrawing = false;
+			EnableShadowInFirstPerson = false;
+			Spectating = true;
+			base.Respawn();
+			return;
+		}
+
+		Spectating = false;
 		SetModel( "models/citizen/citizen.vmdl" );
 
 		Controller = new WalkController();
@@ -77,22 +93,26 @@ public partial class FloodPlayer : Player
 			PlaySound( "kersplat" );
 		}
 
-		BecomeRagdollOnClient( Velocity, lastDamage.Flags, lastDamage.Position, lastDamage.Force, GetHitboxBone( lastDamage.HitboxIndex ) );
-
-		Controller = null;
-
-		EnableAllCollisions = false;
-		EnableDrawing = false;
-
-		CameraMode = new SpectateRagdollCamera();
-
-		foreach ( var child in Children )
+		if (!Spectating)
 		{
-			child.EnableDrawing = false;
-		}
+			BecomeRagdollOnClient( Velocity, lastDamage.Flags, lastDamage.Position, lastDamage.Force, GetHitboxBone( lastDamage.HitboxIndex ) );
 
-		Inventory.DropActive();
-		Inventory.DeleteContents();
+			Controller = null;
+
+			EnableAllCollisions = false;
+			EnableDrawing = false;
+
+			CameraMode = new SpectateRagdollCamera();
+
+			foreach ( var child in Children )
+			{
+				child.EnableDrawing = false;
+			}
+
+			Inventory.DropActive();
+			Inventory.DeleteContents();
+		}
+		
 	}
 
 	public override void TakeDamage( DamageInfo info )
@@ -169,6 +189,7 @@ public partial class FloodPlayer : Player
 
 		if ( Input.Pressed( InputButton.View ) )
 		{
+			if ( Spectating ) return;
 			if ( CameraMode is ThirdPersonCamera )
 			{
 				CameraMode = new FirstPersonCamera();
