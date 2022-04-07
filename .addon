@@ -7,7 +7,7 @@
   "HasAssets": true,
   "AssetsPath": "",
   "ResourcePaths": [
-    "/ui/*"
+    "\u0022ui/*\u0022, \u0022props/*\u0022, \u0022weapons/*\u0022"
   ],
   "HasCode": true,
   "CodePath": "/code/",
