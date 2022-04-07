@@ -139,7 +139,7 @@ public class TeamsTab : Panel
 
 	public void KickPlayer(string name, string teamname)
 	{
-		BaseTeam.LeaveTeam( name, teamname );
+		BaseTeam.LeaveTeam( teamname, name );
 	}
 
 }

@@ -46,7 +46,7 @@ public partial class BaseTeam : Entity
 
 		player.Team = joiningteam;
 		player.Team.Members.Add( player );
-		player.ShowYourTeam();
+		player.ShowYourTeam(To.Single(player));
 	}
 
 	[ServerCmd]
@@ -58,7 +58,7 @@ public partial class BaseTeam : Entity
 		player.Team.TeamOwner = player;
 		player.Team.Members.Add(player);
 		leavingteam.Members.Remove( player );
-		player.ShowJoinTeams();
+		player.ShowJoinTeams(To.Single(player));
 	}
 
 	[ServerCmd("util_lock_team")]
@@ -67,6 +67,7 @@ public partial class BaseTeam : Entity
 		var player = ConsoleSystem.Caller.Pawn as FloodPlayer;
 		var team = player.Team;
 		if (player == team.TeamOwner) team.TeamLocked = !team.TeamLocked;
+		player.RefreshTeamPanel( To.Everyone );
 	}
 
 	public void UpdateName(string name)
