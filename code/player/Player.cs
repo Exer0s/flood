@@ -277,8 +277,9 @@ public partial class FloodPlayer : Player
 	{
 		if (other is WaterFunc)
 		{
-			if (FloodGame.Instance.GameRound is FightingRound || FloodGame.Instance.GameRound is RisingRound || FloodGame.Instance.GameRound is PostRound)
+			if (FloodGame.Instance.GameRound is FightingRound || FloodGame.Instance.GameRound is RisingRound)
 			{
+				if ( FloodGame.Instance.WaterDamageEnabled == true)
 				TakeDamage( DamageInfo.Generic( 0.3f ) );
 			}
 		}

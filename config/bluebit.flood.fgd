@@ -242,3 +242,13 @@
 	input SetColor(string) : "Sets the color of this entity. Format is '255 255 255 255'."
 ]
 
+//
+// FloodLevelManager
+//
+@PointClass base(BaseProperties_bluebit_flood) = flood_level_manager : ""
+[
+	water_height(float) : "Water Height" : 0 : "How much the water should rise when flooding"
+	flood_speed(float) : "Flood Speed" : 0 : "How fast should the water rise"
+	flood_time(float) : "Flooding Time" : 0 : "How long should the flooding/draining rounds be"
+]
+

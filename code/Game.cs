@@ -7,6 +7,8 @@ partial class FloodGame : Game
 {
 	public static FloodGame Instance { get; set; }
 
+	[Net] public bool WaterDamageEnabled { get; set; } = true;
+
 	public FloodGame()
 	{
 		Instance = this;
@@ -116,4 +118,11 @@ partial class FloodGame : Game
 	{
 		Map.Reset( DefaultCleanupFilter );
 	}
+
+	[AdminCmd("flood_water_damage")]
+	public static void SetWaterDamage(bool state)
+	{
+		Instance.WaterDamageEnabled = state;
+	}
+
 }
