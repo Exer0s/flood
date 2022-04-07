@@ -11,9 +11,16 @@ public class PostRound : GameRound
 	public override float RoundDuration => 15f;
 	public override string NextRound => "Build!";
 
+	public FloodLevelManager levelmanager;
+
 	public override void OnRoundStart()
 	{
-		base.OnRoundStart();
+		levelmanager = Entity.All.OfType<FloodLevelManager>().FirstOrDefault();
+		var roundtime = levelmanager.FloodTime;
+		RoundEndTime = Time.Now + roundtime;
+		Log.Info( $"Starting Round {RoundName}" );
+		Log.Info( roundtime );
+		//base.OnRoundStart();
 	}
 
 	public override void OnRoundEnd()
@@ -32,7 +39,8 @@ public class PostRound : GameRound
 
 		foreach ( var water in Entity.All.OfType<WaterFunc>() )
 		{
-			water.Position -= Vector3.Up * 0.2f;
+			if ( water.Position.z <= FloodGame.DefaultWaterLevel ) return;
+			water.Position -= Vector3.Up * levelmanager.RiseSpeed;
 		}
 
 	}

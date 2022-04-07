@@ -205,7 +205,7 @@
 //
 // Pistol
 //
-@PointClass base(BaseProperties_bluebit_flood) = weapon_pistol : ""
+@PointClass base(BaseProperties_bluebit_flood) = flood_pistol : ""
 [
 	enable_shadows(boolean) { group = "Rendering" } : "Shadow Casting" : 1 : "Whether this entity should cast shadows or not"
 
@@ -215,7 +215,7 @@
 //
 // Shotgun
 //
-@PointClass base(BaseProperties_bluebit_flood) = weapon_shotgun : ""
+@PointClass base(BaseProperties_bluebit_flood) = flood_shotgun : ""
 [
 	enable_shadows(boolean) { group = "Rendering" } : "Shadow Casting" : 1 : "Whether this entity should cast shadows or not"
 
@@ -225,7 +225,7 @@
 //
 // SMG
 //
-@PointClass base(BaseProperties_bluebit_flood) = weapon_smg : ""
+@PointClass base(BaseProperties_bluebit_flood) = flood_smg : ""
 [
 	enable_shadows(boolean) { group = "Rendering" } : "Shadow Casting" : 1 : "Whether this entity should cast shadows or not"
 

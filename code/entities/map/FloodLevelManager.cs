@@ -8,6 +8,12 @@ using Sandbox;
 [Library("flood_level_manager")]
 public class FloodLevelManager : Entity
 {
+
+	public FloodLevelManager()
+	{
+		Transmit = TransmitType.Always;
+	}
+
 	[Property( "water_height", "Water Height", "How much the water should rise when flooding" )]
 	public float WaterHeight { get; set; }
 	[Property( "flood_speed", "Flood Speed", "How fast should the water rise" )]

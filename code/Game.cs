@@ -8,6 +8,7 @@ partial class FloodGame : Game
 	public static FloodGame Instance { get; set; }
 
 	[Net] public bool WaterDamageEnabled { get; set; } = true;
+	public static float DefaultWaterLevel { get; set; } = -5f;
 
 	public FloodGame()
 	{
@@ -24,7 +25,12 @@ partial class FloodGame : Game
 	{
 		base.PostLevelLoaded();
 		if (IsServer)
-		StartRoundSystem();
+		{
+			StartRoundSystem();
+			var water = All.OfType<WaterFunc>().FirstOrDefault();
+			DefaultWaterLevel = water.Position.z;
+		}
+		
 	}
 
 
