@@ -165,6 +165,9 @@ public partial class PhysGun : Carriable
 
 		if ( !tr.Hit || !tr.Entity.IsValid() || tr.Entity.IsWorld || tr.StartedSolid ) return;
 
+		var fp = owner as FloodPlayer;
+		if (!fp.Team.Members.Contains(tr.Entity.Owner)) return;
+
 		var rootEnt = tr.Entity.Root;
 		var body = tr.Body;
 

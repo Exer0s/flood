@@ -49,6 +49,8 @@
 				if ( !tr.Hit || !tr.Entity.IsValid() )
 					return;
 
+				if ( !tr.Entity.IsWorld && !CanManipulate( tr.Entity, Owner as FloodPlayer ) ) return;
+
 				CreateHitEffects( tr.EndPosition );
 
 				if ( tr.Entity is LightEntity )

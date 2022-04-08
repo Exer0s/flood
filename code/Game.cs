@@ -69,7 +69,8 @@ partial class FloodGame : Game
 		{
 			Position = tr.EndPosition + Vector3.Down * model.PhysicsBounds.Mins.z,
 			Rotation = modelRotation,
-			Model = model
+			Model = model,
+			Owner = owner
 		};
 
 		// Let's make sure physics are ready to go instead of waiting

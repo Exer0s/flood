@@ -80,6 +80,9 @@ partial class Tool : Carriable
 	{
 	}
 
+
+
+
 	[Event.Frame]
 	public void OnFrame()
 	{
@@ -130,5 +133,12 @@ namespace Sandbox.Tools
 		{
 			Parent?.CreateHitEffects( pos );
 		}
+
+		public virtual bool CanManipulate( Entity ent, FloodPlayer owner )
+		{
+			if ( !owner.Team.Members.Contains( ent.Owner as FloodPlayer ) ) return false;
+			else return true;
+		}
+
 	}
 }

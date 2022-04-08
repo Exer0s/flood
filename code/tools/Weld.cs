@@ -22,6 +22,8 @@
 				if ( !tr.Hit || !tr.Body.IsValid() || !tr.Entity.IsValid() || tr.Entity.IsWorld )
 					return;
 
+				if ( !CanManipulate( tr.Entity, Owner as FloodPlayer ) ) return;
+
 				if ( tr.Entity.PhysicsGroup == null || tr.Entity.PhysicsGroup.BodyCount > 1 )
 					return;
 

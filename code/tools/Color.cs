@@ -26,6 +26,8 @@ namespace Sandbox.Tools
 				if ( !tr.Hit || !tr.Entity.IsValid() )
 					return;
 
+				if ( !CanManipulate( tr.Entity, Owner as FloodPlayer ) ) return;
+
 				if ( tr.Entity is not ModelEntity modelEnt )
 					return;
 
