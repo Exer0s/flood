@@ -14,6 +14,7 @@ public partial class BaseTeam : Entity
 
 	[Net] public IList<FloodPlayer> Members { get; set; } = new List<FloodPlayer>();
 
+	[Net] public string TeamTag { get; set; }
 	public override void Spawn()
 	{
 		base.Spawn();
@@ -25,6 +26,7 @@ public partial class BaseTeam : Entity
 		TeamName = $"{ownerclient.Name}'s Team";
 		TeamOwner = owner;
 		Members.Add( owner );
+		TeamTag = $"{ownerclient.Name}{All.OfType<BaseTeam>().Count()}";
 		Log.Info( $"Initialized Team {TeamName}" );
 	}
 

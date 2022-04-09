@@ -3,7 +3,7 @@
 	data = 
 	{
 		title = "SMG"
-		weapon = "weapon_smg"
+		weapon = "flood_smg"
 		icon = ""
 		cost = 50
 	}

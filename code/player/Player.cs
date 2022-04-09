@@ -61,7 +61,7 @@ public partial class FloodPlayer : Player
 		Spectating = false;
 		SetModel( "models/citizen/citizen.vmdl" );
 
-		Controller = new WalkController();
+		Controller = new FloodWalkController();
 		Animator = new StandardPlayerAnimator();
 
 		if ( DevController is NoclipController )
@@ -164,7 +164,7 @@ public partial class FloodPlayer : Player
 	{
 		base.Simulate( cl );
 
-		if (LocalTeam == null && Client != null && IsServer)
+		if ( LocalTeam == null && Client != null && IsServer )
 		{
 			var team = new BaseTeam();
 			team.InitTeam( this, Client );
