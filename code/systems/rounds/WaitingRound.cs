@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Sandbox;
 
-public class WaitingRound : GameRound
+public partial class WaitingRound : GameRound
 {
 	public override string RoundName => "Waiting...";
 	public override float RoundDuration => 0f;
@@ -18,10 +18,9 @@ public class WaitingRound : GameRound
 
 	public override void OnRoundEnd()
 	{
+		FloodGame.Instance.CleanDoorPanels();
 		Map.Reset( FloodGame.DefaultCleanupFilter );
 		base.OnRoundEnd();
 	}
-
-
 
 }

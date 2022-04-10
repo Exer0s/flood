@@ -38,6 +38,10 @@ public class BuildingRound : GameRound
 	{
 		Log.Info( Players.Count );
 		foreach ( var player in Players ) player.RemoveWeapons();
+		/*foreach ( var door in Entity.All.OfType<FloodDoor>() )
+		{
+			door.ResetDoor();
+		}*/
 		base.OnRoundEnd();
 	}
 

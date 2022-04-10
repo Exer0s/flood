@@ -1,0 +1,27 @@
+﻿DoorPanel {
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+
+    .avatar {
+        width: 128px;
+        height: 128px;
+        background-size: contain;
+        border-radius: 100%;
+        border: 3px, white;
+    }
+
+    .toplabel {
+        color: white;
+        font-family: Poppins;
+        font-weight: bolder;
+        font-size: 40px;
+    }
+
+    .bottomlabel {
+        color: white;
+        font-family: Poppins;
+        font-weight: bolder;
+        font-size: 40px;
+    }
+}

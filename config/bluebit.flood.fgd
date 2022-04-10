@@ -237,6 +237,9 @@
 //
 @PointClass base(BaseProperties_bluebit_flood) = flood_door : ""
 [
+	position_offset(vector) : "UI Position Offset" :  : "Offset the UI Position"
+	rotation_offset(vector) : "UI Rotation Offset" :  : "Offset the UI rotation (pitch, yaw, roll)"
+	ui_scale(float) : "UI Scale" : "4" : "Scale of the UI"
 	enable_shadows(boolean) { group = "Rendering" } : "Shadow Casting" : 1 : "Whether this entity should cast shadows or not"
 
 	input SetColor(string) : "Sets the color of this entity. Format is '255 255 255 255'."

@@ -46,6 +46,18 @@ partial class FloodGame : Game
 		base.OnDestroy();
 	}
 
+	[ClientRpc]
+	public void CleanDoorPanels()
+	{
+		foreach ( var panel in DoorPanel.DoorPanels )
+		{
+			panel.Delete();
+		}
+
+		DoorPanel.DoorPanels.Clear();
+
+	}
+
 	[ServerCmd( "spawn" )]
 	public static void Spawn( string modelname, float health )
 	{

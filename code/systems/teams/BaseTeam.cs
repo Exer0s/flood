@@ -15,6 +15,7 @@ public partial class BaseTeam : Entity
 	[Net] public IList<FloodPlayer> Members { get; set; } = new List<FloodPlayer>();
 
 	[Net] public string TeamTag { get; set; }
+	[Net] public FloodDoor ClaimedDoor { get; set; }
 	public override void Spawn()
 	{
 		base.Spawn();
