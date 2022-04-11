@@ -18,7 +18,6 @@ public partial class WaitingRound : GameRound
 
 	public override void OnRoundEnd()
 	{
-		FloodGame.Instance.CleanDoorPanels();
 		Map.Reset( FloodGame.DefaultCleanupFilter );
 		base.OnRoundEnd();
 	}

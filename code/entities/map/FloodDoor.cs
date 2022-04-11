@@ -71,6 +71,20 @@ public partial class FloodDoor: ModelEntity, IUse
 		base.ClientSpawn();
 	}
 
+	protected override void OnDestroy()
+	{
+		DestroyUI();
+		base.OnDestroy();
+	}
+
+	[ClientRpc]
+	public void DestroyUI()
+	{
+		panel.Delete();
+	}
+
+
+
 	[ClientRpc]
 	public void SetPanelInfo()
 	{
