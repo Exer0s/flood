@@ -31,6 +31,9 @@ public class BuildingRound : GameRound
 				player.Inventory.Add( new Tool(), false );
 			}
 		}
+
+		if ( FloodLevelManager.Instance != null ) FloodLevelManager.Instance.OnBuildStart.Fire(FloodGame.Instance);
+
 		//base.OnRoundStart();
 	}
 	
@@ -42,6 +45,9 @@ public class BuildingRound : GameRound
 		{
 			door.ResetDoor();
 		}*/
+
+		if ( FloodLevelManager.Instance != null ) FloodLevelManager.Instance.OnBuildEnd.Fire( FloodGame.Instance );
+
 		base.OnRoundEnd();
 	}
 

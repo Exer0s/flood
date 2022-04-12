@@ -23,11 +23,17 @@ public class FightingRound : GameRound
 		{
 			player.GivePurchasedWeapons();
 		}
+
+		if ( FloodLevelManager.Instance != null ) FloodLevelManager.Instance.OnFightStart.Fire( FloodGame.Instance );
+
 		//base.OnRoundStart();
 	}
 
 	public override void OnRoundEnd()
 	{
+
+		if ( FloodLevelManager.Instance != null ) FloodLevelManager.Instance.OnFightEnd.Fire( FloodGame.Instance );
+
 		base.OnRoundEnd();
 	}
 

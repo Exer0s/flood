@@ -6,12 +6,16 @@ using System.Threading.Tasks;
 using Sandbox;
 
 [Library("flood_level_manager")]
-public class FloodLevelManager : Entity
+public partial class FloodLevelManager : Entity
 {
 
-	public FloodLevelManager()
+	public static FloodLevelManager Instance;
+
+	public override void Spawn()
 	{
 		Transmit = TransmitType.Always;
+		Instance = this;
+		base.Spawn();
 	}
 
 	[Property( "water_height", "Water Height", "How much the water should rise when flooding" )]
@@ -21,4 +25,12 @@ public class FloodLevelManager : Entity
 	[Property( "flood_time", "Flooding Time", "How long should the flooding/draining rounds be" )]
 	public float FloodTime { get; set; }
 
+	public Output OnBuildStart { get; set; }
+	public Output OnBuildEnd { get; set; }
+	public Output OnFloodStart { get; set; }
+	public Output OnFloodEnd { get; set; }
+	public Output OnFightStart { get; set; }
+	public Output OnFightEnd { get; set; }
+	public Output OnDrainStart { get; set; }
+	public Output OnDrainEnd { get; set; }
 }

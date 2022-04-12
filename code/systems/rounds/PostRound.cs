@@ -20,6 +20,9 @@ public class PostRound : GameRound
 		RoundEndTime = Time.Now + roundtime;
 		Log.Info( $"Starting Round {RoundName}" );
 		Log.Info( roundtime );
+
+		if ( FloodLevelManager.Instance != null ) FloodLevelManager.Instance.OnDrainStart.Fire( FloodGame.Instance );
+
 		//base.OnRoundStart();
 	}
 
@@ -30,6 +33,9 @@ public class PostRound : GameRound
 		{
 			player.OnKilled();
 		}
+
+		if ( FloodLevelManager.Instance != null ) FloodLevelManager.Instance.OnDrainEnd.Fire( FloodGame.Instance );
+
 		base.OnRoundEnd();
 	}
 

@@ -20,11 +20,17 @@ public partial class RisingRound : GameRound
 		RoundEndTime = Time.Now + roundtime;
 		Log.Info( $"Starting Round {RoundName}" );
 		Log.Info( roundtime );
+
+		if ( FloodLevelManager.Instance != null ) FloodLevelManager.Instance.OnFloodStart.Fire( FloodGame.Instance );
+
 		//base.OnRoundStart();
 	}
 
 	public override void OnRoundEnd()
 	{
+
+		if ( FloodLevelManager.Instance != null ) FloodLevelManager.Instance.OnFloodEnd.Fire( FloodGame.Instance );
+
 		base.OnRoundEnd();
 	}
 
