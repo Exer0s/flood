@@ -27,7 +27,7 @@ public class DoorPanel : WorldPanel
 	public void SetTeamInfo(BaseTeam team)
 	{
 		TeamAvatar = Add.Image( $"avatar:{team.TeamOwner.Client.PlayerId}", "avatar" );
-		TopLabel.Text = team.TeamName + "'s room";
+		TopLabel.Text = team.TeamName;
 		BottomLabel.Delete();
 	}
 

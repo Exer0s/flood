@@ -29,6 +29,7 @@ partial class Pistol : Weapon
 
 	public override void AttackPrimary()
 	{
+		base.AttackPrimary();
 		TimeSincePrimaryAttack = 0;
 		TimeSinceSecondaryAttack = 0;
 

@@ -64,6 +64,8 @@ public partial class Weapon : BaseWeapon, IUse
 		if ( IsReloading )
 			return;
 
+		if (CurrentClip >= ClipSize ) return;
+
 		TimeSinceReload = 0;
 		IsReloading = true;
 
