@@ -24,7 +24,7 @@ public partial class WeaponList : Panel
 			var btn = cell.Add.Button( weapon.Title );
 			btn.AddClass( "icon" );
 			btn.AddEventListener( "onclick", () => ConsoleSystem.Run( "spawn_weapon", weapon.Weapon ) );
-			//btn.Style.BackgroundImage = Texture.Load( FileSystem.Mounted, weapon.Icon, false );
+			btn.Style.BackgroundImage = Texture.Load( FileSystem.Mounted, weapon.Icon, false );
 		};
 
 		var weapons = WeaponAsset.All.OrderBy( x => x.Title ).ToArray();

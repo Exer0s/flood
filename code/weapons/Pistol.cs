@@ -8,6 +8,11 @@ partial class Pistol : Weapon
 	public override float PrimaryRate => 15.0f;
 	public override float SecondaryRate => 1.0f;
 
+	public override int ClipSize => 12;
+
+	public override string Icon => "ui/weapons/dm_pistol.png";
+
+
 	public TimeSince TimeSinceDischarge { get; set; }
 
 	public override void Spawn()

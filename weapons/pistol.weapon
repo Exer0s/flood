@@ -2,9 +2,9 @@
 {
 	data = 
 	{
-		title = "SMG"
-		weapon = "flood_smg"
-		icon = "ui/weapons/dm_smg.png"
-		cost = 50
+		title = "Pistol"
+		weapon = "flood_pistol"
+		icon = "ui/weapons/dm_pistol.png"
+		cost = 0
 	}
 }

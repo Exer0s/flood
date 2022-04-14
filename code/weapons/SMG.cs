@@ -11,6 +11,8 @@ partial class SMG : Weapon
 
 	public override int ClipSize => 25;
 
+	public override string Icon => "ui/weapons/dm_smg.png";
+
 	public override void Spawn()
 	{
 		base.Spawn();

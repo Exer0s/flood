@@ -8,6 +8,10 @@ partial class Shotgun : Weapon
 	public override float SecondaryRate => 1;
 	public override float ReloadTime => 0.5f;
 
+	public override int ClipSize => 6;
+
+	public override string Icon => "ui/weapons/dm_shotgun.png";
+
 	public override void Spawn()
 	{
 		base.Spawn();
