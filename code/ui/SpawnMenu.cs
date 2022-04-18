@@ -44,7 +44,6 @@ public partial class SpawnMenu : Panel
 			var tabs = right.Add.Panel( "tabs" );
 			{
 				tabs.Add.Button( "Tools" ).AddClass( "active" );
-				tabs.Add.Button( "Voting" );
 			}
 			var body = right.Add.Panel( "body" );
 			{

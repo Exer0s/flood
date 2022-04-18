@@ -9,6 +9,7 @@ partial class Pistol : Weapon
 	public override float SecondaryRate => 1.0f;
 
 	public override int ClipSize => 12;
+	public override float BloomAmount => 2.5f;
 
 	public override string Icon => "ui/weapons/dm_pistol.png";
 

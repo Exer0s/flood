@@ -1,0 +1,73 @@
+﻿FloodCrossPanel {
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    justify-content: center;
+    align-items: center;
+
+    .crosshaircenter {
+        transition: all 0.1s ease-in-out;
+        width: 3px;
+        height: 3px;
+        background-color: white;
+        border-radius: 100%;
+    }
+
+    .crosscirclepanel {
+        position: absolute;
+        height: 100%;
+        width: 100%;
+        justify-content: center;
+        align-items: center;
+
+        .crosshaircircle {
+            //transition: all 0.1s none;
+            width: 3px;
+            height: 3px;
+            border: 1px, white;
+            border-radius: 100%;
+        }
+    }
+
+
+
+    .hitmarkerpanel {
+        position: absolute;
+        height: 100%;
+        width: 100%;
+        justify-content: center;
+        align-items: center;
+
+        .hitmarker {
+            height: 15px;
+            width: 15px;
+            opacity: 0;
+            background-size: contain;
+            transition: all 0.1s ease-in-out;
+
+            &.active {
+                opacity: 1;
+            }
+        }
+    }
+
+    .phitmarkerpanel {
+        position: absolute;
+        height: 100%;
+        width: 100%;
+        justify-content: center;
+        align-items: center;
+
+        .phitmarker {
+            height: 30px;
+            width: 30px;
+            opacity: 0;
+            background-size: contain;
+            transition: all 0.1s ease-in-out;
+
+            &.active {
+                opacity: 1;
+            }
+        }
+    }
+}

@@ -20,6 +20,7 @@ public partial class Weapon : BaseWeapon, IUse
 	public int CurrentClip { get; set; }
 
 	public virtual int ClipSize { get; set; }
+	public virtual float BloomAmount { get; set; }
 
 
 	public override void Spawn()
@@ -48,6 +49,7 @@ public partial class Weapon : BaseWeapon, IUse
 
 	public override void AttackPrimary()
 	{
+		CrosshairBloom( BloomAmount );
 		CurrentClip--;
 		base.AttackPrimary();
 	}
@@ -201,12 +203,22 @@ public partial class Weapon : BaseWeapon, IUse
 					.WithWeapon( this );
 				if (tr.Entity is FloodPlayer player)
 				{
-					//player.DoKnockback();
+					player.GetShot(damageInfo);
+					
 				} else 
 				tr.Entity.TakeDamage( damageInfo );
 			}
 		}
 	}
+
+	[ClientRpc]
+	public void CrosshairBloom(float bloomamount)
+	{
+		Log.Info( "bloom" + bloomamount );
+		if ( FloodCrossPanel.Instance.CircleSpread >= 3 ) FloodCrossPanel.Instance.CircleSpread += bloomamount / 3;
+		else FloodCrossPanel.Instance.CircleSpread += bloomamount;
+	}
+
 
 	/// <summary>
 	/// Shoot a single bullet from owners view point

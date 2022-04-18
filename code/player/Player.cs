@@ -129,6 +129,15 @@ public partial class FloodPlayer : Player
 		base.TakeDamage( info );
 	}
 
+
+	public void GetShot(DamageInfo info)
+	{
+		var attacker = info.Attacker as FloodPlayer;
+		attacker.ShowPlayerHitmarker();
+
+	}
+
+
 	[ClientRpc]
 	public void TookDamage( DamageFlags damageFlags, Vector3 forcePos, Vector3 force )
 	{
@@ -286,5 +295,21 @@ public partial class FloodPlayer : Player
 		base.Touch( other );
 	}
 
+	[ClientRpc]
+	public void ShowHitmarker(float dmg)
+	{
+		FloodCrossPanel.Instance.OnHit( dmg );
+	}
+
+	[ClientRpc]
+	public void ShowPlayerHitmarker()
+	{
+		FloodCrossPanel.Instance.OnHitPlayer();
+	}
+
+	public void DidDamage( DamageInfo info )
+	{
+		ShowHitmarker(info.Damage);
+	}
 
 }

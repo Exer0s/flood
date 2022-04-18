@@ -11,6 +11,9 @@ partial class SMG : Weapon
 
 	public override int ClipSize => 25;
 
+	public override float BloomAmount => 1.4f;
+
+
 	public override string Icon => "ui/weapons/dm_smg.png";
 
 	public override void Spawn()

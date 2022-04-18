@@ -6,6 +6,6 @@
 		model = resource:"models/citizen_props/crate01.vmdl"
 		icon = "props/crate/crate.png"
 		cost = 15
-		health = 25.0
+		health = 50.0
 	}
 }

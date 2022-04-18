@@ -10,6 +10,8 @@ partial class Shotgun : Weapon
 
 	public override int ClipSize => 6;
 
+	public override float BloomAmount => 3f;
+
 	public override string Icon => "ui/weapons/dm_shotgun.png";
 
 	public override void Spawn()

@@ -24,7 +24,8 @@ public partial class FloodHUD : HudEntity<RootPanel>
 	public void AddPanels()
 	{
 		RootPanel.AddChild<NameTags>();
-		RootPanel.AddChild<CrosshairCanvas>();
+		//RootPanel.AddChild<CrosshairCanvas>();
+		RootPanel.AddChild<FloodCrossPanel>();
 		RootPanel.AddChild<FloodChat>();
 		RootPanel.AddChild<VoiceList>();
 		RootPanel.AddChild<KillFeed>();

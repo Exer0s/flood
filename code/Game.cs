@@ -65,7 +65,7 @@ partial class FloodGame : Game
 		if ( model == null || model.IsError )
 			return;
 
-		var ent = new Prop
+		var ent = new FloodProp
 		{
 			Position = tr.EndPosition + Vector3.Down * model.PhysicsBounds.Mins.z,
 			Rotation = modelRotation,
