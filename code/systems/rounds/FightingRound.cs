@@ -21,7 +21,14 @@ public class FightingRound : GameRound
 
 		foreach ( var player in Players )
 		{
-			player.GivePurchasedWeapons();
+			if (player.PurchasedWeapons.Count > 0)
+			{
+				player.GivePurchasedWeapons();
+			} else
+			{
+				player.Inventory.Add( new Pistol(), true );
+			}
+			
 		}
 
 		if ( FloodLevelManager.Instance != null ) FloodLevelManager.Instance.OnFightStart.Fire( FloodGame.Instance );

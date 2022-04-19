@@ -46,6 +46,7 @@ public partial class FloodCrossPanel : Panel
 	{
 		hit = 0;
 		Hitmarker.SetClass( "active", true );
+		new HitPoint( dmg, Vector3.Zero, this );
 	}
 
 	public void OnHitPlayer()
@@ -54,6 +55,8 @@ public partial class FloodCrossPanel : Panel
 		PlayerHitmarker.SetClass( "active", true );
 	}
 
+	public float lerpSpread;
+
 	public override void Tick()
 	{
 		if ( hit > 0.1f ) Hitmarker.SetClass( "active", false );
@@ -61,9 +64,12 @@ public partial class FloodCrossPanel : Panel
 
 		if ( CircleSpread > 1 ) CircleSpread -= Time.Delta * 5;
 		else CircleSpread = 1;
-		CrosshairCircle.Style.Width = Length.Pixels(3 * CircleSpread);
-		CrosshairCircle.Style.Height = Length.Pixels(3 * CircleSpread);
-		Log.Info( CircleSpread );
+
+		lerpSpread = lerpSpread.LerpTo( CircleSpread, Time.Delta * 50 );
+
+		CrosshairCircle.Style.Width = Length.Pixels(3 * lerpSpread );
+		CrosshairCircle.Style.Height = Length.Pixels(3 * lerpSpread );
+		Log.Info( lerpSpread );
 		base.Tick();
 	}
 
@@ -73,15 +79,28 @@ public class HitPoint : Panel
 {
 	public HitPoint( float amount, Vector3 pos, Panel parent )
 	{
-		StyleSheet.Load( "ui/DamageNumber.scss" );
+		StyleSheet.Load( "ui/HitPoint.scss" );
 		Parent = parent;
 		_ = Lifetime();
-		Add.Label( amount.ToString(), "number" );
+		var number = Add.Label( amount.ToString(), "number" );
+		number.SetClass( "die", true );
 	}
 
 	async Task Lifetime()
 	{
-		await Task.Delay( 200 );
+		await Task.Delay( 750 );
 		Delete();
 	}
+
+	public float StartingTop = 10f;
+	public float StartingLeft = 10f;
+	public float StartingOpacity = 255f;
+
+	public override void Tick()
+	{
+		Style.Top = Length.Pixels( StartingTop += Rand.Float(0.5f, 1f ) );
+		Style.Left = Length.Pixels( StartingLeft += Rand.Float( 0.2f, 3f ) );
+		base.Tick();
+	}
+
 }

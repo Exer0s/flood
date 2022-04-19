@@ -11,6 +11,8 @@ partial class Shotgun : Weapon
 	public override int ClipSize => 6;
 
 	public override float BloomAmount => 3f;
+	public override float SecondaryBloomAmount => 5f;
+	public override float SecondaryAmmoTaken => 2f;
 
 	public override string Icon => "ui/weapons/dm_shotgun.png";
 
@@ -58,6 +60,7 @@ partial class Shotgun : Weapon
 		// Shoot the bullets
 		//
 		ShootBullets( 20, 0.4f, 20.0f, 8.0f, 3.0f );
+		base.AttackSecondary();
 	}
 
 	[ClientRpc]

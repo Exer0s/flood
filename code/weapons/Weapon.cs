@@ -21,6 +21,8 @@ public partial class Weapon : BaseWeapon, IUse
 
 	public virtual int ClipSize { get; set; }
 	public virtual float BloomAmount { get; set; }
+	public virtual float SecondaryBloomAmount { get; set; }
+	public virtual float SecondaryAmmoTaken { get; set; }
 
 
 	public override void Spawn()
@@ -52,6 +54,13 @@ public partial class Weapon : BaseWeapon, IUse
 		CrosshairBloom( BloomAmount );
 		CurrentClip--;
 		base.AttackPrimary();
+	}
+
+	public override void AttackSecondary()
+	{
+		CrosshairBloom( SecondaryBloomAmount );
+		CurrentClip -= SecondaryAmmoTaken.CeilToInt();
+		base.AttackSecondary();
 	}
 
 	public override void ActiveStart( Entity ent )
