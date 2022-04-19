@@ -11,6 +11,14 @@ public partial class FloodProp : Prop
 		{
 			player.DidDamage(info);
 		}
+
 		base.TakeDamage( info );
 	}
+
+	public override void OnKilled()
+	{
+		if (Owner is FloodPlayer player) player.SpawnedProps.Remove( this );
+		base.OnKilled();
+	}
+
 }
