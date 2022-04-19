@@ -54,11 +54,18 @@ partial class FloodGame : Game
 		if ( ConsoleSystem.Caller == null )
 			return;
 
-		if ( owner is FloodPlayer player )
+
+		if (Instance.GameRound is BuildingRound)
 		{
-			if ( player.Money <= cost ) return;
-			else player.Money -= cost;
+			if ( owner is FloodPlayer player )
+			{
+				if ( player.Money <= cost ) return;
+				else player.Money -= cost;
+			}
 		}
+
+		if ( Instance.GameRound is not BuildingRound && Instance.GameRound is not WaitingRound ) return;
+	
 
 
 	var tr = Trace.Ray( owner.EyePosition, owner.EyePosition + owner.EyeRotation.Forward * 500 )
@@ -83,12 +90,30 @@ partial class FloodGame : Game
 		// Let's make sure physics are ready to go instead of waiting
 		ent.SetupPhysicsFromModel( PhysicsMotionType.Dynamic );
 		ent.Health = health;
+
+		var p = owner as FloodPlayer;
+		p.SpawnedProps.Add( ent, cost );
+
 		// If there's no physics model, create a simple OBB
 		if ( !ent.PhysicsBody.IsValid() )
 		{
 			ent.SetupPhysicsFromOBB( PhysicsMotionType.Dynamic, ent.CollisionBounds.Mins, ent.CollisionBounds.Maxs );
 		}
 	}
+
+	[ServerCmd("undo")]
+	public static void UndoProp()
+	{
+		var owner = ConsoleSystem.Caller?.Pawn as FloodPlayer;
+		if ( Instance.GameRound is FightingRound || Instance.GameRound is PostRound || Instance.GameRound is RisingRound ) return;
+		if ( owner.SpawnedProps.Count <= 0 ) return;
+		var deletingprop = owner.SpawnedProps.First();
+		if (Instance.GameRound is BuildingRound)
+		owner.Money += deletingprop.Value;
+		owner.SpawnedProps.Remove( deletingprop.Key );
+		deletingprop.Key.Delete();
+	}
+
 
 	[ServerCmd( "spawn_weapon" )]
 	public static void SpawnWeapon( string weaponname )

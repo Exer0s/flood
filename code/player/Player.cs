@@ -19,6 +19,8 @@ public partial class FloodPlayer : Player
 	[Net] public BaseTeam Team { get; set; }
 	[Net] public BaseTeam LocalTeam { get; set; }
 
+	[Net] public Dictionary<FloodProp, float> SpawnedProps { get; set; } = new Dictionary<FloodProp, float>();
+
 	/// <summary>
 	/// The clothing container is what dresses the citizen
 	/// </summary>
@@ -195,6 +197,12 @@ public partial class FloodPlayer : Player
 
 		TickPlayerUse();
 		SimulateActiveChild( cl, ActiveChild );
+
+		if (Input.Pressed(InputButton.Walk))
+		{
+			if (IsServer)
+			ConsoleSystem.Run( "undo" );
+		}
 
 		if ( Input.Pressed( InputButton.View ) )
 		{

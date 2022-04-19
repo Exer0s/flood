@@ -18,6 +18,10 @@ public partial class WaitingRound : GameRound
 
 	public override void OnRoundEnd()
 	{
+		foreach ( var player in Entity.All.OfType<FloodPlayer>() )
+		{
+			player.SpawnedProps.Clear();
+		}
 		Map.Reset( FloodGame.DefaultCleanupFilter );
 		base.OnRoundEnd();
 	}

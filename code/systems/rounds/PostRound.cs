@@ -28,6 +28,10 @@ public class PostRound : GameRound
 
 	public override void OnRoundEnd()
 	{
+		foreach ( var player in Entity.All.OfType<FloodPlayer>() )
+		{
+			player.SpawnedProps.Clear();
+		}
 		Map.Reset( FloodGame.DefaultCleanupFilter );
 		foreach ( var player in Players )
 		{
