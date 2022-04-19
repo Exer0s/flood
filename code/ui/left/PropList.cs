@@ -25,7 +25,7 @@ public partial class PropList : Panel
 		{
 			var prop = (PropAsset)data;
 			var panel = cell.Add.Panel( "icon" );
-			panel.AddEventListener( "onclick", () => ConsoleSystem.Run( "spawn", prop.Model, prop.Health ) );
+			panel.AddEventListener( "onclick", () => ConsoleSystem.Run( "spawn", prop.Model, prop.Health, prop.Cost ) );
 			panel.Style.BackgroundImage = Texture.Load( FileSystem.Mounted, prop.Icon, false );
 		};
 		foreach ( var prop in PropAsset.All )

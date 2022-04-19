@@ -47,14 +47,21 @@ partial class FloodGame : Game
 	}
 
 	[ServerCmd( "spawn" )]
-	public static void Spawn( string modelname, float health )
+	public static void Spawn( string modelname, float health, float cost )
 	{
 		var owner = ConsoleSystem.Caller?.Pawn;
 
 		if ( ConsoleSystem.Caller == null )
 			return;
 
-		var tr = Trace.Ray( owner.EyePosition, owner.EyePosition + owner.EyeRotation.Forward * 500 )
+		if ( owner is FloodPlayer player )
+		{
+			if ( player.Money <= cost ) return;
+			else player.Money -= cost;
+		}
+
+
+	var tr = Trace.Ray( owner.EyePosition, owner.EyePosition + owner.EyeRotation.Forward * 500 )
 			.UseHitboxes()
 			.Ignore( owner )
 			.Run();

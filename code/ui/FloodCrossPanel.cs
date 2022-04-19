@@ -69,7 +69,6 @@ public partial class FloodCrossPanel : Panel
 
 		CrosshairCircle.Style.Width = Length.Pixels(3 * lerpSpread );
 		CrosshairCircle.Style.Height = Length.Pixels(3 * lerpSpread );
-		Log.Info( lerpSpread );
 		base.Tick();
 	}
 
