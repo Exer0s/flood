@@ -107,7 +107,7 @@ partial class FloodGame : Game
 		var owner = ConsoleSystem.Caller?.Pawn as FloodPlayer;
 		if ( Instance.GameRound is FightingRound || Instance.GameRound is PostRound || Instance.GameRound is RisingRound ) return;
 		if ( owner.SpawnedProps.Count <= 0 ) return;
-		var deletingprop = owner.SpawnedProps.First();
+		var deletingprop = owner.SpawnedProps.Last();
 		if (Instance.GameRound is BuildingRound)
 		owner.Money += deletingprop.Value;
 		owner.SpawnedProps.Remove( deletingprop.Key );

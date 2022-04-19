@@ -170,6 +170,14 @@ public partial class FloodPlayer : Player
 		TeamsTab.Instance.ShowYourPanel();
 	}
 
+	public override void BuildInput( InputBuilder input )
+	{
+		if ( Input.Pressed( InputButton.Walk ) )
+		{
+			ConsoleSystem.Run( "undo" );
+		}
+		base.BuildInput( input );
+	}
 
 	public override void Simulate( Client cl )
 	{
@@ -198,11 +206,7 @@ public partial class FloodPlayer : Player
 		TickPlayerUse();
 		SimulateActiveChild( cl, ActiveChild );
 
-		if (Input.Pressed(InputButton.Walk))
-		{
-			if (IsServer)
-			ConsoleSystem.Run( "undo" );
-		}
+	
 
 		if ( Input.Pressed( InputButton.View ) )
 		{
