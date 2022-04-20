@@ -5,7 +5,7 @@ using System.Collections.Generic;
 public partial class FloodPlayer : Player
 {
 	[Net]
-	public float Money { get; set; } = 250f;
+	public float Money { get; set; } = 5000f;
 	[Net]
 	public float maxHealth { get; set; } = 100f;
 
