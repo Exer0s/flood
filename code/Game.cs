@@ -29,6 +29,9 @@ partial class FloodGame : Game
 			StartRoundSystem();
 			var water = All.OfType<WaterFunc>().FirstOrDefault();
 			DefaultWaterLevel = water.Position.z;
+
+			if ( All.OfType<FloodLevelManager>().FirstOrDefault() is null ) Log.Error( "Map not supported" );
+
 		}
 		
 	}
