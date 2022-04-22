@@ -83,16 +83,16 @@ partial class FloodGame
 		}
 		GameRound.OnRoundStart();
 
-		SetRoundNameUI();
+		SetRoundNameUI(GameRound.RoundName);
 		OnSecond();
 		Log.Info( "Progressed Round to " + GameRound.RoundName );
 	}
 
 
 	[ClientRpc]
-	public void SetRoundNameUI()
+	public void SetRoundNameUI(string name)
 	{
-		Timer.Instance.RoundName.Text = GameRound.RoundName;
+		Timer.Instance.RoundName.Text = name;
 		Timer.Instance.GameTime.Text = GameTime;
 	}
 

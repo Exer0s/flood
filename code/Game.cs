@@ -117,6 +117,37 @@ partial class FloodGame : Game
 		deletingprop.Key.Delete();
 	}
 
+	public void CheckAliveTeams()
+	{
+		int aliveteams = 0;
+		foreach ( var team in All.OfType<BaseTeam>() )
+		{
+			if ( team.CheckAlive() ) aliveteams++;
+		}
+
+		if (aliveteams <= 1)
+		{
+			//win stuff here
+			if ( GameRound is FightingRound ) ProgressRound();
+			if ( GameRound is RisingRound )
+			{
+				TimeOffset = Time.Now;
+				GameRound.OnRoundEnd();
+				GameRound = GameRounds["Draining"];
+				GameRound.Players.Clear();
+				foreach ( var player in All.OfType<FloodPlayer>() )
+				{
+					GameRound.Players.Add( player );
+				}
+				GameRound.OnRoundStart();
+
+				SetRoundNameUI(To.Everyone, GameRound.RoundName);
+				OnSecond();
+			}
+		}
+
+	}
+
 
 	[ServerCmd( "spawn_weapon" )]
 	public static void SpawnWeapon( string weaponname )

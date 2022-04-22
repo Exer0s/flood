@@ -73,6 +73,17 @@ public partial class BaseTeam : Entity
 		player.RefreshTeamPanel( To.Everyone );
 	}
 
+
+	public bool CheckAlive()
+	{
+		foreach ( var member in Members )
+		{
+			if ( !member.Spectating && member.LifeState != LifeState.Dead ) return true;
+		}
+		return false;
+	}
+
+
 	public void UpdateName(string name)
 	{
 		TeamName = name;

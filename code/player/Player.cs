@@ -95,6 +95,12 @@ public partial class FloodPlayer : Player
 			PlaySound( "kersplat" );
 		}
 
+		if (IsServer)
+		{
+			FloodGame.Instance.CheckAliveTeams();
+		}
+
+
 		if (!Spectating)
 		{
 			BecomeRagdollOnClient( Velocity, lastDamage.Flags, lastDamage.Position, lastDamage.Force, GetHitboxBone( lastDamage.HitboxIndex ) );
