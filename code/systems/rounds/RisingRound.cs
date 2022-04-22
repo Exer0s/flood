@@ -21,6 +21,26 @@ public partial class RisingRound : GameRound
 		Log.Info( $"Starting Round {RoundName}" );
 		Log.Info( roundtime );
 
+		foreach ( var prop in Entity.All.OfType<FloodProp>() )
+		{
+			var rootEnt = prop.Root;
+			if ( !rootEnt.IsValid() ) return;
+
+			var physicsGroup = rootEnt.PhysicsGroup;
+			if ( physicsGroup == null ) return;
+
+			for ( int i = 0; i < physicsGroup.BodyCount; ++i )
+			{
+				var body = physicsGroup.GetBody( i );
+				if ( !body.IsValid() ) continue;
+
+				if ( body.BodyType == PhysicsBodyType.Static )
+				{
+					body.BodyType = PhysicsBodyType.Dynamic;
+				}
+			}
+		}
+
 		if ( FloodLevelManager.Instance != null ) FloodLevelManager.Instance.OnFloodStart.Fire( FloodGame.Instance );
 
 		//base.OnRoundStart();
