@@ -24,10 +24,12 @@ public partial class PropList : Panel
 		Canvas.OnCreateCell = ( cell, data ) =>
 		{
 			var prop = (PropAsset)data;
-			var panel = cell.Add.Panel( "icon" );
-			panel.AddEventListener( "onclick", () => ConsoleSystem.Run( "spawn", prop.Model, prop.Health, prop.Cost ) );
-			panel.Style.BackgroundImage = Texture.Load( FileSystem.Mounted, prop.Icon, false );
+			var btn = cell.Add.Button( $"${prop.Cost}" );
+			btn.AddClass( "icon" );
+			btn.AddEventListener( "onclick", () => ConsoleSystem.Run( "spawn", prop.Model, prop.Health, prop.Cost ) );
+			btn.Style.BackgroundImage = Texture.Load( FileSystem.Mounted, prop.Icon, false );
 		};
+
 		foreach ( var prop in PropAsset.All )
 		{
 			Canvas.AddItem(prop);

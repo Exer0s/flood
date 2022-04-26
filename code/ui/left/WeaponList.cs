@@ -22,6 +22,7 @@ public partial class WeaponList : Panel
 		{
 			var weapon = (WeaponAsset)data;
 			var btn = cell.Add.Button( weapon.Title );
+			btn.Add.Label( $"${weapon.Cost}", "cost" );
 			btn.AddClass( "icon" );
 			btn.AddEventListener( "onclick", () => ConsoleSystem.Run( "spawn_weapon", weapon.Weapon ) );
 			btn.Style.BackgroundImage = Texture.Load( FileSystem.Mounted, weapon.Icon, false );
