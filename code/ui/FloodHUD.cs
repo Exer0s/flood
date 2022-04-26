@@ -36,6 +36,7 @@ public partial class FloodHUD : HudEntity<RootPanel>
 		RootPanel.AddChild<SpawnMenu>();
 		RootPanel.AddChild<Timer>();
 		RootPanel.AddChild<AmmoCounter>();
+		RootPanel.AddChild<PropHealthUI>();
 	}
 
 	public void DeletePanels()

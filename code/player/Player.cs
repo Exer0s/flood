@@ -212,7 +212,7 @@ public partial class FloodPlayer : Player
 		TickPlayerUse();
 		SimulateActiveChild( cl, ActiveChild );
 
-	
+		if ( IsClient ) CheckLookingProp();
 
 		if ( Input.Pressed( InputButton.View ) )
 		{

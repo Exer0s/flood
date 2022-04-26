@@ -5,6 +5,9 @@ using Sandbox;
 
 public partial class FloodProp : Prop
 {
+
+	[Net] public float maxHealth { get; set; }
+
 	public override void TakeDamage( DamageInfo info )
 	{
 		if (info.Attacker is FloodPlayer player)

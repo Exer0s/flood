@@ -93,7 +93,7 @@ partial class FloodGame : Game
 		// Let's make sure physics are ready to go instead of waiting
 		ent.SetupPhysicsFromModel( PhysicsMotionType.Dynamic );
 		ent.Health = health;
-
+		ent.maxHealth = health;
 		var p = owner as FloodPlayer;
 		p.SpawnedProps.Add( ent, cost );
 
