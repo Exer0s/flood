@@ -7,5 +7,6 @@
 		icon = "props/bin.png"
 		cost = 25
 		health = 100.0
+		destroypayout = 20.0
 	}
 }

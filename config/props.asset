@@ -7,6 +7,7 @@
 	model(resource:vmdl) : "Model" :  : ""
 	icon(string) { editor = "AssetBrowse(png)" } : "Icon" :  : ""
 	cost(integer) : "Cost" : 0 : ""
+	destroypayout(float) : "Destroy Payout" : 0 : ""
 	health(float) : "Health" : 0 : ""
 ]
 

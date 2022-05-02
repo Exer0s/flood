@@ -8,6 +8,8 @@ public partial class FloodProp : Prop
 
 	[Net] public float maxHealth { get; set; }
 
+	public float DestroyPayout { get; set; }
+
 	public override void TakeDamage( DamageInfo info )
 	{
 		if (info.Attacker is FloodPlayer player)
@@ -20,7 +22,16 @@ public partial class FloodProp : Prop
 
 	public override void OnKilled()
 	{
+		
 		if (Owner is FloodPlayer player) player.SpawnedProps.Remove( this );
+		if (LastAttacker is FloodPlayer attacker)
+		{
+			if ( LastAttacker != Owner )
+			{
+				if ( IsServer )
+					attacker.DestroyedProp( DestroyPayout );
+			}
+		}
 		base.OnKilled();
 	}
 

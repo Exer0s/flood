@@ -50,7 +50,7 @@ partial class FloodGame : Game
 	}
 
 	[ServerCmd( "spawn" )]
-	public static void Spawn( string modelname, float health, float cost )
+	public static void Spawn( string modelname, float health, float cost, float payout )
 	{
 		var owner = ConsoleSystem.Caller?.Pawn;
 
@@ -94,6 +94,7 @@ partial class FloodGame : Game
 		ent.SetupPhysicsFromModel( PhysicsMotionType.Dynamic );
 		ent.Health = health;
 		ent.maxHealth = health;
+		ent.DestroyPayout = payout;
 		var p = owner as FloodPlayer;
 		p.SpawnedProps.Add( ent, cost );
 

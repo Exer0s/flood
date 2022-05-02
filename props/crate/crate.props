@@ -7,5 +7,6 @@
 		icon = "props/crate/crate.png"
 		cost = 15
 		health = 50.0
+		destroypayout = 10.0
 	}
 }

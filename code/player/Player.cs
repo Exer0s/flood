@@ -330,4 +330,10 @@ public partial class FloodPlayer : Player
 		ShowHitmarker(info.Damage);
 	}
 
+	public void DestroyedProp(float payout)
+	{
+		//notification/something with money UI
+		Money += payout;
+	}
+
 }
