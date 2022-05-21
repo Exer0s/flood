@@ -22,8 +22,10 @@ public class CurrentTool : Panel
 
 		if ( tool != null )
 		{
-			Title.SetText( tool.ClassInfo.Title );
-			Description.SetText( tool.ClassInfo.Description );
+			var display = DisplayInfo.For( tool );
+
+			Title.SetText( display.Name );
+			Description.SetText( display.Description );
 		}
 	}
 

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Sandbox;
 using Sandbox.Component;
 
-[Library("flood_door")]
+[Spawnable]
 public partial class FloodDoor: ModelEntity, IUse
 {
 

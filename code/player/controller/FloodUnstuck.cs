@@ -41,7 +41,6 @@ public class FloodUnstuck
 		{
 			if ( BasePlayerController.Debug )
 			{
-				DebugOverlay.Text( Controller.Position, $"[stuck in {result.Entity}]", Color.Red );
 				Box( result.Entity, Color.Red );
 			}
 		}
@@ -71,7 +70,6 @@ public class FloodUnstuck
 			{
 				if ( BasePlayerController.Debug )
 				{
-					DebugOverlay.Text( Controller.Position, $"unstuck after {StuckTries} tries ({StuckTries * AttemptsPerTick} tests)", Color.Green, 5.0f );
 					DebugOverlay.Line( pos, Controller.Position, Color.Green, 5.0f, false );
 				}
 
@@ -97,11 +95,9 @@ public class FloodUnstuck
 		if ( ent is ModelEntity modelEnt )
 		{
 			var bbox = modelEnt.CollisionBounds;
-			DebugOverlay.Box( duration, modelEnt.Position, modelEnt.Rotation, bbox.Mins, bbox.Maxs, color );
 		}
 		else
 		{
-			DebugOverlay.Box( duration, ent.Position, ent.Rotation, -1, 1, color );
 		}
 	}
 }

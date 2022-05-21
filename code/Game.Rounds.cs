@@ -99,7 +99,7 @@ partial class FloodGame
 
 	public List<FloodPlayer> PlayersSkipping { get; set; } = new List<FloodPlayer>();
 
-	[ServerCmd("skip_round")]
+	[ConCmd.Server("skip_round")]
 	public static void SkipRound()
 	{
 		var player = ConsoleSystem.Caller.Pawn as FloodPlayer;
@@ -120,7 +120,7 @@ partial class FloodGame
 		SystemMessage( $"Skipped {Instance.GameRound.RoundName} round" );
 	}
 
-	[ServerCmd]
+	[ConCmd.Server]
 	public static void ClearSkipList()
 	{
 		Instance.PlayersSkipping.Clear();
@@ -128,7 +128,7 @@ partial class FloodGame
 
 
 
-	[AdminCmd( "force_skip" )]
+	[ConCmd.Admin( "force_skip" )]
 	public static void ForceSkip()
 	{
 		Instance.ProgressRound();

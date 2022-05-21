@@ -1,6 +1,5 @@
 ﻿namespace Sandbox.Tools
 {
-	[Library( "tool_remover", Title = "Remover", Description = "Remove entities", Group = "construction" )]
 	public partial class RemoverTool : BaseTool
 	{
 		public override void Simulate()
@@ -10,7 +9,7 @@
 
 			using ( Prediction.Off() )
 			{
-				if ( !Input.Pressed( InputButton.Attack1 ) )
+				if ( !Input.Pressed( InputButton.PrimaryAttack ) )
 					return;
 
 				var startPos = Owner.EyePosition;

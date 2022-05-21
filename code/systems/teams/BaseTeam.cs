@@ -31,7 +31,7 @@ public partial class BaseTeam : Entity
 		Log.Info( $"Initialized Team {TeamName}" );
 	}
 
-	[ServerCmd]
+	[ConCmd.Server]
 	public static void JoinTeam(string teamname, string name)
 	{
 		var joiningteam = All.OfType<BaseTeam>().Where( x => x.TeamName == teamname ).FirstOrDefault();
@@ -52,7 +52,7 @@ public partial class BaseTeam : Entity
 		player.ShowYourTeam(To.Single(player));
 	}
 
-	[ServerCmd]
+	[ConCmd.Server]
 	public static void LeaveTeam( string teamname, string name )
 	{
 		var leavingteam = All.OfType<BaseTeam>().Where( x => x.TeamName == teamname ).FirstOrDefault();
@@ -75,7 +75,7 @@ public partial class BaseTeam : Entity
 	}
 
 
-	[ServerCmd("util_lock_team")]
+	[ConCmd.Server("util_lock_team")]
 	public static void LockTeam()
 	{
 		var player = ConsoleSystem.Caller.Pawn as FloodPlayer;

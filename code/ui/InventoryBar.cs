@@ -55,7 +55,7 @@ public class InventoryBar : Panel
 
 
 		inventoryIcon.TargetEnt = ent;
-		inventoryIcon.Label.Text = ent.ClassInfo.Title;
+		inventoryIcon.Label.Text = ent.ClassName;
 		inventoryIcon.SetClass( "active", player.ActiveChild == ent );
 	}
 

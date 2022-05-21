@@ -3,7 +3,6 @@ using Sandbox.UI;
 using Sandbox.UI.Construct;
 using Sandbox.UI.Tests;
 
-[Library]
 public partial class PropList : Panel
 {
 	VirtualScrollPanel Canvas;

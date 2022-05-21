@@ -4,7 +4,6 @@ using Sandbox.UI.Construct;
 using Sandbox.UI.Tests;
 using System.Linq;
 
-[Library]
 public partial class WeaponList : Panel
 {
 	VirtualScrollPanel Canvas;

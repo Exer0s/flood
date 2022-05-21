@@ -5,8 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using Sandbox;
 
-[Library( "props" ), AutoGenerate]
-public partial class PropAsset : Asset
+[GameResource( "props", "fprop", "Flood Prop" )]
+public partial class PropAsset : GameResource
 {
 
 	public string Title { get; set; }

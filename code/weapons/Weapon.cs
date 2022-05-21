@@ -80,7 +80,7 @@ public partial class Weapon : BaseWeapon, IUse
 		TimeSinceReload = 0;
 		IsReloading = true;
 
-		(Owner as AnimEntity)?.SetAnimParameter( "b_reload", true );
+		(Owner as AnimatedEntity)?.SetAnimParameter( "b_reload", true );
 
 		StartReloadEffects();
 	}
@@ -173,11 +173,11 @@ public partial class Weapon : BaseWeapon, IUse
 
 		if ( IsLocalPawn )
 		{
-			_ = new Sandbox.ScreenShake.Perlin();
+			//_ = new Sandbox.ScreenShake.Perlin();
 		}
 
 		ViewModelEntity?.SetAnimParameter( "fire", true );
-		CrosshairPanel?.CreateEvent( "fire" );
+		//CrosshairPanel?.CreateEvent( "fire" );
 	}
 
 	/// <summary>

@@ -48,7 +48,7 @@ partial class FloodGame : Game
 		base.OnDestroy();
 	}
 
-	[ServerCmd( "spawn" )]
+	[ConCmd.Server( "spawn" )]
 	public static void Spawn( string modelname, float health, float cost, float payout )
 	{
 		var owner = ConsoleSystem.Caller?.Pawn;
@@ -104,7 +104,7 @@ partial class FloodGame : Game
 		}
 	}
 
-	[ServerCmd("undo")]
+	[ConCmd.Server("undo")]
 	public static void UndoProp()
 	{
 		var owner = ConsoleSystem.Caller?.Pawn as FloodPlayer;
@@ -149,7 +149,7 @@ partial class FloodGame : Game
 	}
 
 
-	[ServerCmd( "spawn_weapon" )]
+	[ConCmd.Server( "spawn_weapon" )]
 	public static void SpawnWeapon( string weaponname )
 	{
 		var owner = ConsoleSystem.Caller?.Pawn;
@@ -165,7 +165,7 @@ partial class FloodGame : Game
 
 			Log.Info( $"Purchased {weapon.Title} for {weapon.Cost} balance: {player.Money}" );
 			player.PurchasedWeapons.Add( weaponname );
-			player.Inventory.Add( Library.Create<Weapon>(weaponname), true);
+			player.Inventory.Add( TypeLibrary.Create<Weapon>(weaponname), true);
 		}
 	}
 
@@ -186,13 +186,13 @@ partial class FloodGame : Game
 		}
 	}
 
-	[AdminCmd( "respawn_entities" )]
+	[ConCmd.Admin( "respawn_entities" )]
 	public static void RespawnEntities()
 	{
 		Map.Reset( DefaultCleanupFilter );
 	}
 
-	[AdminCmd("flood_water_damage")]
+	[ConCmd.Admin("flood_water_damage")]
 	public static void SetWaterDamage(bool state)
 	{
 		Instance.WaterDamageEnabled = state;

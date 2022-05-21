@@ -11,7 +11,7 @@ public class BuildingRound : GameRound
 
 	public override float RoundDuration => 1;
 
-	[ServerVar( "flood_build_duration", Help = "The duration of the build round" )]
+	[ConVar.Server( "flood_build_duration", Help = "The duration of the build round" )]
 	public static float NewRoundDuration { get; set; } = 50;
 	public override string NextRound => "Flood";
 

@@ -76,7 +76,7 @@ public partial class FloodChat : Panel
 	}
 
 
-	[ClientCmd( "flood_chat_add", CanBeCalledFromServer = true )]
+	[ConCmd.Client( "flood_chat_add", CanBeCalledFromServer = true )]
 	public static void AddChatEntry( string name, string message, string avatar = null, string lobbyState = null )
 	{
 		Current?.AddEntry( name, message, avatar, lobbyState );
@@ -88,13 +88,13 @@ public partial class FloodChat : Panel
 		}
 	}
 
-	[ClientCmd( "flood_chat_addinfo", CanBeCalledFromServer = true )]
+	[ConCmd.Client( "flood_chat_addinfo", CanBeCalledFromServer = true )]
 	public static void AddInformation( string message, string avatar = null )
 	{
 		Current?.AddEntry( null, message, avatar );
 	}
 
-	[ServerCmd( "flood_say" )]
+	[ConCmd.Server( "flood_say" )]
 	public static void Say( string message )
 	{
 		Assert.NotNull( ConsoleSystem.Caller );
@@ -112,7 +112,7 @@ public static partial class Chat
 {
 	public static event Action OnOpenChat;
 
-	[ClientCmd( "floodopenchat" )]
+	[ConCmd.Client( "floodopenchat" )]
 	internal static void MessageMode()
 	{ 
 			OnOpenChat?.Invoke();

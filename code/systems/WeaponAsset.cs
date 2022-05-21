@@ -5,8 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using Sandbox;
 
-[Library( "weapon" ), AutoGenerate]
-public partial class WeaponAsset : Asset
+[GameResource("weapon", "weapon", "Flood Weapon")]
+public partial class WeaponAsset : GameResource
 {
 
 	public string Title { get; set; }

@@ -2,7 +2,6 @@
 
 namespace Sandbox.Tools
 {
-	[Library( "tool_color", Title = "Color", Description = "Change render color and alpha of entities", Group = "construction" )]
 	public partial class ColorTool : BaseTool
 	{
 		public override void Simulate()
@@ -15,7 +14,7 @@ namespace Sandbox.Tools
 				var startPos = Owner.EyePosition;
 				var dir = Owner.EyeRotation.Forward;
 
-				if ( !Input.Pressed( InputButton.Attack1 ) ) return;
+				if ( !Input.Pressed( InputButton.PrimaryAttack ) ) return;
 
 				var tr = Trace.Ray( startPos, startPos + dir * MaxTraceDistance )
 				   .Ignore( Owner )

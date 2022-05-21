@@ -1,6 +1,6 @@
 ﻿namespace Sandbox.Tools
 {
-	[Library( "tool_lamp", Title = "Lamps", Description = "Directional light source that casts shadows", Group = "construction" )]
+	[Spawnable]
 	public partial class LampTool : BaseTool
 	{
 		PreviewEntity previewModel;
@@ -35,7 +35,7 @@
 
 			using ( Prediction.Off() )
 			{
-				if ( !Input.Pressed( InputButton.Attack1 ) )
+				if ( !Input.Pressed( InputButton.PrimaryAttack ) )
 					return;
 
 				var startPos = Owner.EyePosition;

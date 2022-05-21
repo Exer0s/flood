@@ -7,7 +7,6 @@ using Sandbox;
 using Sandbox.UI;
 using Sandbox.UI.Construct;
 
-[Library]
 public class TeamsTab : Panel
 {
 	public Panel TeamTabs;
