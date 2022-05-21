@@ -5,8 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 using Sandbox;
 using Sandbox.Component;
+using SandboxEditor;
 
 [Spawnable]
+[HammerEntity]
 public partial class FloodDoor: ModelEntity, IUse
 {
 

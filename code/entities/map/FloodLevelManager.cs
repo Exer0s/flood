@@ -4,7 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Sandbox;
+using SandboxEditor;
 
+[HammerEntity]
 [Library("flood_level_manager")]
 public partial class FloodLevelManager : Entity
 {
