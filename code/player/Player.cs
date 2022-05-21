@@ -336,4 +336,12 @@ public partial class FloodPlayer : Player
 		Money += payout;
 	}
 
+	//generic pay func that calls noti UI and stuff
+	public void Pay(float amount)
+	{
+		Money += amount;
+		//UI shit 
+	}
+
+
 }

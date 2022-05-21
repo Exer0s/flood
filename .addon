@@ -17,6 +17,11 @@
       "bluebit.floodgate2"
     ],
     "MapSelect": 2,
-    "MinPlayers": 1
+    "MinPlayers": 1,
+    "PerMapRanking": false,
+    "LeaderboardType": 0,
+    "RankType": 0,
+    "GameNetworkType": 0,
+    "MaxPlayers": 0
   }
 }

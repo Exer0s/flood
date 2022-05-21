@@ -59,10 +59,21 @@ public partial class BaseTeam : Entity
 		var player = All.OfType<FloodPlayer>().Where( x => x.Name == name ).FirstOrDefault();
 		player.Team = player.LocalTeam;
 		player.Team.TeamOwner = player;
-		player.Team.Members.Add(player);
+		player.Team.Members.Add( player );
 		leavingteam.Members.Remove( player );
-		player.ShowJoinTeams(To.Single(player));
+		player.ShowJoinTeams( To.Single( player ) );
 	}
+
+	public static int AliveTeamCount()
+	{
+		int aliveteams = 0;
+		foreach ( var team in All.OfType<BaseTeam>() )
+		{
+			if ( team.CheckAlive() ) aliveteams++;
+		}
+		return aliveteams;
+	}
+
 
 	[ServerCmd("util_lock_team")]
 	public static void LockTeam()
@@ -83,6 +94,22 @@ public partial class BaseTeam : Entity
 		return false;
 	}
 
+
+	public void OnElimination()
+	{
+		foreach ( var player in Members )
+		{
+			player.Pay( 250 );
+		}
+	}
+
+	public void OnSquadWipe()
+	{
+		foreach ( var player in Members )
+		{
+			player.Pay( 500 );
+		}
+	}
 
 	public void UpdateName(string name)
 	{
