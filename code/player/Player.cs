@@ -185,6 +185,9 @@ public partial class FloodPlayer : Player
 		base.BuildInput( input );
 	}
 
+	public bool InDoor = false;
+	public float DoorHeight;
+
 	public override void Simulate( Client cl )
 	{
 		base.Simulate( cl );
@@ -253,6 +256,20 @@ public partial class FloodPlayer : Player
 		{
 			timeSinceJumpReleased = 1;
 		}
+
+		if (Team != null && Team.ClaimedDoor != null)
+		{
+			var controller2 = Controller as FloodWalkController;
+			if ( WorldSpaceBounds.Overlaps(Team.ClaimedDoor.WorldSpaceBounds) )
+			{
+				controller2.Gravity = 0;
+			} else
+			{
+				controller2.Gravity = 800f;
+			}
+		}
+		
+
 	}
 
 	public override void StartTouch( Entity other )
