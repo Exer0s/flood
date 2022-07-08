@@ -29,7 +29,7 @@ partial class FloodGame : Game
 			var water = All.OfType<WaterFunc>().FirstOrDefault();
 			DefaultWaterLevel = water.Position.z;
 
-			if ( All.OfType<FloodLevelManager>().FirstOrDefault() is null ) Log.Error( "Map not supported" );
+			if ( All.OfType<FloodLevelManager>().FirstOrDefault() is null ) Log.Warning( "map doesn't have official support! using default settings" );
 
 		}
 		
