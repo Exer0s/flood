@@ -9,24 +9,20 @@ partial class FloodPlayer
 		ent.Position = Position;
 		ent.Rotation = Rotation;
 		ent.Scale = Scale;
-		ent.MoveType = MoveType.Physics;
 		ent.UsePhysicsCollision = true;
 		ent.EnableAllCollisions = true;
-		ent.CollisionGroup = CollisionGroup.Debris;
+		ent.Tags.Add( "debris" );
 		ent.SetModel( GetModelName() );
 		ent.CopyBonesFrom( this );
 		ent.CopyBodyGroups( this );
 		ent.CopyMaterialGroup( this );
 		ent.TakeDecalsFrom( this );
-		ent.EnableHitboxes = true;
+		ent.PhysicsEnabled = true;
 		ent.EnableAllCollisions = true;
 		ent.SurroundingBoundsMode = SurroundingBoundsType.Physics;
 		ent.RenderColor = RenderColor;
 		ent.PhysicsGroup.Velocity = velocity;
-
-		ent.SetInteractsAs( CollisionLayer.Debris );
-		ent.SetInteractsWith( CollisionLayer.WORLD_GEOMETRY );
-		ent.SetInteractsExclude( CollisionLayer.Player | CollisionLayer.Debris );
+		
 
 		foreach ( var child in Children )
 		{

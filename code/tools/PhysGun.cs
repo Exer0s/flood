@@ -42,10 +42,6 @@ public partial class PhysGun : Carriable
 		base.Spawn();
 
 		SetModel("models/weapons/utilitygauntlet/utilitygauntlet.vmdl");
-		
-
-		CollisionGroup = CollisionGroup.Weapon;
-		SetInteractsAs( CollisionLayer.Debris );
 	}
 
 	public override void Simulate( Client client )
@@ -123,7 +119,7 @@ public partial class PhysGun : Carriable
 		var tr = Trace.Ray( eyePos, eyePos + eyeDir * MaxTargetDistance )
 			.UseHitboxes()
 			.Ignore( owner, false )
-			.HitLayer( CollisionLayer.Debris )
+			.WithTag( "prop" )
 			.Run();
 
 		if ( !tr.Hit || !tr.Entity.IsValid() || tr.Entity.IsWorld ) return;
@@ -160,7 +156,7 @@ public partial class PhysGun : Carriable
 		var tr = Trace.Ray( eyePos, eyePos + eyeDir * MaxTargetDistance )
 			.UseHitboxes()
 			.Ignore( owner, false )
-			.HitLayer( CollisionLayer.Debris )
+			.WithTag( "prop" )
 			.Run();
 
 		if ( !tr.Hit || !tr.Entity.IsValid() || tr.Entity.IsWorld || tr.StartedSolid ) return;

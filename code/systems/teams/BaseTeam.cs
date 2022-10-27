@@ -28,7 +28,7 @@ public partial class BaseTeam : Entity
 		TeamOwner = owner;
 		Members.Add( owner );
 		TeamTag = $"{ownerclient.Name}{All.OfType<BaseTeam>().Count()}";
-		Log.Info( $"Initialized Team {TeamName}" );
+		Log.Info( $"Initialized Team {TeamName} with tag {TeamTag}" );
 	}
 
 	[ConCmd.Server]

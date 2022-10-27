@@ -17,7 +17,7 @@
 
 				var tr = Trace.Ray( startPos, startPos + dir * MaxTraceDistance )
 					.Ignore( Owner )
-					.HitLayer( CollisionLayer.Debris )
+					.WithTag( "prop" )
 					.Run();
 
 				if ( !tr.Hit || !tr.Entity.IsValid() )

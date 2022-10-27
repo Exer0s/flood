@@ -3,6 +3,7 @@
   "Type": "game",
   "Org": "bluebit",
   "Ident": "flood",
+  "Tags": "",
   "Schema": 1,
   "HasAssets": true,
   "AssetsPath": "",
@@ -22,6 +23,46 @@
     "LeaderboardType": 0,
     "RankType": 0,
     "GameNetworkType": 0,
-    "MaxPlayers": 0
+    "MaxPlayers": 0,
+    "ParentPackage": "",
+    "GameCategory": "None",
+    "Collision": {
+      "Defaults": {
+        "solid": "Collide",
+        "trigger": "Trigger",
+        "ladder": "Ignore",
+        "water": "Trigger"
+      },
+      "Pairs": [
+        {
+          "a": "solid",
+          "b": "solid",
+          "r": "Collide"
+        },
+        {
+          "a": "trigger",
+          "b": "playerclip",
+          "r": "Ignore"
+        },
+        {
+          "a": "trigger",
+          "b": "solid",
+          "r": "Trigger"
+        },
+        {
+          "a": "solid",
+          "b": "trigger",
+          "r": "Collide"
+        },
+        {
+          "a": "playerclip",
+          "b": "solid",
+          "r": "Collide"
+        }
+      ]
+    },
+    "GeneralExtensions": false,
+    "TargettedExtensions": false,
+    "ExtensionApiVersion": 1001
   }
 }

@@ -48,6 +48,58 @@ partial class FloodGame : Game
 		base.OnDestroy();
 	}
 
+	
+
+	public void CheckAliveTeams()
+	{
+		int aliveteams = 0;
+		foreach ( var team in All.OfType<BaseTeam>() )
+		{
+			if ( team.CheckAlive() ) aliveteams++;
+		}
+
+		if (aliveteams <= 1)
+		{
+			//win stuff here
+			if ( GameRound is FightingRound ) ProgressRound();
+			if ( GameRound is RisingRound )
+			{
+				TimeOffset = Time.Now;
+				GameRound.OnRoundEnd();
+				GameRound = GameRounds["Draining"];
+				GameRound.Players.Clear();
+				foreach ( var player in All.OfType<FloodPlayer>() )
+				{
+					GameRound.Players.Add( player );
+				}
+				GameRound.OnRoundStart();
+
+				SetRoundNameUI(To.Everyone, GameRound.RoundName);
+				OnSecond();
+			}
+		}
+
+	}
+	
+	public override void DoPlayerNoclip( Client player )
+	{
+		if ( player.Pawn is Player basePlayer )
+		{
+			if ( basePlayer.DevController is NoclipController )
+			{
+				Log.Info( "Noclip Mode Off" );
+				basePlayer.DevController = null;
+			}
+			else
+			{
+				Log.Info( "Noclip Mode On" );
+				basePlayer.DevController = new NoclipController();
+			}
+		}
+	}
+	
+	#region Console/Utility Commands
+
 	[ConCmd.Server( "spawn" )]
 	public static void Spawn( string modelname, float health, float cost, float payout )
 	{
@@ -70,7 +122,7 @@ partial class FloodGame : Game
 	
 
 
-	var tr = Trace.Ray( owner.EyePosition, owner.EyePosition + owner.EyeRotation.Forward * 500 )
+		var tr = Trace.Ray( owner.EyePosition, owner.EyePosition + owner.EyeRotation.Forward * 500 )
 			.UseHitboxes()
 			.Ignore( owner )
 			.Run();
@@ -112,42 +164,11 @@ partial class FloodGame : Game
 		if ( owner.SpawnedProps.Count <= 0 ) return;
 		var deletingprop = owner.SpawnedProps.Last();
 		if (Instance.GameRound is BuildingRound)
-		owner.Money += deletingprop.Value;
+			owner.Money += deletingprop.Value;
 		owner.SpawnedProps.Remove( deletingprop.Key );
 		deletingprop.Key.Delete();
 	}
-
-	public void CheckAliveTeams()
-	{
-		int aliveteams = 0;
-		foreach ( var team in All.OfType<BaseTeam>() )
-		{
-			if ( team.CheckAlive() ) aliveteams++;
-		}
-
-		if (aliveteams <= 1)
-		{
-			//win stuff here
-			if ( GameRound is FightingRound ) ProgressRound();
-			if ( GameRound is RisingRound )
-			{
-				TimeOffset = Time.Now;
-				GameRound.OnRoundEnd();
-				GameRound = GameRounds["Draining"];
-				GameRound.Players.Clear();
-				foreach ( var player in All.OfType<FloodPlayer>() )
-				{
-					GameRound.Players.Add( player );
-				}
-				GameRound.OnRoundStart();
-
-				SetRoundNameUI(To.Everyone, GameRound.RoundName);
-				OnSecond();
-			}
-		}
-
-	}
-
+	
 
 	[ConCmd.Server( "spawn_weapon" )]
 	public static void SpawnWeapon( string weaponname )
@@ -169,22 +190,7 @@ partial class FloodGame : Game
 		}
 	}
 
-	public override void DoPlayerNoclip( Client player )
-	{
-		if ( player.Pawn is Player basePlayer )
-		{
-			if ( basePlayer.DevController is NoclipController )
-			{
-				Log.Info( "Noclip Mode Off" );
-				basePlayer.DevController = null;
-			}
-			else
-			{
-				Log.Info( "Noclip Mode On" );
-				basePlayer.DevController = new NoclipController();
-			}
-		}
-	}
+
 
 	[ConCmd.Admin( "respawn_entities" )]
 	public static void RespawnEntities()
@@ -197,5 +203,7 @@ partial class FloodGame : Game
 	{
 		Instance.WaterDamageEnabled = state;
 	}
+	
+	#endregion
 
 }

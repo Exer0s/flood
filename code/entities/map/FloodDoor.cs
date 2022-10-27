@@ -49,13 +49,11 @@ public partial class FloodDoor: ModelEntity, IUse
 
 	public override void Spawn()
 	{
-		
 		SetupPhysicsFromModel( PhysicsMotionType.Static );
 		glow = Components.GetOrCreate<Glow>();
-		glow.Active = true;
 		glow.Enabled = true;
 		glow.Color = Color.Green;
-		SetInteractsExclude( CollisionLayer.Player );
+		
 		EnableTraceAndQueries = true;
 		base.Spawn();
 	}

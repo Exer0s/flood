@@ -14,7 +14,7 @@ partial class FloodPlayer
 
 		// First try a direct 0 width line
 		var tr = Trace.Ray( EyePosition, EyePosition + EyeRotation.Forward * (85 * Scale) )
-			.HitLayer( CollisionLayer.Debris )
+			.WithAnyTags("prop", "solid")
 			.Ignore( this )
 			.Run();
 
@@ -30,7 +30,7 @@ partial class FloodPlayer
 		{
 			tr = Trace.Ray( EyePosition, EyePosition + EyeRotation.Forward * (85 * Scale) )
 			.Radius( 2 )
-			.HitLayer( CollisionLayer.Debris )
+			.WithAnyTags("prop", "solid")
 			.Ignore( this )
 			.Run();
 

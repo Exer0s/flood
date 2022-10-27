@@ -48,6 +48,7 @@ public partial class FloodPlayer : Player
 
 	public override void Respawn()
 	{
+		if ( !Tags.Has( "player" ) ) Tags.Add( "player" );
 		if ( FloodGame.Instance.GameRound is not WaitingRound && FloodGame.Instance.GameRound is not BuildingRound )
 		{
 			Controller = new FlyingController();

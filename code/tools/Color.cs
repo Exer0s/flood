@@ -16,10 +16,15 @@ namespace Sandbox.Tools
 
 				if ( !Input.Pressed( InputButton.PrimaryAttack ) ) return;
 
+				var player = Owner as FloodPlayer;
+				if ( player == null ) return;
+
+
 				var tr = Trace.Ray( startPos, startPos + dir * MaxTraceDistance )
 				   .Ignore( Owner )
 				   .UseHitboxes()
-				   .HitLayer( CollisionLayer.Debris )
+				   .WithTag("prop")
+				   .IncludeClientside()
 				   .Run();
 
 				if ( !tr.Hit || !tr.Entity.IsValid() )

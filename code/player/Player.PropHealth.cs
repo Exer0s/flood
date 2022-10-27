@@ -14,8 +14,7 @@ public partial class FloodPlayer
 		var tr = Trace.Ray( EyePosition + EyeRotation.Forward * 64f, EyePosition + EyeRotation.Forward * 1500f )
 			.Ignore( this )
 			.WorldAndEntities()
-			.HitLayer( CollisionLayer.Player, false ) // Why the fuck doesn't this work?
-			.HitLayer( CollisionLayer.Debris, true )
+			.WithTag( "prop" )
 			.Run();
 		if ( tr.Hit && tr.Entity is not Player )
 			return tr;
