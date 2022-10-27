@@ -104,7 +104,7 @@ public partial class FloodPlayer : Player
 
 		if (!Spectating)
 		{
-			BecomeRagdollOnClient( Velocity, lastDamage.Flags, lastDamage.Position, lastDamage.Force, GetHitboxBone( lastDamage.HitboxIndex ) );
+			BecomeRagdollOnClient( Velocity, lastDamage.Flags, lastDamage.Position, lastDamage.Force, lastDamage.BoneIndex );
 
 			Controller = null;
 
@@ -126,7 +126,7 @@ public partial class FloodPlayer : Player
 
 	public override void TakeDamage( DamageInfo info )
 	{
-		if ( GetHitboxGroup( info.HitboxIndex ) == 1 )
+		if ( info.Hitbox.HasTag("head") )
 		{
 			info.Damage *= 10.0f;
 		}
@@ -183,6 +183,12 @@ public partial class FloodPlayer : Player
 		{
 			ConsoleSystem.Run( "undo" );
 		}
+
+		if ( Input.Pressed( InputButton.Chat ) )
+		{
+			FloodChat.Current.Open();
+		}
+		
 		base.BuildInput( input );
 	}
 

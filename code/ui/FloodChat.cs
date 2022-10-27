@@ -5,8 +5,10 @@ using System;
 
 public partial class FloodChat : Panel
 {
-	static FloodChat Current;
+	public static FloodChat Current;
 
+	private bool chatOpen = false;
+	
 	public Panel Canvas { get; protected set; }
 	public TextEntry Input { get; protected set; }
 
@@ -23,14 +25,25 @@ public partial class FloodChat : Panel
 		Input.AddEventListener( "onblur", () => Close() );
 		Input.AcceptsFocus = true;
 		Input.AllowEmojiReplace = true;
-
-		Sandbox.Hooks.Chat.OnOpenChat += Open;
 	}
 
-	void Open()
+	public void Open()
 	{
-		AddClass( "open" );
-		Input.Focus();
+		if ( chatOpen )
+		{
+			Close();
+			chatOpen = false;
+			return;
+		}
+		else
+		{
+			Log.Info("bruhmode"  );
+			chatOpen = true;
+			AddClass( "open" );
+			Input.Focus();
+		}
+		
+		
 	}
 
 	void Close()

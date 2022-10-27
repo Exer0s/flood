@@ -208,9 +208,7 @@ public partial class FloodWalkController : BasePlayerController
 		{
 			DebugOverlay.Box( Position + TraceOffset, mins, maxs, Color.Red );
 			DebugOverlay.Box( Position, mins, maxs, Color.Blue );
-
-			var lineOffset = 0;
-			if ( Host.IsServer ) lineOffset = 10;
+			
 		}
 
 	}
