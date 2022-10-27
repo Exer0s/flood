@@ -115,7 +115,7 @@ partial class FloodGame
 		SystemMessage( $" {player.Client.Name} voted to skip the round! {Instance.PlayersSkipping.Count()} / {All.OfType<FloodPlayer>().Count()}" );
 
 
-		if ( divided < 0.75 ) return;
+		if ( divided < 0.9f ) return;
 		Instance.ProgressRound();
 		SystemMessage( $"Skipped {Instance.GameRound.RoundName} round" );
 	}

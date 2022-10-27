@@ -48,18 +48,34 @@ public partial class Weapon : BaseWeapon, IUse
 		if ( CurrentClip <= 0 ) return false;
 		return base.CanPrimaryAttack();
 	}
+	
+	[ClientRpc]
+	public void CrosshairBloom(float bloomamount)
+	{
+		Log.Info( "bloom" + bloomamount );
+		if ( FloodCrossPanel.Instance.CircleSpread >= 3 ) FloodCrossPanel.Instance.CircleSpread += bloomamount / 3;
+		else FloodCrossPanel.Instance.CircleSpread += bloomamount;
+	}
 
 	public override void AttackPrimary()
 	{
-		CrosshairBloom( BloomAmount );
-		CurrentClip--;
+		if ( IsServer )
+		{
+			CrosshairBloom(To.Single( Owner ), BloomAmount);
+			CurrentClip--;
+		}
+		
 		base.AttackPrimary();
 	}
 
 	public override void AttackSecondary()
 	{
-		CrosshairBloom( SecondaryBloomAmount );
-		CurrentClip -= SecondaryAmmoTaken.CeilToInt();
+		if ( IsServer )
+		{
+			CrosshairBloom(To.Single( Owner ), SecondaryBloomAmount);
+			CurrentClip -= SecondaryAmmoTaken.CeilToInt();
+		}
+		
 		base.AttackSecondary();
 	}
 
@@ -220,13 +236,6 @@ public partial class Weapon : BaseWeapon, IUse
 		}
 	}
 
-	[ClientRpc]
-	public void CrosshairBloom(float bloomamount)
-	{
-		Log.Info( "bloom" + bloomamount );
-		if ( FloodCrossPanel.Instance.CircleSpread >= 3 ) FloodCrossPanel.Instance.CircleSpread += bloomamount / 3;
-		else FloodCrossPanel.Instance.CircleSpread += bloomamount;
-	}
 
 
 	/// <summary>

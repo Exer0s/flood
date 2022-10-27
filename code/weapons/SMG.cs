@@ -1,7 +1,7 @@
 ﻿using Sandbox;
 using Sandbox.Internal;
 
-[Spawnable]
+[Spawnable, Alias("flood_smg")]
 partial class SMG : Weapon
 {
 	public override string ViewModelPath => "weapons/rust_smg/v_rust_smg.vmdl";

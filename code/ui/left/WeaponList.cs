@@ -7,7 +7,7 @@ using System.Linq;
 public partial class WeaponList : Panel
 {
 	VirtualScrollPanel Canvas;
-
+	
 	public WeaponList()
 	{
 		StyleSheet.Load( "ui/left/WeaponList.scss" );
@@ -21,9 +21,22 @@ public partial class WeaponList : Panel
 		{
 			var weapon = (WeaponAsset)data;
 			var btn = cell.Add.Button( weapon.Title );
-			btn.Add.Label( $"${weapon.Cost}", "cost" );
+			
+			var purchaseText = btn.Add.Label( $"${weapon.Cost}", "cost" );
 			btn.AddClass( "icon" );
-			btn.AddEventListener( "onclick", () => ConsoleSystem.Run( "spawn_weapon", weapon.Weapon ) );
+			btn.AddEventListener( "onclick", () =>
+			{
+				if ( FloodGame.Instance.GameRound is not BuildingRound ) return;
+				if ( purchaseText.Text == $"${weapon.Cost}" )
+				{
+					purchaseText.Text = "Purchased";
+				}
+				else
+				{
+					purchaseText.Text = $"${weapon.Cost}";
+				}
+				ConsoleSystem.Run( "spawn_weapon", weapon.Weapon );
+			} );
 			btn.Style.BackgroundImage = Texture.Load( FileSystem.Mounted, weapon.Icon, false );
 		};
 

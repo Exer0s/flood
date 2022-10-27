@@ -1,6 +1,6 @@
 ﻿using Sandbox;
 
-[Spawnable]
+[Spawnable, Alias("flood_pistol")]
 partial class Pistol : Weapon
 {
 	public override string ViewModelPath => "weapons/rust_pistol/v_rust_pistol.vmdl";

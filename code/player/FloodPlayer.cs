@@ -16,6 +16,8 @@ public partial class FloodPlayer : Player
 
 	[Net] public IList<string> PurchasedWeapons { get; set; } = new List<string>();
 
+	public IDictionary<string, Weapon> ServerPurchasedWeapons { get; set; } = new Dictionary<string, Weapon>();
+
 	[Net] public BaseTeam Team { get; set; }
 	[Net] public BaseTeam LocalTeam { get; set; }
 
@@ -142,7 +144,16 @@ public partial class FloodPlayer : Player
 	public void GetShot(DamageInfo info)
 	{
 		var attacker = info.Attacker as FloodPlayer;
-		attacker.ShowPlayerHitmarker();
+
+		if ( IsServer )
+		{
+			attacker.ShowPlayerHitmarker(To.Single(attacker));
+		}
+		else
+		{
+			attacker.ShowPlayerHitmarker(To.Single(attacker));
+		}
+		
 
 	}
 
@@ -337,6 +348,9 @@ public partial class FloodPlayer : Player
 		base.Touch( other );
 	}
 
+	
+	
+	
 	[ClientRpc]
 	public void ShowHitmarker(float dmg)
 	{
@@ -351,7 +365,15 @@ public partial class FloodPlayer : Player
 
 	public void DidDamage( DamageInfo info )
 	{
-		ShowHitmarker(info.Damage);
+		if ( IsServer )
+		{
+			ShowHitmarker( To.Single(this), info.Damage);
+		}
+		else
+		{
+			ShowHitmarker(info.Damage);
+		}
+		
 	}
 
 	public void DestroyedProp(float payout)

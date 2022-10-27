@@ -181,12 +181,28 @@ partial class FloodGame : Game
 		if (owner is FloodPlayer player)
 		{
 			var weapon = WeaponAsset.All.Where(x => x.Weapon == weaponname).FirstOrDefault();
-			if ( player.Money <= weapon.Cost ) return;
-			else player.Money -= weapon.Cost;
-
-			Log.Info( $"Purchased {weapon.Title} for {weapon.Cost} balance: {player.Money}" );
-			player.PurchasedWeapons.Add( weaponname );
-			player.Inventory.Add( TypeLibrary.Create<Weapon>(weaponname), true);
+			if ( player.PurchasedWeapons.Contains( weaponname ) ) //if we have, sell
+			{
+				var droppingweapon = player.ServerPurchasedWeapons[weaponname];
+				
+				player.Inventory.Drop( droppingweapon );
+				player.PurchasedWeapons.Remove( weaponname );
+				player.ServerPurchasedWeapons.Remove( weaponname );
+				droppingweapon.Delete();
+				player.Money += weapon.Cost;
+			}
+			else //else give em that gun
+			{
+				
+				if ( player.Money <= weapon.Cost ) return;
+				else player.Money -= weapon.Cost;
+				Log.Info( $"Purchased {weapon.Title} for {weapon.Cost} balance: {player.Money}" );
+				var weaponent = TypeLibrary.Create<Weapon>( weaponname );
+				player.PurchasedWeapons.Add( weaponname );
+				player.Inventory.Add( weaponent, true);
+				player.ServerPurchasedWeapons.Add(weaponname, weaponent );
+			}
+			
 		}
 	}
 
