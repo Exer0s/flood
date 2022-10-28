@@ -334,22 +334,6 @@ public partial class FloodPlayer : Player
 	{
 		Inventory.DeleteContents();
 	}
-
-	public override void Touch( Entity other )
-	{
-		if (other is WaterFunc)
-		{
-			if (FloodGame.Instance.GameRound is FightingRound || FloodGame.Instance.GameRound is RisingRound)
-			{
-				if ( FloodGame.Instance.WaterDamageEnabled == true)
-				TakeDamage( DamageInfo.Generic( 0.3f ) );
-			}
-		}
-		base.Touch( other );
-	}
-
-	
-	
 	
 	[ClientRpc]
 	public void ShowHitmarker(float dmg)

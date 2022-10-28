@@ -48,7 +48,7 @@ public class TeamsTab : Panel
 		JoinTeamPanel.DeleteChildren();
 		foreach ( var team in Entity.All.OfType<BaseTeam>() )
 		{
-			if ( !team.Members.Contains( Local.Pawn ) )
+			if ( !team.Members.Contains( Local.Pawn ) && !team.TeamLocked )
 			{
 				var ot = JoinTeamPanel.AddChild<OtherTeam>();
 				ot.team = team;
@@ -83,11 +83,11 @@ public class TeamsTab : Panel
 		{
 			if (!player.Team.TeamLocked)
 			{
-				LockButton = header.Add.Button( "Open", "leaveteam" );
+				LockButton = header.Add.Button( "Visible", "leaveteam" );
 				LockButton.Style.BackgroundColor = Color.Green;
 			} else
 			{
-				LockButton = header.Add.Button( "Locked", "leaveteam" );
+				LockButton = header.Add.Button( "Hidden", "leaveteam" );
 				LockButton.Style.BackgroundColor = Color.Red;
 			}
 			
@@ -95,11 +95,11 @@ public class TeamsTab : Panel
 			{
 				if (!player.Team.TeamLocked)
 				{
-					LockButton.Text = "Locked";
+					LockButton.Text = "Hidden";
 					LockButton.Style.BackgroundColor = Color.Red;
 				} else
 				{
-					LockButton.Text = "Open";
+					LockButton.Text = "Visible";
 					LockButton.Style.BackgroundColor = Color.Green;
 				}
 				ConsoleSystem.Run( "util_lock_team" );

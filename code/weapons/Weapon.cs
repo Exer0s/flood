@@ -1,6 +1,6 @@
 ﻿using Sandbox;
 
-public partial class Weapon : BaseWeapon, IUse
+public partial class Weapon : FloodBaseWeapon, IUse
 {
 	public virtual float ReloadTime => 3.0f;
 	public virtual string Icon { get; set; }
@@ -16,7 +16,7 @@ public partial class Weapon : BaseWeapon, IUse
 	[Net, Predicted]
 	public TimeSince TimeSinceDeployed { get; set; }
 
-	[Net]
+	[Net, Predicted]
 	public int CurrentClip { get; set; }
 
 	public virtual int ClipSize { get; set; }
@@ -47,6 +47,12 @@ public partial class Weapon : BaseWeapon, IUse
 	{
 		if ( CurrentClip <= 0 ) return false;
 		return base.CanPrimaryAttack();
+	}
+
+	public override bool CanSecondaryAttack()
+	{
+		if ( CurrentClip <= 0 || CurrentClip < SecondaryAmmoTaken ) return false;
+		return base.CanSecondaryAttack();
 	}
 	
 	[ClientRpc]

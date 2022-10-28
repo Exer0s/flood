@@ -45,6 +45,7 @@ partial class Shotgun : Weapon
 
 	public override void AttackSecondary()
 	{
+		
 		TimeSincePrimaryAttack = -0.5f;
 		TimeSinceSecondaryAttack = -0.5f;
 
@@ -99,12 +100,27 @@ partial class Shotgun : Weapon
 
 	public override void OnReloadFinish()
 	{
-		IsReloading = false;
+		if ( CurrentClip < 6 )
+		{
+			IsReloading = false;
 
-		TimeSincePrimaryAttack = 0;
-		TimeSinceSecondaryAttack = 0;
+			TimeSincePrimaryAttack = 0;
+			TimeSinceSecondaryAttack = 0;
+		
+			FinishReload();
+			CurrentClip++;
+			Reload();
+		}
+		else
+		{
+			IsReloading = false;
 
-		FinishReload();
+			TimeSincePrimaryAttack = 0;
+			TimeSinceSecondaryAttack = 0;
+		
+			FinishReload();
+		}
+		
 	}
 
 	[ClientRpc]

@@ -47,7 +47,7 @@ public class PostRound : GameRound
 	{
 		base.RoundTick();
 
-		foreach ( var water in Entity.All.OfType<WaterFunc>() )
+		foreach ( var water in Entity.All.OfType<FloodWater>() )
 		{
 			if ( water.Position.z <= FloodGame.DefaultWaterLevel ) return;
 			water.Position -= Vector3.Up * levelmanager.RiseSpeed;

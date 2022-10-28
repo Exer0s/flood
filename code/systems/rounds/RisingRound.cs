@@ -58,7 +58,7 @@ public partial class RisingRound : GameRound
 	{
 		base.RoundTick();
 
-		foreach ( var water in Entity.All.OfType<WaterFunc>() )
+		foreach ( var water in Entity.All.OfType<FloodWater>() )
 		{
 			if ( water.Position.z >= levelmanager.WaterHeight ) return;
 			water.Position += Vector3.Up * levelmanager.RiseSpeed;
