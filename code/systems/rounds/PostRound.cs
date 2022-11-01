@@ -28,14 +28,27 @@ public class PostRound : GameRound
 
 	public override void OnRoundEnd()
 	{
+		
+
+		
 		foreach ( var player in Entity.All.OfType<FloodPlayer>() )
 		{
+			
+			if (!player.Spectating) player.Pay(2500);
+			
 			player.SpawnedProps.Clear();
 		}
 		Map.Reset( FloodGame.DefaultCleanupFilter );
 		foreach ( var player in Players )
 		{
+			if ( player.Spectating && FloodGame.Instance.DieRemoveWeapons )
+			{
+				player.PurchasedWeapons.Clear();
+				player.ServerPurchasedWeapons.Clear();
+				FloodGame.Instance.hudEntity.RefreshSpawnPanel(To.Single(player));
+			}
 			player.OnKilled();
+			
 		}
 
 		if ( FloodLevelManager.Instance != null ) FloodLevelManager.Instance.OnDrainEnd.Fire( FloodGame.Instance );

@@ -27,7 +27,7 @@ public partial class FloodPlayer
 	{
 
 		if ( HealthUI == null ) HealthUI = PropHealthUI.Instance;
-		if ( FloodGame.Instance.GameRound is FightingRound )
+		if ( FloodGame.Instance.GameRound is FightingRound || FloodGame.Instance.GameRound is BuildingRound )
 		{
 			var tr = PropTrace();
 			if ( tr.Hit && tr.Entity.IsValid() )

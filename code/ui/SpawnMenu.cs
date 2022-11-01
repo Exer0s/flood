@@ -8,20 +8,24 @@ using Sandbox.UI.Construct;
 public partial class SpawnMenu : Panel
 {
 	public static SpawnMenu Instance;
-	readonly Panel toollist;
+	Panel toollist;
 
+
+	private Panel leftPanel;
+	private Panel rightPanel;
+	
 	public SpawnMenu()
 	{
 		Instance = this;
 
 		StyleSheet.Load( "/ui/SpawnMenu.scss" );
 
-		var left = Add.Panel( "left" );
+		leftPanel = Add.Panel( "left" );
 		{
-			var tabs = left.AddChild<ButtonGroup>();
+			var tabs = leftPanel.AddChild<ButtonGroup>();
 			tabs.AddClass( "tabs" );
 
-			var body = left.Add.Panel( "body" );
+			var body = leftPanel.Add.Panel( "body" );
 
 			{
 				var props = body.AddChild<PropList>();
@@ -39,13 +43,13 @@ public partial class SpawnMenu : Panel
 			}
 		}
 
-		var right = Add.Panel( "right" );
+		rightPanel = Add.Panel( "right" );
 		{
-			var tabs = right.Add.Panel( "tabs" );
+			var tabs = rightPanel.Add.Panel( "tabs" );
 			{
 				tabs.Add.Button( "Tools" ).AddClass( "active" );
 			}
-			var body = right.Add.Panel( "body" );
+			var body = rightPanel.Add.Panel( "body" );
 			{
 				toollist = body.Add.Panel( "toollist" );
 				{
@@ -57,13 +61,14 @@ public partial class SpawnMenu : Panel
 
 	}
 
+	
 	void RebuildToolList()
 	{
 		toollist.DeleteChildren( true );
 
 		foreach ( var entry in TypeLibrary.GetDescriptions<BaseTool>() )
 		{
-			if ( entry.Title == "BaseTool" )
+			if ( entry.Title == "Base Tool" )
 				continue;
 
 			var button = toollist.Add.Button( entry.Title );

@@ -20,6 +20,16 @@ public partial class FloodHUD : HudEntity<RootPanel>
 		AddPanels();
 	}
 
+	[ClientRpc]
+	public void RefreshSpawnPanel()
+	{
+		foreach ( var panel in RootPanel.Children )
+		{
+			if (panel is SpawnMenu) panel.Delete();
+		}
+		RootPanel.AddChild<SpawnMenu>();
+	}
+
 	public void AddPanels()
 	{
 		RootPanel.AddChild<FloodCrossPanel>();
@@ -35,6 +45,9 @@ public partial class FloodHUD : HudEntity<RootPanel>
 		RootPanel.AddChild<PostGameUI>();
 	}
 
+	
+	
+	
 	public void DeletePanels()
 	{
 		RootPanel.DeleteChildren();

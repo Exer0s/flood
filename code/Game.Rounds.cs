@@ -12,6 +12,8 @@ partial class FloodGame
 	[Net] public string GameTime { get; set; }
 	[Net] public float TimeOffset { get; set; } = 0f;
 
+	[ConVar.Server("flood_die_remove_weapons")] public bool DieRemoveWeapons { get; set; }
+
 	[Net]
 	public Dictionary<string, GameRound> GameRounds { get; set; } = new Dictionary<string, GameRound>();
 

@@ -24,16 +24,37 @@ public class InventoryBar : Panel
 		if ( player == null ) return;
 		if ( player.Inventory == null ) return;
 
+		//Shrink the hotbar on round start
+		if ( FloodGame.Instance.GameRound is FightingRound || FloodGame.Instance.GameRound is RisingRound )
+		{
+			if ( slots.Count == 7 )
+			{
+				slots[5].Delete();
+				slots[6].Delete();
+				slots.RemoveAt(6);
+				slots.RemoveAt(5);
+			}
+		}
+		
+		//Expand hotbar if building round
+		if ( FloodGame.Instance.GameRound is WaitingRound || FloodGame.Instance.GameRound is BuildingRound )
+		{
+			if ( slots.Count < 7 )
+			{
+				slots.Add(new InventoryIcon(6, this));
+				slots.Add(new InventoryIcon(7, this));
+			}
+		}
+		
 		for ( int i = 0; i < slots.Count; i++ )
 		{
 			UpdateIcon( player.Inventory.GetSlot( i ), slots[i], i );
 		}
 	}
-
+	
 	private static void UpdateIcon( Entity ent, InventoryIcon inventoryIcon, int i )
 	{
 		var player = Local.Pawn as Player;
-
 
 		if ( ent == null )
 		{

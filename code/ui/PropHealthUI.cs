@@ -11,6 +11,7 @@ public class PropHealthUI : Panel
 	public static PropHealthUI Instance;
 	public FloodProp LookingProp { get; set; }
 
+	private Panel HealthUIPanel;
 	Panel healthBar;
 	Panel whiteBar;
 	Panel backBar;
@@ -21,8 +22,9 @@ public class PropHealthUI : Panel
 	{
 		Instance = this;
 		StyleSheet.Load( "ui/PropHealthUI.scss" );
-		backBar = Add.Panel( "backBar" );
-		healthLabel = Add.Label( "0 / 0", "healthLabel" );
+		HealthUIPanel = Add.Panel( "healthui" );
+		backBar = HealthUIPanel.Add.Panel( "backBar" );
+		healthLabel = HealthUIPanel.Add.Label( "0 / 0", "healthLabel" );
 		whiteBar = backBar.Add.Panel( "whiteBar" );
 		healthBar = backBar.Add.Panel( "healthBar" );
 	}

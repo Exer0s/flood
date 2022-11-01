@@ -104,34 +104,64 @@
 		/// Does a trace from start to end, does bullet impact effects. Coded as an IEnumerable so you can return multiple
 		/// hits, like if you're going through layers or ricocheting or something.
 		/// </summary>
+		///
+		
+		/// 
 		public virtual IEnumerable<TraceResult> TraceBullet( Vector3 start, Vector3 end, float radius = 2.0f )
 		{
+			bool underWater = Trace.TestPoint( start, "water" );
+
+			Trace trace;
+			TraceResult traceResult;
 			
-			var trace = Trace.Ray( start, end )
+			if ( underWater )
+			{
+				trace = Trace.Ray( start, end )
+					.UseHitboxes()
+					.WithAnyTags( "solid", "player", "npc" )
+					.WithoutTags( "water" )
+					.Ignore( this )
+					.Size( radius );
+
+				traceResult = trace.Run();
+			}
+			else
+			{
+				trace = Trace.Ray( start, end )
 					.UseHitboxes()
 					.WithAnyTags( "solid", "player", "npc", "water" )
 					.Ignore( this )
 					.Size( radius );
 
-			var tr = trace.Run();
-
-
-			if ( tr.Hit )
-				yield return tr;
-
-			if ( tr.Entity.Tags.Has( "water" ) )
-			{
-				var trace2 = Trace.Ray( start, end )
-					.UseHitboxes()
-					.WithAnyTags( "solid", "player", "npc")
-					.WithoutTags("water")
-					.Ignore( this )
-					.Size( radius );
-
-				var tr2 = trace2.Run();
-				if ( tr2.Hit )
-					yield return tr2;
+				traceResult = trace.Run();
 			}
+			
+			
+
+
+			if ( traceResult.Hit ) 
+			{
+				
+				yield return traceResult;
+				
+				if ( traceResult.Entity.Tags.Has( "water" ) )
+				{
+					var trace2 = Trace.Ray( start, end )
+						.UseHitboxes()
+						.WithAnyTags( "solid", "player", "npc")
+						.WithoutTags("water")
+						.Ignore( this )
+						.Size( radius );
+
+					var tr2 = trace2.Run();
+					if ( tr2.Hit )
+						yield return tr2;
+				}
+				
+			}
+				
+
+			
 			
 			
 

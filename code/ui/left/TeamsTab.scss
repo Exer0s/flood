@@ -91,11 +91,11 @@
                 height: 30px;
                 width: 80px;
                 border-radius: 15px;
-                background-color: red;
+                background-color: rgba(white, 0.2);
 
                 &:hover {
                     cursor: pointer;
-                    background-color: #ff6262;
+                    background-color: rgba(white, 0.4);
                 }
 
                 .label {

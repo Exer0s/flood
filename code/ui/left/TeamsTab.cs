@@ -84,11 +84,9 @@ public class TeamsTab : Panel
 			if (!player.Team.TeamLocked)
 			{
 				LockButton = header.Add.Button( "Visible", "leaveteam" );
-				LockButton.Style.BackgroundColor = Color.Green;
 			} else
 			{
 				LockButton = header.Add.Button( "Hidden", "leaveteam" );
-				LockButton.Style.BackgroundColor = Color.Red;
 			}
 			
 			LockButton.AddEventListener( "onclick", x =>
@@ -96,11 +94,9 @@ public class TeamsTab : Panel
 				if (!player.Team.TeamLocked)
 				{
 					LockButton.Text = "Hidden";
-					LockButton.Style.BackgroundColor = Color.Red;
 				} else
 				{
 					LockButton.Text = "Visible";
-					LockButton.Style.BackgroundColor = Color.Green;
 				}
 				ConsoleSystem.Run( "util_lock_team" );
 			} );

@@ -10,13 +10,15 @@ partial class FloodGame : Game
 	[Net] public bool WaterDamageEnabled { get; set; } = true;
 	public static float DefaultWaterLevel { get; set; } = -5f;
 
+	[Net] public FloodHUD hudEntity { get; set; }
+	
 	public FloodGame()
 	{
 		Instance = this;
 		if ( IsServer )
 		{
 			// Create the HUD
-			_ = new FloodHUD();
+			hudEntity = new FloodHUD();
 		}
 	}
 
